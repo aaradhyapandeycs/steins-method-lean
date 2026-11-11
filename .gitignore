@@ -1,0 +1,14 @@
+/.lake
+/build
+/source/upstream/
+*.probe.lean
+/_probe_*.lean
+/__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+# arXiv:1109.1880 TeX and .bbl may not be redistributed (arXiv non-exclusive licence); keep local only
+/docs/source/
+/docs/reviews/BUILDER-DONE
+/.locks/
+/reference/

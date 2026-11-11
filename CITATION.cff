@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Lean 4 Formalization of Fundamentals of Stein's Method"
+message: "If you use this formalization, please cite it as below."
+authors:
+  - name: "aaradhyapandeycs (maintainer)"
+repository-code: "https://github.com/aaradhyapandeycs/steins-method-lean"
+url: "https://aaradhyapandeycs.github.io/steins-method-lean/"
+license: Apache-2.0
+date-released: "2026-11-11"
+references:
+  - type: article
+    title: "Fundamentals of Stein's method"
+    authors:
+      - family-names: Ross
+        given-names: Nathan
+    journal: "Probability Surveys"
+    volume: 8
+    year: 2011
+    pages: "210-293"
+    doi: "10.1214/11-PS182"

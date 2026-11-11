@@ -1,0 +1,55 @@
+name: Lean and source checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# One run per ref; a newer push to a PR supersedes the older run. Runs on main
+# are never cancelled so every main commit gets a complete verification.
+concurrency:
+  group: lean-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Statement-index consistency check
+        run: python3 scripts/check_statement_index.py
+      - name: Restore and verify the pinned source
+        run: python3 scripts/fetch_source.py
+      - name: Source inventory check
+        run: python3 scripts/generate_inventory.py --check
+
+  verify:
+    needs: lint
+    # Branch protection requires the `verify` check. A job skipped because a
+    # needed job failed reports as skipped, which branch protection accepts, so
+    # verify always starts (unless cancelled) and fails at once if lint failed.
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the lint job to pass
+        if: ${{ needs.lint.result != 'success' }}
+        run: |
+          echo "lint job result: ${{ needs.lint.result }}"
+          exit 1
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Free runner disk space for Mathlib cache
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - name: Restore and verify the pinned source
+        run: python3 scripts/fetch_source.py
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        with:
+          build: 'true'
+          test: 'false'
+          use-mathlib-cache: 'true'
+      - name: Audit all project modules and axioms
+        run: python3 scripts/check.py

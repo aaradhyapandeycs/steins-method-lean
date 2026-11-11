@@ -1,0 +1,33 @@
+{
+  "arxiv_id": "1109.1880v1",
+  "latest_version": "v1",
+  "submitted_utc": "2011-09-09T02:49:33Z",
+  "title": "Fundamentals of Stein's method",
+  "authors": [
+    "Nathan Ross"
+  ],
+  "comments": "86 pages",
+  "subjects": [
+    "Probability (math.PR)"
+  ],
+  "doi": "10.48550/arXiv.1109.1880",
+  "doi_url": "https://doi.org/10.48550/arXiv.1109.1880",
+  "journal_ref": null,
+  "arxiv_metadata_note": "arXiv abstract page https://arxiv.org/abs/1109.1880 displays only the DataCite arXiv DOI (10.48550/arXiv.1109.1880) and omits Journal-ref and Related-DOI fields; the published journal article is Probability Surveys, Vol. 8 (2011), pp. 210-293, DOI 10.1214/11-PS182.",
+  "license": "arXiv.org perpetual, non-exclusive license 1.0",
+  "license_url": "http://arxiv.org/licenses/nonexclusive-distrib/1.0/",
+  "redistribution_allowed_in_git": false,
+  "source_url": "https://arxiv.org/e-print/1109.1880v1",
+  "pdf_url": "https://arxiv.org/pdf/1109.1880v1",
+  "artifacts": {
+    "1109.1880v1.tar.gz": "e22da0defd90826bfa2aecb2ddc5cff99ad67fe138f507bee74573bf4533bf55",
+    "1109.1880v1.pdf": "78cb3b0b439fea213c638d69d80b629123298b5e673683d2338d4b8da394115b"
+  },
+  "source_files": {
+    "SteinIntro.tex": "02041ab1408158cebf82f2ec67fed7722ed7594b78728ca00d644a92d67d8d95",
+    "SteinIntro.bbl": "5b87ac4e7a24845fd19fa9265a45225e3e6e5d671196dcd0b118a36df72d7de2"
+  },
+  "normalized_files": {
+    "docs/source/SteinIntro_utf8.tex": "2cb6fcad2e479c23bbd7a607f815003d33f5a07c030047088c1a582fe6a3bf4e"
+  }
+}
