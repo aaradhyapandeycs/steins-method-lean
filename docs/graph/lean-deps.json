@@ -1,7 +1,7 @@
 {
  "_about": "Relations between statement entries extracted from the compiled Lean proofs by scripts/lean_deps/ExtractDeps.lean (roots: project theorems a wrapper applies; closure: project declarations reachable through types and proof terms). Not a curated mathematical dependency graph.",
  "lean_sources": {
-  "Formalization": "62a3794ae81a1e96a6850f750f6f8dfa6155363c",
+  "Formalization": "37e3c8c3be517751a4e2cc82ae9e55fc02bf48cf",
   "Formalization.lean": "b28040f107f09cc422f1aeebe0dae064d22285db"
  },
  "lean_toolchain": "leanprover/lean4:v4.34.0",

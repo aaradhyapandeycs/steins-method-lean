@@ -7,11 +7,12 @@ import Formalization.Defs
 import Formalization.Defs.Branching
 
 /-!
-# Section 5 Statements: Exponential Approximation (`SteinIntro.tex:2712-3189`)
+# Section 5 Statements (`Formalization.Statements.Sec5`)
 
-Self-contained proposition statements (`: Prop`) for Section 5 opening and Sections 5.1–5.3 of
-Nathan Ross, *"Fundamentals of Stein's method"* (*Probability Surveys* 8, 2011, pp. 210–293;
-`arXiv:1109.1880v1`). Imports `Formalization.Defs` and `Formalization.Defs.Branching` only.
+Self-contained theorem, proposition, lemma, remark, example, and prose statements from Section 5
+(`\label{exp}`, *Exponential approximation*, `SteinIntro.tex:2712-3189`) of Nathan Ross,
+*"Fundamentals of Stein's method"* (`arXiv:1109.1880v1`), importing core definitions only
+(`AGENTS.md` Rule 5).
 -/
 
 open MeasureTheory ProbabilityTheory
@@ -19,9 +20,9 @@ open scoped ENNReal NNReal
 
 namespace SteinMethod
 
-/-- Lemma 5.1(1) (`\label{lem171}`, `SteinIntro.tex:2726-2733`): if $Z \sim \mathrm{Exp}(1)$, then
-$\mathcal{A}f(Z)$ is integrable and $\mathbb{E}[\mathcal{A}f(Z)] = 0$ for every locally absolutely
-continuous function $f : \mathbb{R} \to \mathbb{R}$ (`D5`) satisfying
+/-- Lemma 5.1(1) (`\label{lem171}`, `SteinIntro.tex:2726-2733`): if $Z \sim \mathrm{Exp}(1)$,
+then $\mathcal{A}f(Z)$ is integrable and $\mathbb{E}[\mathcal{A}f(Z)] = 0$ for every
+locally absolutely continuous function $f : \mathbb{R} \to \mathbb{R}$ satisfying
 $\mathbb{E}|f'(Z)| < \infty$. -/
 def Lem5_1_1 : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
@@ -32,8 +33,8 @@ def Lem5_1_1 : Prop :=
     Integrable (fun ω ↦ deriv f (Z ω)) P →
     Integrable (fun ω ↦ expSteinOp f (Z ω)) P ∧ ∫ ω, expSteinOp f (Z ω) ∂P = 0
 
-/-- Lemma 5.1(2) (`\label{lem171}`, `SteinIntro.tex:2726-2738`; `D5` literal): if $W \ge 0$ a.s. is
-a real-valued random variable such that $\mathbb{E}[\mathcal{A}f(W)] = 0$ for every locally
+/-- Lemma 5.1(2) (`\label{lem171}`, `SteinIntro.tex:2726-2738`): if $W \ge 0$ a.s. is a
+real-valued random variable such that $\mathbb{E}[\mathcal{A}f(W)] = 0$ for every locally
 absolutely continuous function $f : \mathbb{R} \to \mathbb{R}$ satisfying
 $\mathbb{E}|f'(Z)| < \infty$ for $Z \sim \mathrm{Exp}(1)$, then $W \sim \mathrm{Exp}(1)$. -/
 def Lem5_1_2 : Prop :=
@@ -48,12 +49,13 @@ def Lem5_1_2 : Prop :=
 
 /-- Lemma 5.2, solution formula, boundary value, and uniqueness for continuous $h$
 (`\label{lem172}`, eqs. `(5.1)`–`(5.2)` `\label{171}`–`\label{172}`,
-`SteinIntro.tex:2740-2745, 2774-2779`): (i) for locally integrable $h : \mathbb{R} \to \mathbb{R}$
-that is integrable under $\mathrm{Exp}(1)$, `expSteinSol h` satisfies $f_h(0) = 0$ and admits the
-interval-integral representation $f_h(x) = e^x \int_0^x (h(t) - \mathbb{E}[h(Z)]) e^{-t}\,dt$ for
-all $x \in \mathbb{R}$; (ii) if moreover $h$ is continuous, `expSteinSol h` solves
-$f_h'(x) - f_h(x) = h(x) - \mathbb{E}[h(Z)]$ with a two-sided derivative everywhere on
-$\mathbb{R}$ and is the unique differentiable solution satisfying $g(0) = 0$. -/
+`SteinIntro.tex:2740-2745`, `SteinIntro.tex:2774-2779`): (i) for locally integrable $h :
+\mathbb{R} \to \mathbb{R}$ that is integrable under $\mathrm{Exp}(1)$, `expSteinSol h`
+satisfies $f_h(0) = 0$ and admits the interval-integral representation $f_h(x) = e^x
+\int_0^x (h(t) - \mathbb{E}[h(Z)]) e^{-t}\,dt$ for all $x \in \mathbb{R}$; (ii) if moreover
+$h$ is continuous, `expSteinSol h` solves $f_h'(x) - f_h(x) = h(x) - \mathbb{E}[h(Z)]$ with
+a two-sided derivative everywhere on $\mathbb{R}$ and is the unique differentiable solution
+satisfying $g(0) = 0$. -/
 def Lem5_2_formula : Prop :=
   (∀ {h : ℝ → ℝ}, LocallyIntegrable h volume → Integrable h stdExpLaw →
     expSteinSol h 0 = 0 ∧
@@ -66,24 +68,24 @@ def Lem5_2_formula : Prop :=
         g = expSteinSol h)
 
 /-- Lemma 5.2, pointwise ODE at continuity points (`\label{lem172}`, eq. `(5.1)` `\label{171}`,
-`SteinIntro.tex:2740-2745, 2774-2779`; `ISSUE-5.2-ODE`): for locally integrable
-$h : \mathbb{R} \to \mathbb{R}$ integrable under $\mathrm{Exp}(1)$, `expSteinSol h` satisfies
-$f_h'(x) - f_h(x) = h(x) - \mathbb{E}[h(Z)]$ with a two-sided derivative at every continuity point
-$x$ of $h$. -/
+`SteinIntro.tex:2740-2745`, `SteinIntro.tex:2774-2779`; `ISSUE-5.2-ODE` in
+`docs/SOURCE-ISSUES.md`): for locally integrable $h : \mathbb{R} \to \mathbb{R}$ integrable
+under $\mathrm{Exp}(1)$, `expSteinSol h` satisfies $f_h'(x) - f_h(x) = h(x) -
+\mathbb{E}[h(Z)]$ with a two-sided derivative at every continuity point $x$ of $h$. -/
 def Lem5_2_ode_contAt : Prop :=
   ∀ {h : ℝ → ℝ}, LocallyIntegrable h volume → Integrable h stdExpLaw →
     ∀ x : ℝ, ContinuousAt h x →
       HasDerivAt (expSteinSol h) (expSteinSol h x + h x - stdExpExpect h) x
 
-/-- Lemma 5.2, local absolute continuity, a.e. ODE, and a.e. uniqueness (`\label{lem172}`,
-eqs. `(5.1)`–`(5.2)` `\label{171}`–`\label{172}`, `SteinIntro.tex:2740-2745`,
-`SteinIntro.tex:2774-2779`; `ISSUE-5.2-ODE`, `M1`): for locally integrable
-$h : \mathbb{R} \to \mathbb{R}$ integrable under
-$\mathrm{Exp}(1)$ — and in particular for every bounded measurable $h : \mathbb{R} \to \mathbb{R}$ —
-`expSteinSol h` is locally absolutely continuous on $\mathbb{R}$, satisfies
-$f_h'(x) - f_h(x) = h(x) - \mathbb{E}[h(Z)]$ with a two-sided derivative at Lebesgue-almost-every
-$x \in \mathbb{R}$, and is the unique locally absolutely continuous $g : \mathbb{R} \to \mathbb{R}$
-with $g(0) = 0$ satisfying $g'(x) - g(x) = h(x) - \mathbb{E}[h(Z)]$ almost everywhere. -/
+/-- Lemma 5.2, local absolute continuity, a.e. ODE, and a.e. uniqueness (`\label{lem172}`, eqs.
+`(5.1)`–`(5.2)` `\label{171}`–`\label{172}`, `SteinIntro.tex:2740-2745`,
+`SteinIntro.tex:2774-2779`; `ISSUE-5.2-ODE` in `docs/SOURCE-ISSUES.md`): for locally
+integrable $h : \mathbb{R} \to \mathbb{R}$ integrable under $\mathrm{Exp}(1)$ — and in
+particular for every bounded measurable $h : \mathbb{R} \to \mathbb{R}$ — `expSteinSol h`
+is locally absolutely continuous on $\mathbb{R}$, satisfies $f_h'(x) - f_h(x) = h(x) -
+\mathbb{E}[h(Z)]$ with a two-sided derivative at Lebesgue-almost-every $x \in \mathbb{R}$,
+and is the unique locally absolutely continuous $g : \mathbb{R} \to \mathbb{R}$ with $g(0)
+= 0$ satisfying $g'(x) - g(x) = h(x) - \mathbb{E}[h(Z)]$ almost everywhere. -/
 def Lem5_2_ode_ae : Prop :=
   (∀ {h : ℝ → ℝ}, LocallyIntegrable h volume → Integrable h stdExpLaw →
     (∀ a b : ℝ, AbsolutelyContinuousOnInterval (expSteinSol h) a b) ∧
@@ -98,14 +100,13 @@ def Lem5_2_ode_ae : Prop :=
         (∀ᵐ x ∂volume, deriv g x - g x = h x - stdExpExpect h) →
         g = expSteinSol h)
 
-/-- Lemma 5.2(1) (`\label{lem172}` item 1 `\label{i171}`, `SteinIntro.tex:2747-2750, 2781-2789`;
-`D2`, `D5-3`): for measurable non-negative bounded $h : \mathbb{R} \to \mathbb{R}$ with
-$0 \le h(t) \le M$ for all $t \in \mathbb{R}$, `expSteinSol h` is $2 M$-Lipschitz on $\mathbb{R}$,
-and $|f_h(x)| \le M$, $|f_h'(x)| \le 2 M$, and $|D_- f_h(x)| \le 2 M$ for all $x \in \mathbb{R}$
-(note Lean's `deriv` and `derivWithin` return `0` where the two-sided or left derivative does not
-exist — e.g. jump points of $h$ for `deriv`, or measurable $h = \mathbf{1}_A$ with oscillating
-Lebesgue density at $x$ for `derivWithin` — whereas `LipschitzWith` holds globally without
-vacuity). -/
+/-- Lemma 5.2(1) (`\label{lem172}` item 1 `\label{i171}`, `SteinIntro.tex:2747-2750`,
+`SteinIntro.tex:2740`, `SteinIntro.tex:2781-2789`): for measurable non-negative bounded $h
+: \mathbb{R} \to \mathbb{R}$ with $0 \le h(t) \le M$ for all $t \in \mathbb{R}$,
+`expSteinSol h` is $2 M$-Lipschitz on $\mathbb{R}$, and $|f_h(x)| \le M$, $|f_h'(x)| \le 2
+M$, and $|D_- f_h(x)| \le 2 M$ for all $x \in \mathbb{R}$ (Lean's `deriv` and `derivWithin`
+return `0` where the two-sided or left derivative does not exist, whereas `LipschitzWith`
+holds globally without vacuity). -/
 def Lem5_2_1 : Prop :=
   ∀ {h : ℝ → ℝ} {M : ℝ},
     Measurable h →
@@ -117,13 +118,13 @@ def Lem5_2_1 : Prop :=
         |deriv (expSteinSol h) x| ≤ 2 * M ∧
         |derivWithin (expSteinSol h) (Set.Iic x) x| ≤ 2 * M
 
-/-- Lemma 5.2(2) (`\label{lem172}` item 2 `\label{i172}`, `SteinIntro.tex:2751-2754, 2790-2796`;
-`stmts-review-05D.md` `D2`, `ISSUE-5.2-PROOF`): for locally absolutely continuous
-$h : \mathbb{R} \to \mathbb{R}$ (`D5`) satisfying $|h'(t)| \le L$ for all $t \in \mathbb{R}$,
-`expSteinSol h` is everywhere differentiable, `deriv (expSteinSol h)` is $2 L$-Lipschitz on
-$\mathbb{R}$, and $|f_h'(x)| \le L$ and $|f_h''(x)| \le 2 L$ for all $x \in \mathbb{R}$ (note
-Lean's outer `deriv` returns `0` at points where $f_h'$ has a corner, while `LipschitzWith` holds
-everywhere). -/
+/-- Lemma 5.2(2) (`\label{lem172}` item 2 `\label{i172}`, `SteinIntro.tex:2751-2754`,
+`SteinIntro.tex:2740`, `SteinIntro.tex:2790-2796`; `ISSUE-5.2-PROOF` in
+`docs/SOURCE-ISSUES.md`): for locally absolutely continuous $h : \mathbb{R} \to \mathbb{R}$
+satisfying $|h'(t)| \le L$ for all $t \in \mathbb{R}$, `expSteinSol h` is everywhere
+differentiable, `deriv (expSteinSol h)` is $2 L$-Lipschitz on $\mathbb{R}$, and $|f_h'(x)|
+\le L$ and $|f_h''(x)| \le 2 L$ for all $x \in \mathbb{R}$ (Lean's outer `deriv` returns
+`0` where $f_h'$ has a corner, while `LipschitzWith` holds everywhere). -/
 def Lem5_2_2 : Prop :=
   ∀ {h : ℝ → ℝ} {L : ℝ},
     (∀ a b : ℝ, AbsolutelyContinuousOnInterval h a b) →
@@ -134,9 +135,8 @@ def Lem5_2_2 : Prop :=
         |deriv (expSteinSol h) x| ≤ L ∧
         |deriv (deriv (expSteinSol h)) x| ≤ 2 * L
 
-/-- Theorem 5.3(1) (`\label{thm171}`, `SteinIntro.tex:2758-2766`; `D6` literal class): if $W \ge 0$
-a.s. has finite mean and $Z \sim \mathrm{Exp}(1)$, then
-$d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+/-- Theorem 5.3(1) (`\label{thm171}`, `SteinIntro.tex:2758-2766`): if $W \ge 0$ a.s. has finite
+mean and $Z \sim \mathrm{Exp}(1)$, then $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \sup_{f \in \mathcal{F}_W} |\mathbb{E}[f'(W) - f(W)]|$. -/
 def Thm5_3_1 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
@@ -150,10 +150,10 @@ def Thm5_3_1 : Prop :=
     wassersteinDist (P.map W) (P'.map Z) ≤
       ⨆ f ∈ expWassersteinClass, ENNReal.ofReal |∫ ω, (deriv f (W ω) - f (W ω)) ∂P|
 
-/-- Theorem 5.3(2) (`\label{thm171}`, `SteinIntro.tex:2758-2760`, `SteinIntro.tex:2767-2773`; `D6`
-literal class): if $W \ge 0$ a.s. has finite mean and $Z \sim \mathrm{Exp}(1)$, then
-$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
-\sup_{f \in \mathcal{F}_K} |\mathbb{E}[f'(W) - f(W)]|$. -/
+/-- Theorem 5.3(2) (`\label{thm171}`, `SteinIntro.tex:2758-2760`, `SteinIntro.tex:2767-2773`):
+if $W \ge 0$ a.s. has finite mean and $Z \sim \mathrm{Exp}(1)$, then
+$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le \sup_{f \in \mathcal{F}_K}
+|\mathbb{E}[f'(W) - f(W)]|$. -/
 def Thm5_3_2 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -166,12 +166,13 @@ def Thm5_3_2 : Prop :=
     kolmogorovDist (P.map W) (P'.map Z) ≤
       ⨆ f ∈ expKolmogorovClass, ENNReal.ofReal |∫ ω, (deriv f (W ω) - f (W ω)) ∂P|
 
-/-- Section 5.1 equilibrium uniqueness and Lebesgue absolute continuity (`SteinIntro.tex:2844-2845`;
-`ISSUE-5.5`): for $W \ge 0$ a.s. integrable with $\mu = \mathbb{E}[W] > 0$, every equilibrium
-random variable $W^e$ has the Lebesgue-absolutely-continuous law with density
-$x \mapsto \frac{1}{\mu}\mathbb{P}(W > x)\mathbf{1}_{(0, \infty)}(x)$, and conversely this measure
-is a probability measure absolutely continuous with respect to Lebesgue measure whose identity map
-satisfies `IsEquilibrium`. -/
+/-- Section 5.1 equilibrium uniqueness and Lebesgue absolute continuity (unlabeled prose,
+`SteinIntro.tex:2844-2845`; `ISSUE-5.5` in `docs/SOURCE-ISSUES.md`): for $W \ge 0$ a.s.
+integrable with $\mu = \mathbb{E}[W] > 0$, every equilibrium random variable $W^e$ has the
+Lebesgue-absolutely-continuous law with density $x \mapsto \frac{1}{\mu}\mathbb{P}(W >
+x)\mathbf{1}_{(0, \infty)}(x)$, and conversely this measure is a probability measure
+absolutely continuous with respect to Lebesgue measure whose identity map satisfies
+`IsEquilibrium`. -/
 def Sec5_1_equilibrium_ac : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P] {W : Ω → ℝ},
@@ -187,13 +188,14 @@ def Sec5_1_equilibrium_ac : Prop :=
       (let ν : Measure ℝ := volume.withDensity ρ
        IsProbabilityMeasure ν ∧ Measure.AbsolutelyContinuous ν volume ∧ IsEquilibrium P W ν id)
 
-/-- Section 5.1 prose: well-definedness of $\mathbb{E}[f'(W^e)]$ in `(5.3)` (`\label{173}`,
-`SteinIntro.tex:2844-2845`; `ISSUE-5.5`, `D-E3`): for any non-negative integrable $W$ with
-$\mu = \mathbb{E}[W] > 0$, any equilibrium variable $W^e$ (`IsEquilibrium P W P' We`), and any
-$K$-Lipschitz function $f : \mathbb{R} \to \mathbb{R}$, $f$ is differentiable at $W^e(\omega')$
-for $P'$-almost-every $\omega'$, `deriv f ∘ We` is $P'$-integrable, and every function
-$g : \mathbb{R} \to \mathbb{R}$ agreeing with `deriv f` where $f$ is differentiable is
-$P'$-integrable along $W^e$ with $\int g(W^e)\,dP' = \int f'(W^e)\,dP'$. -/
+/-- Section 5.1 prose well-definedness of $\mathbb{E}[f'(W^e)]$ in `(5.3)` (`\label{173}`,
+`SteinIntro.tex:2844-2845`, `SteinIntro.tex:2840`; `ISSUE-5.5` in `docs/SOURCE-ISSUES.md`):
+for any non-negative integrable $W$ with $\mu = \mathbb{E}[W] > 0$, any equilibrium
+variable $W^e$ (`IsEquilibrium P W P' We`), and any $K$-Lipschitz function $f : \mathbb{R}
+\to \mathbb{R}$, $f$ is differentiable at $W^e(\omega')$ for $P'$-almost-every $\omega'$,
+`deriv f ∘ We` is $P'$-integrable, and every function $g : \mathbb{R} \to \mathbb{R}$
+agreeing with `deriv f` where $f$ is differentiable is $P'$-integrable along $W^e$ with
+$\int g(W^e)\,dP' = \int f'(W^e)\,dP'$. -/
 def Sec5_1_equilibrium_rhs_wellDefined : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -211,11 +213,11 @@ def Sec5_1_equilibrium_rhs_wellDefined : Prop :=
       (∫ ω', g (We ω') ∂P' = ∫ ω', deriv f (We ω') ∂P')
 
 /-- Theorem 5.4 (`\label{thm172}`, `SteinIntro.tex:2847-2853`): if $W \ge 0$ a.s. satisfies
-$\mathbb{E}[W] = 1$ and $\mathbb{E}[W^2] < \infty$, $W^e$ has the equilibrium distribution with
-respect to $W$ on the same probability space, and $Z \sim \mathrm{Exp}(1)$, then
-$d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le 2\,\mathbb{E}|W^e - W|$ (where the Bochner
-integral on the right-hand side is genuine since $W \in L^2$ implies $\mathbb{E}[W^e] =
-\mathbb{E}[W^2]/2 < \infty$). -/
+$\mathbb{E}[W] = 1$ and $\mathbb{E}[W^2] < \infty$, $W^e$ has the equilibrium distribution
+with respect to $W$ on the same probability space, and $Z \sim \mathrm{Exp}(1)$, then
+$d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le 2\,\mathbb{E}|W^e - W|$ (where the
+Bochner integral on the right-hand side is genuine since $W \in L^2$ implies
+$\mathbb{E}[W^e] = \mathbb{E}[W^2]/2 < \infty$). -/
 def Thm5_4 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -229,9 +231,9 @@ def Thm5_4 : Prop :=
     P'.map Z = stdExpLaw →
     wassersteinDist (P.map W) (P'.map Z) ≤ ENNReal.ofReal (2 * ∫ ω, |We ω - W ω| ∂P)
 
-/-- Proposition 5.5 (`\label{prop171}`, `SteinIntro.tex:2863-2867`; literal per `D1`): if
-$W \ge 0$ a.s. is integrable, $W^s$ has the size-bias distribution of $W$, and $U$ is uniform on
-$(0, 1)$ independent of $W^s$, then $U W^s$ has the equilibrium distribution of $W$. -/
+/-- Proposition 5.5 (`\label{prop171}`, `SteinIntro.tex:2863-2867`): if $W \ge 0$ a.s. is
+integrable, $W^s$ has the size-bias distribution of $W$, and $U$ is uniform on $(0, 1)$
+independent of $W^s$, then $U W^s$ has the equilibrium distribution of $W$. -/
 def Prop5_5 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -244,13 +246,14 @@ def Prop5_5 : Prop :=
     ProbabilityTheory.IndepFun U Ws P' →
     IsEquilibrium P W P' (fun ω' ↦ U ω' * Ws ω')
 
-/-- Remark 5.3 (`\label{rem171}`, `SteinIntro.tex:2875-2880`): for $Y \ge 0$ a.s. integrable with
-$\mu = \mathbb{E}[Y] > 0$, if $Y^e$ has the equilibrium distribution of $Y$ and is independent of an
-i.i.d. sequence $Y_0, Y_1, \dots$ distributed as $Y$, then the delayed renewal sequence
-$S_n = Y^e + \sum_{k=0}^{n-1} Y_k$ ($n \ge 0$) is stationary: (i) its renewal measure on $(a, b]$
-equals $(b - a)/\mu$ for all $0 \le a \le b$, and (ii) for every $t \ge 0$, the post-$t$ epoch
-process $(S_{N_t + k} - t)_{k \ge 0}$ (with $N_t = \inf\{n \in \mathbb{N} \mid t < S_n\}$) has the
-same joint law on $\mathbb{N} \to \mathbb{R}$ as $(S_k)_{k \ge 0}$. -/
+/-- Remark 5.3 (`\label{rem171}`, `SteinIntro.tex:2875-2880`): for $Y \ge 0$ a.s. integrable
+with $\mu = \mathbb{E}[Y] > 0$, if $Y^e$ has the equilibrium distribution of $Y$ and is
+independent of an i.i.d. sequence $Y_0, Y_1, \dots$ distributed as $Y$, then the delayed
+renewal sequence $S_n = Y^e + \sum_{k=0}^{n-1} Y_k$ ($n \ge 0$) is stationary: (i) its
+renewal measure on $(a, b]$ equals $(b - a)/\mu$ for all $0 \le a \le b$, and (ii) for
+every $t \ge 0$, the post-$t$ epoch process $(S_{N_t + k} - t)_{k \ge 0}$ (with $N_t =
+\inf\{n \in \mathbb{N} \mid t < S_n\}$) has the same joint law on $\mathbb{N} \to
+\mathbb{R}$ as $(S_k)_{k \ge 0}$. -/
 def Rem5_3 : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Y Ye : Ω → ℝ} {Yseq : ℕ → Ω → ℝ},
@@ -271,11 +274,11 @@ def Rem5_3 : Prop :=
           (fun ω (k : ℕ) ↦ S (Nt ω + k) ω - t)
           (fun ω (k : ℕ) ↦ S k ω) P P)
 
-/-- Example 5.4, weak convergence prose claim (`\label{ex171}`, `SteinIntro.tex:2885`; `M4`):
-as $p \to 0^+$, for $N_p \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$ and $Z \sim \mathrm{Exp}(1)$,
-$p N_p$ converges to $Z$ in Wasserstein distance, in Kolmogorov distance, and weakly
-($\mathbb{E}[g(p N_p)] \to \mathbb{E}[g(Z)]$ for every bounded continuous
-$g : \mathbb{R} \to \mathbb{R}$). -/
+/-- Example 5.4, weak convergence prose claim (`\label{ex171}`, `SteinIntro.tex:2885`,
+`SteinIntro.tex:2883`): as $p \to 0^+$, for $N_p \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$
+and $Z \sim \mathrm{Exp}(1)$, $p N_p$ converges to $Z$ in Wasserstein distance, in
+Kolmogorov distance, and weakly ($\mathbb{E}[g(p N_p)] \to \mathbb{E}[g(Z)]$ for every
+bounded continuous $g : \mathbb{R} \to \mathbb{R}$). -/
 def Ex5_4_weak_conv : Prop :=
   ∀ {Ω' : Type*} [MeasurableSpace Ω'] (P' : Measure Ω') [IsProbabilityMeasure P']
     {Z : Ω' → ℝ}
@@ -297,10 +300,16 @@ def Ex5_4_weak_conv : Prop :=
         (nhdsWithin 0 (Set.Ioi 0))
         (nhds (∫ z, g (Z z) ∂P')))
 
-/-- Example 5.4, corrected ceiling prose claim (`\label{ex171}`, `SteinIntro.tex:2885-2886`;
-`ISSUE-TYPO-5.4`): if $Z \sim \mathrm{Exp}(\lambda)$ with $\lambda > 0$, then the smallest integer
-no less than $Z$ ($\lceil Z \rceil$, printed *"no greater than"* by typo) has the positive-support
-geometric distribution $\mathrm{Ge}(1 - e^{-\lambda})$. -/
+/-- Example 5.4, corrected ceiling prose claim (`\label{ex171}`, `SteinIntro.tex:2885-2886`,
+`SteinIntro.tex:2883`; `ISSUE-TYPO-5.4` in `docs/SOURCE-ISSUES.md`): if $Z \sim
+\mathrm{Exp}(\lambda)$ with $\lambda > 0$, then the smallest integer no less than $Z$
+($\lceil Z \rceil$) has the positive-support geometric distribution $\mathrm{Ge}(1 -
+e^{-\lambda})$.
+
+Difference from printed result (`ISSUE-TYPO-5.4`): replaces the printed phrase "the smallest
+integer no greater than $Z$" (`\lfloor Z \rfloor`, which takes value $0$ with positive
+probability $1 - e^{-\lambda}$ whereas $\mathrm{Ge}(p)$ is supported on $\{1, 2, \dots\}$;
+`not_ex5_4_floor_ge`) with $\lceil Z \rceil$. -/
 def Ex5_4_ceil_corrected : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {r : ℝ} {Z : Ω → ℝ},
@@ -309,9 +318,16 @@ def Ex5_4_ceil_corrected : Prop :=
     P.map Z = expLaw r →
     P.map (fun ω ↦ Nat.ceil (Z ω)) = shiftedGeomLaw (1 - Real.exp (-r))
 
-/-- Section 5.1 equilibrium scaling, restricted to $c > 0$ (`SteinIntro.tex:2894`; `ISSUE-5.4`):
-for a constant $c > 0$, $X^e$ has the equilibrium distribution of $X$ if and only if $c X^e$ has
-the equilibrium distribution of $c X$. -/
+/-- Example 5.4 equilibrium scaling identity, restricted to $c > 0$ (`\label{ex171}`,
+`SteinIntro.tex:2894`, `SteinIntro.tex:2883`; `ISSUE-5.4` in `docs/SOURCE-ISSUES.md`): for
+a constant $c > 0$ and a non-negative integrable random variable $X$, $X^e$ has the
+equilibrium distribution of $X$ if and only if $c X^e$ has the equilibrium distribution of
+$c X$.
+
+Difference from printed result (`ISSUE-5.4`): restricts the constant $c$ in $(c X)^e
+\stackrel{d}{=} c X^e$ to $c > 0$: for $c < 0$, $c X$ violates Definition 5.3's non-negativity
+hypothesis, while at $c = 0$ ($0 \cdot X = 0$ with $\mu = 0$), every random variable satisfies
+`(5.3)` with respect to $0$ (`not_sec5_1_equilibrium_scale_zero`). -/
 def Sec5_1_equilibrium_scale_restricted : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -321,12 +337,12 @@ def Sec5_1_equilibrium_scale_restricted : Prop :=
     (IsEquilibrium P X P' Xe ↔
       IsEquilibrium P (fun ω ↦ c * X ω) P' (fun ω' ↦ c * Xe ω'))
 
-/-- Example 5.4 (`\label{ex171}`, `SteinIntro.tex:2883-2900`): for $0 < p \le 1$ and
-$N \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$, (i) if $N^s$ has the size-bias distribution of $N$ and
-$V$ is conditionally uniform on $\{1, \dots, N^s\}$, then $V \stackrel{d}{=} N$; (ii) if $U$ is
-uniform on $(0, 1)$ independent of $N$, then $N - U$ has the equilibrium distribution of $N$ and
-$W - p U$ has the equilibrium distribution of $W = p N$; and (iii) for $Z \sim \mathrm{Exp}(1)$,
-$d_{\mathrm{W}}(\mathcal{L}(p N), \mathcal{L}(Z)) \le p$. -/
+/-- Example 5.4 (`\label{ex171}`, `SteinIntro.tex:2883-2900`): for $0 < p \le 1$ and $N \sim
+\mathrm{Ge}(p)$ on $\{1, 2, \dots\}$, (i) if $N^s$ has the size-bias distribution of $N$
+and $V$ is conditionally uniform on $\{1, \dots, N^s\}$, then $V \stackrel{d}{=} N$; (ii)
+if $U$ is uniform on $(0, 1)$ independent of $N$, then $N - U$ has the equilibrium
+distribution of $N$ and $W - p U$ has the equilibrium distribution of $W = p N$; and (iii)
+for $Z \sim \mathrm{Exp}(1)$, $d_{\mathrm{W}}(\mathcal{L}(p N), \mathcal{L}(Z)) \le p$. -/
 def Ex5_4 : Prop :=
   ∀ {p : ℝ}, 0 < p → p ≤ 1 →
     (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
@@ -359,12 +375,12 @@ def Ex5_4 : Prop :=
       P'.map Z = stdExpLaw →
       wassersteinDist (P.map (fun ω ↦ p * (N ω : ℝ))) (P'.map Z) ≤ ENNReal.ofReal p)
 
-/-- Theorem 5.6 (Rényi's Theorem, unlabeled, `SteinIntro.tex:2905-2911`; `D5-2`): for any
-non-negative mean-$1$ distribution $\mathcal{L}(X_0)$, if for each $p \in (0, 1]$,
-$(X_{p, i})_{i \ge 1}$ is an i.i.d. sequence distributed as $X_0$, $N_p \sim \mathrm{Ge}(p)$ is
-independent of $(X_{p, i})_{i \ge 1}$, $W_p = p \sum_{i=1}^{N_p} X_{p, i}$, and
-$Z \sim \mathrm{Exp}(1)$, then
-$\lim_{p \to 0^+} d_{\mathrm{K}}(\mathcal{L}(W_p), \mathcal{L}(Z)) = 0$. -/
+/-- Theorem 5.6 (Rényi's Theorem, unlabeled `theorem`, `SteinIntro.tex:2905-2911`): for any
+non-negative mean-$1$ distribution $\mathcal{L}(X_0)$, if for each $p \in (0, 1]$, $(X_{p,
+i})_{i \ge 1}$ is an i.i.d. sequence distributed as $X_0$, $N_p \sim \mathrm{Ge}(p)$ is
+independent of $(X_{p, i})_{i \ge 1}$, $W_p = p \sum_{i=1}^{N_p} X_{p, i}$, and $Z \sim
+\mathrm{Exp}(1)$, then $\lim_{p \to 0^+} d_{\mathrm{K}}(\mathcal{L}(W_p), \mathcal{L}(Z)) =
+0$. -/
 def Thm5_6 : Prop :=
   ∀ {Ω₀ Ω' : Type*} [MeasurableSpace Ω₀] [MeasurableSpace Ω']
     (P₀ : Measure Ω₀) [IsProbabilityMeasure P₀]
@@ -393,13 +409,13 @@ def Thm5_6 : Prop :=
       (nhdsWithin 0 (Set.Ioi 0))
       (nhds 0)
 
-/-- Section 5.2, equation (5.6) equilibrium coupling (`\label{179}`, `SteinIntro.tex:2953-2957`;
-`M2`): for independent non-negative mean-$1$ summands
-$(X_i)_{i \ge 1}$ (requiring $L^1$ only), integer-valued $N, M \ge 1$ a.s. with
-$\mathbb{E}[N] = 1/p$ and $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ ($m \ge 1$) jointly
-independent of $(X_i)_{i \ge 1}$, and equilibrium variables $X_i^e$ each independent of
-$(N, M, (X_j)_{j \ne i})$, the sum $W = p \sum_{i=1}^N X_i$ is integrable with $\mathbb{E}[W] = 1$
-and $W^e = p (\sum_{i=1}^{M-1} X_i + X_M^e)$ has the equilibrium distribution of $W$. -/
+/-- Section 5.2, equation `(5.6)` equilibrium coupling (`\label{179}`,
+`SteinIntro.tex:2953-2957`): for independent non-negative mean-$1$ summands $(X_i)_{i \ge
+1}$ (requiring $L^1$ only), integer-valued $N, M \ge 1$ a.s. with $\mathbb{E}[N] = 1/p$ and
+$\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ ($m \ge 1$) jointly independent of $(X_i)_{i
+\ge 1}$, and equilibrium variables $X_i^e$ each independent of $(N, M, (X_j)_{j \ne i})$,
+the sum $W = p \sum_{i=1}^N X_i$ is integrable with $\mathbb{E}[W] = 1$ and $W^e = p
+(\sum_{i=1}^{M-1} X_i + X_M^e)$ has the equilibrium distribution of $W$. -/
 def Sec5_2_eq5_6 : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {p : ℝ} {X Xe : ℕ → Ω → ℝ} {N M : Ω → ℕ},
@@ -427,13 +443,19 @@ def Sec5_2_eq5_6 : Prop :=
     let We : Ω → ℝ := fun ω ↦ p * ((∑ i ∈ Finset.Ico 1 (M ω), X i ω) + Xe (M ω) ω)
     Integrable W P ∧ (∫ ω, W ω ∂P = 1) ∧ IsEquilibrium P W P We
 
-/-- Theorem 5.7, corrected (`\label{thm1710}`, eqs. `(5.4)`–`(5.5)` `\label{177}`–`\label{178}`,
-`SteinIntro.tex:2915-2929`; `ISSUE-5.7`, `DEFINITIONS.md` §5.3, `D5-1`): Wasserstein exponential
-approximation bound for geometric-like random sums $W = p \sum_{i=1}^N X_i$, requiring $M \ge 1$
-a.s. with $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ for $m \ge 1$, the printed joint
-independence of each $X_i^e$ from $(N, M, (X_j)_{j \ne i})$, and the minimal omitted joint
-independence of $(N, M)$ from $(X_i)_{i \ge 1}$, and expressing potentially infinite moments on the
-right-hand side in `ℝ≥0∞`. -/
+/-- Theorem 5.7, corrected (`\label{thm1710}`, eqs. `(5.4)`–`(5.5)`
+`\label{177}`–`\label{178}`, `SteinIntro.tex:2915-2929`; `ISSUE-5.7` in
+`docs/SOURCE-ISSUES.md`): Wasserstein exponential approximation bounds `(5.4)` and `(5.5)`
+for geometric-like random sums $W = p \sum_{i=1}^N X_i$ of independent non-negative
+mean-$1$ variables, with potentially infinite expectations on the right-hand side valued in
+`ℝ≥0∞`.
+
+Difference from printed result (`ISSUE-5.7`): makes explicit $M \ge 1$ a.s. (the printed
+condition $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ for $m \ge 1$ sums to $p\,\mathbb{E}[N]
+= 1$ on $\{1, 2, \dots\}$) and adds joint independence of $(N, M)$ from $(X_i)_{i \ge 1}$ (the
+printed text states $N$ independent of $(X_i)$ and each $X_i^e$ independent of $(N, M, (X_j)_{j
+\ne i})$, which leaves $M$ free to depend on $(X_i)$ and falsifies both `(5.4)` and `(5.5)`;
+`thm5_7_counterexample_without_M_indep`). -/
 def Thm5_7_corrected : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -472,12 +494,13 @@ def Thm5_7_corrected : Prop :=
         (1 + μ₂ / 2 + ∫⁻ ω, ENNReal.ofReal |(N ω : ℝ) - (M ω : ℝ)| ∂P)
     wassersteinDist (P.map W) (P'.map Z) ≤ err₁ ∧ err₁ ≤ err₂
 
-/-- Remark 5.5 (`SteinIntro.tex:2931-2947`): (i) in the setting of Theorem 5.7, if $N^s$ has the
-size-bias distribution of $N$ and $V$ is conditionally uniform on $\{1, \dots, N^s\}$, then
-$M \stackrel{d}{=} V$; (ii) if $N \sim \mathrm{Ge}(p)$ ($0 < p \le 1$), then $M = N$ satisfies
-$M \ge 1$ a.s. and $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ for all $m \ge 1$; and (iii) if in
-addition $(X_i)_{i \ge 1}$ are independent $\mathrm{Exp}(1)$ random variables independent of $N$,
-then $d_{\mathrm{W}}(\mathcal{L}(p \sum_{i=1}^N X_i), \mathcal{L}(Z)) = 0$. -/
+/-- Remark 5.5 (unlabeled `remark`, `SteinIntro.tex:2931-2947`): (i) in the setting of Theorem
+5.7, if $N^s$ has the size-bias distribution of $N$ and $V$ is conditionally uniform on
+$\{1, \dots, N^s\}$, then $M \stackrel{d}{=} V$; (ii) if $N \sim \mathrm{Ge}(p)$ ($0 < p
+\le 1$), then $M = N$ satisfies $M \ge 1$ a.s. and $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge
+m)$ for all $m \ge 1$; and (iii) if in addition $(X_i)_{i \ge 1}$ are independent
+$\mathrm{Exp}(1)$ random variables independent of $N$, then $d_{\mathrm{W}}(\mathcal{L}(p
+\sum_{i=1}^N X_i), \mathcal{L}(Z)) = 0$. -/
 def Rem5_5 : Prop :=
   ∀ {p : ℝ}, 0 < p → p ≤ 1 →
     (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
@@ -517,32 +540,32 @@ def Rem5_5 : Prop :=
 
 /-- Remark 5.6, generalization (unlabeled `remark`, `SteinIntro.tex:2948-2951`): the project's
 precise reading of the generalization of Theorem 5.7 noted in Remark 5.6 (cf. Peköz–Röllin
-`\cite{rope10}`), allowing the non-negative summands $(X_i)_{i \ge 1}$ to have arbitrary means
-$\mu_i = \mathbb{E}[X_i]$ (with positive normalizing total mean
-$S = \mathbb{E}[\sum_{i=1}^N \mu_i] > 0$ and $\mu_m$-weighted index
-$\mathbb{P}(M = m) = (\mu_m / S)\,\mathbb{P}(N \ge m)$) and dependence:
-1. (*Prefix increment-equilibrium coupling bound*): if $(N, M)$ is independent of $(X_i)_{i \ge 1}$
-   and $(S_{\mathrm{pre}}(m), X_m^e)_{m \ge 1}$ satisfies $M \perp (S_{\mathrm{pre}}(m), X_m^e)$ and
-   $\mathbb{E}[h(\sum_{i=1}^m X_i) - h(\sum_{i=1}^{m-1} X_i)] =
-   \mu_m\,\mathbb{E}[h'(S_{\mathrm{pre}}(m) + X_m^e)]$ for all Lipschitz $h$, then
-   $W = S^{-1} \sum_{i=1}^N X_i$ is integrable with $\mathbb{E}[W] = 1$,
-   $W^e = S^{-1} (S_{\mathrm{pre}}(M) + X_M^e)$ satisfies `IsEquilibrium P W P We`, and
-   $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))$ is bounded by $(2 / S)$ times the sum of the
-   prefix-dependence discrepancy, the summand equilibrium error, and the $\mu_i$-weighted index
-   mismatch;
-2. (*Dependent joint size-bias, local-dependence cancellation, and independent heterogeneous-mean
-   instantiations*): (a) joint $X_m$-size-biasing paired with an independent $\mathrm{Unif}(0, 1)$
-   variable satisfies the increment-equilibrium identity for arbitrarily dependent summands; (b)
-   under $d$-dependence, local size-biasing cancels the prefix discrepancy outside the
-   $d$-neighborhood; and (c) mutually independent $L^2$ summands with positive means $\mu_i > 0$
-   have zero prefix discrepancy and satisfy the explicit heterogeneous-mean second-moment bound
-   (specializing at $\mu_i \equiv 1$, $S = 1 / p$ to `Thm5_7_corrected`);
+`\cite{rope10}`), allowing the non-negative summands $(X_i)_{i \ge 1}$ to have arbitrary
+means $\mu_i = \mathbb{E}[X_i]$ (with positive normalizing total mean $S =
+\mathbb{E}[\sum_{i=1}^N \mu_i] > 0$ and $\mu_m$-weighted index $\mathbb{P}(M = m) = (\mu_m
+/ S)\,\mathbb{P}(N \ge m)$) and dependence:
+1. (*Prefix increment-equilibrium coupling bound*): if $(N, M)$ is independent of $(X_i)_{i \ge
+   1}$ and $(S_{\mathrm{pre}}(m), X_m^e)_{m \ge 1}$ satisfies $M \perp (S_{\mathrm{pre}}(m),
+   X_m^e)$ and $\mathbb{E}[h(\sum_{i=1}^m X_i) - h(\sum_{i=1}^{m-1} X_i)] =
+   \mu_m\,\mathbb{E}[h'(S_{\mathrm{pre}}(m) + X_m^e)]$ for all Lipschitz $h$, then $W = S^{-1}
+   \sum_{i=1}^N X_i$ is integrable with $\mathbb{E}[W] = 1$, $W^e = S^{-1} (S_{\mathrm{pre}}(M)
+   + X_M^e)$ satisfies `IsEquilibrium P W P We`, and $d_{\mathrm{W}}(\mathcal{L}(W),
+   \mathcal{L}(Z))$ is bounded by $(2 / S)$ times the sum of the prefix-dependence discrepancy,
+   the summand equilibrium error, and the $\mu_i$-weighted index mismatch;
+2. (*Dependent joint size-bias, local-dependence cancellation, and independent
+   heterogeneous-mean instantiations*): (a) joint $X_m$-size-biasing paired with an independent
+   $\mathrm{Unif}(0, 1)$ variable satisfies the increment-equilibrium identity for arbitrarily
+   dependent summands; (b) under $d$-dependence, local size-biasing cancels the prefix
+   discrepancy outside the $d$-neighborhood; and (c) mutually independent $L^2$ summands with
+   positive means $\mu_i > 0$ have zero prefix discrepancy and satisfy the explicit
+   heterogeneous-mean second-moment bound (specializing at $\mu_i \equiv 1$, $S = 1 / p$ to
+   `Thm5_7_corrected`);
 3. (*Strict non-vacuity*): there exist a probability space and random variables satisfying all
    hypotheses of Part 1 with $\mathbb{E}[X_1] \ne \mathbb{E}[X_2]$ and $X_1, X_2$ dependent.
 
 Reading note: Remark 5.6 cites `\cite{rope10}` without printing a theorem statement; this entry
-records the project's self-contained equilibrium-coupling formulation rather than a transcription of
-`\cite{rope10}`. -/
+records the project's self-contained equilibrium-coupling formulation rather than a
+transcription of `\cite{rope10}`. -/
 def Rem5_6_generalization : Prop :=
   (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
       (P : Measure Ω) [IsProbabilityMeasure P]
@@ -703,11 +726,11 @@ def Rem5_6_generalization : Prop :=
       ∫ ω, X 1 ω ∂P ≠ ∫ ω, X 2 ω ∂P ∧
       ¬ ProbabilityTheory.IndepFun (X 1) (X 2) P)
 
-/-- Section 5.3 existence of a non-degenerate critical Galton–Watson process with $\sigma^2 > 0$
-(`I-2`, `SteinIntro.tex:2993-2997, 3007-3020`): there exists a probability space $(\Omega, P)$ and
-a critical Galton–Watson process $Z$ with offspring law $\frac{1}{2}\delta_0 + \frac{1}{2}\delta_2$
-satisfying $\mathbb{E}[Z_1] = 1$, $\operatorname{Var}(Z_1) = 1 > 0$, and
-$\mathbb{E}|Z_1|^3 < \infty$. -/
+/-- Section 5.3 existence of a non-degenerate critical Galton–Watson process with $\sigma^2 >
+0$ (unlabeled prose, `SteinIntro.tex:2993-2997`, `SteinIntro.tex:3007-3020`): there exists
+a probability space $(\Omega, P)$ and a critical Galton–Watson process $Z$ with offspring
+law $\frac{1}{2}\delta_0 + \frac{1}{2}\delta_2$ satisfying $\mathbb{E}[Z_1] = 1$,
+$\operatorname{Var}(Z_1) = 1 > 0$, and $\mathbb{E}|Z_1|^3 < \infty$. -/
 def Sec5_3_exists_isGaltonWatson_pos_var : Prop :=
   ∃ (Ω : Type) (_ : MeasurableSpace Ω) (P : Measure Ω) (_ : IsProbabilityMeasure P)
     (Z : ℕ → Ω → ℕ),
@@ -718,10 +741,10 @@ def Sec5_3_exists_isGaltonWatson_pos_var : Prop :=
     P.real {ω | Z 1 ω = 0} = 1 / 2 ∧
     P.real {ω | Z 1 ω = 2} = 1 / 2
 
-/-- Section 5.3 existence of the Lyons–Pemantle–Peres size-bias spine coupling (`I-2`,
-`SteinIntro.tex:3030-3044`, `SteinIntro.tex:3065-3067`, `SteinIntro.tex:3117-3138`,
-`SteinIntro.tex:3167-3168`): for every critical Galton–Watson branching process with
-finite variance and every generation $n \ge 0$, there exists a probability space $(\Omega', P')$
+/-- Section 5.3 existence of the Lyons–Pemantle–Peres size-bias spine coupling (unlabeled
+prose, `SteinIntro.tex:3030-3044`, `SteinIntro.tex:3065-3067`, `SteinIntro.tex:3117-3138`,
+`SteinIntro.tex:3167-3168`): for every critical Galton–Watson branching process with finite
+variance and every generation $n \ge 0$, there exists a probability space $(\Omega', P')$
 supporting $(X, L, R, R', U)$ satisfying `IsSizeBiasSpineCoupling`. -/
 def Sec5_3_exists_isSizeBiasSpineCoupling : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
@@ -734,12 +757,13 @@ def Sec5_3_exists_isSizeBiasSpineCoupling : Prop :=
         (X L R R' : ℕ → Ω' → ℕ) (U : Ω' → ℝ),
         IsSizeBiasSpineCoupling P Z P' n X L R R' U
 
-/-- Section 5.3 Galton–Watson extinction dichotomy (`SteinIntro.tex:3003-3004`;
-`ISSUE-TYPO-5.3a`): for a Galton–Watson branching process $(Z_n)_{n \ge 0}$, (i) if
-$\mathbb{E}[Z_1] \le 1$ and $\mathbb{P}(Z_1 = 1) < 1$ (printed `\IP(Z_1=1<1)` by typo), then the
+/-- Section 5.3 Galton–Watson extinction dichotomy (unlabeled prose,
+`SteinIntro.tex:3003-3004`; `ISSUE-TYPO-5.3a` in `docs/SOURCE-ISSUES.md`): for a
+Galton–Watson branching process $(Z_n)_{n \ge 0}$, (i) if $\mathbb{E}[Z_1] \le 1$ and
+$\mathbb{P}(Z_1 = 1) < 1$ (correcting the parenthesization typo `\IP(Z_1=1<1)`), then the
 population almost surely dies out ($\mathbb{P}(\exists n, Z_n = 0) = 1$), whereas (ii) if
-$\mathbb{E}[Z_1] > 1$, the probability that the population lives forever is strictly positive
-($\mathbb{P}(\forall n, Z_n > 0) > 0$). -/
+$\mathbb{E}[Z_1] > 1$, the probability that the population lives forever is strictly
+positive ($\mathbb{P}(\forall n, Z_n > 0) > 0$). -/
 def Sec5_3_extinction : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ},
@@ -749,13 +773,16 @@ def Sec5_3_extinction : Prop :=
       (1 < ∫ ω, (Z 1 ω : ℝ) ∂P →
         0 < P {ω | ∀ n : ℕ, 0 < Z n ω}))
 
-/-- Theorem 5.8 (Yaglom's Theorem), restricted to $\sigma^2 = \mathrm{Var}(Z_1) > 0$
-(`SteinIntro.tex:3007-3013`; `ISSUE-5.8`): if $(Z_n)_{n \ge 0}$ is a Galton–Watson branching
-process with $\mathbb{E}[Z_1] = 1$ and $0 < \sigma^2 = \mathrm{Var}(Z_1) < \infty$,
-$Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$, and $Z \sim \mathrm{Exp}(1)$, then
-$\lim_{n \to \infty} d_{\mathrm{K}}(\mathcal{L}(2 Y_n / (n \sigma^2)), \mathcal{L}(Z)) = 0$ (at
-$\sigma^2 = 0$ the printed normalization $2 Y_n / (n \sigma^2)$ is ill-defined, with
-`not_Thm5_8_printed` refuting the `0 / 0 = 0` Lean transcription). -/
+/-- Theorem 5.8 (Yaglom's Theorem), restricted to $\sigma^2 = \mathrm{Var}(Z_1) > 0$ (unlabeled
+`theorem`, `SteinIntro.tex:3007-3013`; `ISSUE-5.8` in `docs/SOURCE-ISSUES.md`): if
+$(Z_n)_{n \ge 0}$ is a Galton–Watson branching process with $\mathbb{E}[Z_1] = 1$ and $0 <
+\sigma^2 = \mathrm{Var}(Z_1) < \infty$, $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$, and $Z
+\sim \mathrm{Exp}(1)$, then $\lim_{n \to \infty} d_{\mathrm{K}}(\mathcal{L}(2 Y_n / (n
+\sigma^2)), \mathcal{L}(Z)) = 0$.
+
+Difference from printed result (`ISSUE-5.8`): adds $\sigma^2 = \mathrm{Var}(Z_1) > 0$ to
+exclude the degenerate process $Z_1 = 1$ a.s. ($\sigma^2 = 0$), where $2 Y_n / (n \sigma^2)$
+divides by zero and fails to converge to $\mathrm{Exp}(1)$ (`not_Thm5_8_printed`). -/
 def Thm5_8_restricted : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -782,13 +809,18 @@ def Thm5_8_restricted : Prop :=
       Filter.atTop
       (nhds 0)
 
-/-- Theorem 5.9, restricted to $\sigma^2 = \mathrm{Var}(Z_1) > 0$ and $n \ge 2$
-(`SteinIntro.tex:3015-3020`; `ISSUE-5.9`): if $(Z_n)_{n \ge 0}$ is a Galton–Watson branching
-process with $\mathbb{E}[Z_1] = 1$, $0 < \sigma^2 = \mathrm{Var}(Z_1) < \infty$, and
-$\mathbb{E}|Z_1|^3 < \infty$, $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$, and
-$Z \sim \mathrm{Exp}(1)$, then there exists a constant $C$ such that for all $n \ge 2$,
-$d_{\mathrm{W}}(\mathcal{L}(2 Y_n / (n \sigma^2)), \mathcal{L}(Z)) \le C \log(n) / n$ (whereas at
-$n = 1$, $\log 1 = 0$ makes the printed bound fail; `not_Thm5_9_printed`). -/
+/-- Theorem 5.9, restricted to $\sigma^2 = \mathrm{Var}(Z_1) > 0$ and $n \ge 2$ (unlabeled
+`theorem`, `SteinIntro.tex:3015-3020`; `ISSUE-5.8` and `ISSUE-5.9` in
+`docs/SOURCE-ISSUES.md`): if $(Z_n)_{n \ge 0}$ is a Galton–Watson branching process with
+$\mathbb{E}[Z_1] = 1$, $0 < \sigma^2 = \mathrm{Var}(Z_1) < \infty$, and $\mathbb{E}|Z_1|^3
+< \infty$, $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$, and $Z \sim \mathrm{Exp}(1)$, then
+there exists a constant $C$ such that for all $n \ge 2$, $d_{\mathrm{W}}(\mathcal{L}(2 Y_n
+/ (n \sigma^2)), \mathcal{L}(Z)) \le C \log(n) / n$.
+
+Difference from printed result (`ISSUE-5.8`, `ISSUE-5.9`): adds $\sigma^2 > 0$ (as in
+`ISSUE-5.8`) and restricts $n$ to $n \ge 2$ because at $n = 1$ the right-hand side $C \log(1) /
+1 = 0$ while the discrete law $\mathcal{L}(2 Y_1 / \sigma^2)$ has positive Wasserstein distance
+to $\mathrm{Exp}(1)$ (`not_Thm5_9_printed`). -/
 def Thm5_9_restricted : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -813,26 +845,26 @@ def Thm5_9_restricted : Prop :=
         (P'.map Zexp) ≤
         ENNReal.ofReal (C * Real.log (n : ℝ) / (n : ℝ))
 
-/-- Section 5.3 Equation (5.7) (`\label{1710}`, `SteinIntro.tex:3054-3056`, proved via the
-definitional recursion at `SteinIntro.tex:3085-3098`; `ISSUE-TYPO-5.3b`, `I-1`): for every
+/-- Section 5.3 Equation `(5.7)` (`\label{1710}`, `SteinIntro.tex:3054-3056`,
+`SteinIntro.tex:3085-3098`; `ISSUE-TYPO-5.3b` in `docs/SOURCE-ISSUES.md`): for every
 offspring PMF $p : \mathbb{N} \to \mathbb{R}$, every depth-$n$ planar tree $t$, and every
 individual $v$ in generation $n$ of $t$, $G_n^s(t, v) = G_n(t)$. -/
 def Sec5_3_eq_1710 : Prop :=
   ∀ (p : ℕ → ℝ) {n : ℕ} (t : GWTree n) (v : GWVertex t),
     gwSizeBiasProbV p t v = gwProb p t
 
-/-- Section 5.3 Equation (5.8) (`\label{1711}`, `SteinIntro.tex:3070-3072`; `I-1`): for every
+/-- Section 5.3 Equation `(5.8)` (`\label{1711}`, `SteinIntro.tex:3070-3072`): for every
 offspring PMF $p : \mathbb{N} \to \mathbb{R}$ and every depth-$n$ planar tree $t$,
 $G_n^s(t) = t_n G_n(t)$, where $t_n$ is the size of generation $n$ of $t$. -/
 def Sec5_3_eq_1711 : Prop :=
   ∀ (p : ℕ → ℝ) {n : ℕ} (t : GWTree n),
     gwSizeBiasProb p t = (gwTreeGenSize t : ℝ) * gwProb p t
 
-/-- Section 5.3 tree-probability link to the Galton–Watson generation-size law and normalization
-(`I-1(a,c)`, `SteinIntro.tex:3047-3048, 3074-3076`): for a Galton–Watson process with offspring
-PMF $p(k) = \mathbb{P}(Z_1 = k)$, summing `gwProb p t` over all depth-$n$ planar trees with
-$t_n = k$ yields $\mathbb{P}(Z_n = k)$, and summing `gwProb p t` over all depth-$n$ planar trees
-yields $1$. -/
+/-- Section 5.3 tree-probability link to the Galton–Watson generation-size law and
+normalization (unlabeled prose, `SteinIntro.tex:3047-3048`, `SteinIntro.tex:3074-3076`):
+for a Galton–Watson process with offspring PMF $p(k) = \mathbb{P}(Z_1 = k)$, summing
+`gwProb p t` over all depth-$n$ planar trees with $t_n = k$ yields $\mathbb{P}(Z_n = k)$,
+and summing `gwProb p t` over all depth-$n$ planar trees yields $1$. -/
 def Sec5_3_gwProb_sum_genSize : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ},
@@ -846,13 +878,13 @@ def Sec5_3_gwProb_sum_genSize : Prop :=
           P.real {ω | Z n ω = k}
 
 /-- Section 5.3 size-bias tree-probability link to the spine joint law and normalization
-(`I-1(b,c)`, `SteinIntro.tex:3047-3056`, `SteinIntro.tex:3070-3079`, `SteinIntro.tex:3100-3101`):
-for a critical Galton–Watson process with
-offspring PMF $p(k) = \mathbb{P}(Z_1 = k)$ and spine $(X, L, R)$ at generation $n$, summing
-`gwSizeBiasProbV p t v` over all $(t, v)$ with $t_n = k$ and $\mathrm{left}(t, v) = m$ yields
-$\mathbb{P}(S_n = k \wedge L_n = m)$, summing `gwSizeBiasProb p t` over $t_n = k$ yields
-$\mathbb{P}(S_n = k) = k\,\mathbb{P}(Z_n = k)$, and `gwSizeBiasProb p` sums to $1$ over all
-depth-$n$ planar trees. -/
+(unlabeled prose, `SteinIntro.tex:3047-3056`, `SteinIntro.tex:3070-3079`,
+`SteinIntro.tex:3100-3101`): for a critical Galton–Watson process with offspring PMF $p(k)
+= \mathbb{P}(Z_1 = k)$ and spine $(X, L, R)$ at generation $n$, summing `gwSizeBiasProbV p
+t v` over all $(t, v)$ with $t_n = k$ and $\mathrm{left}(t, v) = m$ yields $\mathbb{P}(S_n
+= k \wedge L_n = m)$, summing `gwSizeBiasProb p t` over $t_n = k$ yields $\mathbb{P}(S_n =
+k) = k\,\mathbb{P}(Z_n = k)$, and `gwSizeBiasProb p` sums to $1$ over all depth-$n$ planar
+trees. -/
 def Sec5_3_gwSizeBiasProbV_sum_spine : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -879,9 +911,10 @@ def Sec5_3_gwSizeBiasProbV_sum_spine : Prop :=
         gwSizeBiasProbV p tv.1.1 tv.1.2) =
         P'.real {ω' | Sn ω' = k ∧ Ln ω' = m}
 
-/-- Section 5.3 Item (1) (`\label{i171a}`, `SteinIntro.tex:3061, 3069-3076`): in the size-bias
-Galton–Watson tree of a critical Galton–Watson process ($\mathbb{E}[Z_1] = 1$), the generation-$n$
-size $S_n = 1 + \sum_{j=1}^n (L_{n,j} + R_{n,j})$ has the size-bias distribution of $Z_n$. -/
+/-- Section 5.3 Item (1) (`\label{i171a}`, `SteinIntro.tex:3061`, `SteinIntro.tex:3069-3076`):
+in the size-bias Galton–Watson tree of a critical Galton–Watson process ($\mathbb{E}[Z_1] =
+1$), the generation-$n$ size $S_n = 1 + \sum_{j=1}^n (L_{n,j} + R_{n,j})$ has the size-bias
+distribution of $Z_n$. -/
 def Sec5_3_item_1 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -893,9 +926,10 @@ def Sec5_3_item_1 : Prop :=
     let Sn : Ω' → ℝ := fun ω' ↦ 1 + ∑ j ∈ Finset.Icc 1 n, ((L j ω' : ℝ) + (R j ω' : ℝ))
     IsSizeBias P (fun ω ↦ (Z n ω : ℝ)) P' Sn
 
-/-- Section 5.3 positive-conditioning size-bias invariance (`SteinIntro.tex:3076-3078`):
-conditioning a non-negative integrable random variable $X$ with $\mathbb{E}[X] > 0$ to be strictly
-positive does not change its size-bias distribution. -/
+/-- Section 5.3 positive-conditioning size-bias invariance (unlabeled prose,
+`SteinIntro.tex:3076-3078`): conditioning a non-negative integrable random variable $X$
+with $\mathbb{E}[X] > 0$ to be strictly positive does not change its size-bias
+distribution. -/
 def Sec5_3_sizeBias_cond_pos : Prop :=
   ∀ {Ω ΩY Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace ΩY] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -909,10 +943,10 @@ def Sec5_3_sizeBias_cond_pos : Prop :=
     PY.map Y = (ProbabilityTheory.cond P {ω | 0 < X ω}).map X →
     (IsSizeBias P X P' Xs ↔ IsSizeBias PY Y P' Xs)
 
-/-- Section 5.3 Item (2) (`\label{i172a}`, `SteinIntro.tex:3062-3063`, `SteinIntro.tex:3076-3078`):
-in a critical
-Galton–Watson process ($\mathbb{E}[Z_1] = 1$), if $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$ and
-$Y_n^s$ has the size-bias distribution of $Y_n$, then $S_n \stackrel{d}{=} Y_n^s$. -/
+/-- Section 5.3 Item (2) (`\label{i172a}`, `SteinIntro.tex:3062-3063`,
+`SteinIntro.tex:3076-3078`): in a critical Galton–Watson process ($\mathbb{E}[Z_1] = 1$),
+if $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$ and $Y_n^s$ has the size-bias distribution of
+$Y_n$, then $S_n \stackrel{d}{=} Y_n^s$. -/
 def Sec5_3_item_2 : Prop :=
   ∀ {Ω ΩY Ωs Ω' : Type*}
     [MeasurableSpace Ω] [MeasurableSpace ΩY] [MeasurableSpace Ωs] [MeasurableSpace Ω']
@@ -930,10 +964,11 @@ def Sec5_3_item_2 : Prop :=
     let Sn : Ω' → ℝ := fun ω' ↦ 1 + ∑ j ∈ Finset.Icc 1 n, ((L j ω' : ℝ) + (R j ω' : ℝ))
     P'.map Sn = Ps.map Ys
 
-/-- Section 5.3 Item (3) (`\label{i173}`, `SteinIntro.tex:3064, 3078-3079`): given $S_n = k$, the
-distinguished vertex $v_n$ is uniformly distributed among the $k$ individuals of generation $n$,
-i.e. $\mathbb{P}(S_n = k \wedge L_n = m) = \mathbb{P}(S_n = k) / k$ for $0 \le m < k$ and
-$\mathbb{P}(S_n = k \wedge R_n = m) = \mathbb{P}(S_n = k) / k$ for $1 \le m \le k$. -/
+/-- Section 5.3 Item (3) (`\label{i173}`, `SteinIntro.tex:3064`, `SteinIntro.tex:3078-3079`):
+given $S_n = k$, the distinguished vertex $v_n$ is uniformly distributed among the $k$
+individuals of generation $n$, i.e. $\mathbb{P}(S_n = k \wedge L_n = m) = \mathbb{P}(S_n =
+k) / k$ for $0 \le m < k$ and $\mathbb{P}(S_n = k \wedge R_n = m) = \mathbb{P}(S_n = k) /
+k$ for $1 \le m \le k$. -/
 def Sec5_3_item_3 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -950,11 +985,10 @@ def Sec5_3_item_3 : Prop :=
     (∀ k m : ℕ, P'.real {ω' | Sn ω' = k ∧ Rn ω' = m} =
       if 1 ≤ m ∧ m ≤ k then P'.real {ω' | Sn ω' = k} / (k : ℝ) else 0)
 
-/-- Section 5.3 Item (4) and `L3080-3081` distributional identity (`\label{i174}`,
-`SteinIntro.tex:3065-3067, 3079-3082`): if $R_n$ is the number of individuals to the right
-(inclusive) of $v_n$ and $U$ is uniform on $(0, 1)$ independent of all else, then
-$R_n - U \stackrel{d}{=} U S_n$ and $Y_n^e := R_n - U$ has the equilibrium distribution of
-$Y_n$. -/
+/-- Section 5.3 Item (4) (`\label{i174}`, `SteinIntro.tex:3065-3067`,
+`SteinIntro.tex:3079-3082`): if $R_n$ is the number of individuals to the right (inclusive)
+of $v_n$ and $U$ is uniform on $(0, 1)$ independent of all else, then $R_n - U
+\stackrel{d}{=} U S_n$ and $Y_n^e := R_n - U$ has the equilibrium distribution of $Y_n$. -/
 def Sec5_3_item_4 : Prop :=
   ∀ {Ω ΩY Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace ΩY] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -973,7 +1007,7 @@ def Sec5_3_item_4 : Prop :=
     P'.map (fun ω' ↦ Rn ω' - U ω') = P'.map (fun ω' ↦ U ω' * Sn ω') ∧
       IsEquilibrium PY (fun ω ↦ (Y ω : ℝ)) P' (fun ω' ↦ Rn ω' - U ω')
 
-/-- Section 5.3 Equation (5.9) (`\label{1712}`, `SteinIntro.tex:3100-3113`): in the size-bias
+/-- Section 5.3 Equation `(5.9)` (`\label{1712}`, `SteinIntro.tex:3100-3113`): in the size-bias
 Galton–Watson tree of a critical Galton–Watson process ($\mathbb{E}[Z_1] = 1$),
 $\mathbb{P}(L_n = 0) = \mathbb{P}(Z_n > 0)$ and $S_n \mid \{L_n = 0\} \stackrel{d}{=} Y_n$. -/
 def Sec5_3_eq_1712 : Prop :=
@@ -992,10 +1026,11 @@ def Sec5_3_eq_1712 : Prop :=
     P' {ω' | Ln ω' = 0} = P {ω | 0 < Z n ω} ∧
       (ProbabilityTheory.cond P' {ω' | Ln ω' = 0}).map Sn = PY.map Y
 
-/-- Section 5.3 non-independence of $L_{n,j}$ and $R_{n,j}$ (`SteinIntro.tex:3119-3126`):
-$L_{n,n}$ and $R_{n,n}$ are the numbers of siblings of $v_n$ to the left and right
-($L_{n,n} + R_{n,n} = X_n$ a.s.), and for fixed $j$, $L_{n,j}$ and $R_{n,j}$ are in general not
-independent (witnessed by $Z_1 \sim \frac{1}{2}\delta_0 + \frac{1}{2}\delta_2$ at $j = n$). -/
+/-- Section 5.3 non-independence of $L_{n,j}$ and $R_{n,j}$ (unlabeled prose,
+`SteinIntro.tex:3119-3126`): $L_{n,n}$ and $R_{n,n}$ are the numbers of siblings of $v_n$
+to the left and right ($L_{n,n} + R_{n,n} = X_n$ a.s.), and for fixed $j$, $L_{n,j}$ and
+$R_{n,j}$ are in general not independent (witnessed by $Z_1 \sim \frac{1}{2}\delta_0 +
+\frac{1}{2}\delta_2$ at $j = n$). -/
 def Sec5_3_not_indep_L_R : Prop :=
   (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1014,10 +1049,11 @@ def Sec5_3_not_indep_L_R : Prop :=
     IsSizeBiasSpine P Z P' 1 X L R ∧
     ¬ IndepFun (L 1) (R 1) P'
 
-/-- Section 5.3 spine realization of $Y_n$ (`SteinIntro.tex:3128-3139`): in a full size-bias spine
-coupling at generation $n$, $R_n^* := 1 + \sum_{j=1}^n (R_{n,j} \mathbf{1}_{L_{n,j} = 0} +
-R_{n,j}' \mathbf{1}_{L_{n,j} > 0})$ has the distribution of $Y_n \stackrel{d}{=}
-(Z_n \mid Z_n > 0)$, while $Y_n^e := R_n - U$ has the equilibrium distribution of $R_n^*$. -/
+/-- Section 5.3 spine realization of $Y_n$ (unlabeled prose, `SteinIntro.tex:3128-3139`): in a
+full size-bias spine coupling at generation $n$, $R_n^* := 1 + \sum_{j=1}^n (R_{n,j}
+\mathbf{1}_{L_{n,j} = 0} + R_{n,j}' \mathbf{1}_{L_{n,j} > 0})$ has the distribution of $Y_n
+\stackrel{d}{=} (Z_n \mid Z_n > 0)$, while $Y_n^e := R_n - U$ has the equilibrium
+distribution of $R_n^*$. -/
 def Sec5_3_spine_coupling : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1032,12 +1068,15 @@ def Sec5_3_spine_coupling : Prop :=
     P'.map Yn = (ProbabilityTheory.cond P {ω | 0 < Z n ω}).map (Z n) ∧
       IsEquilibrium P' (fun ω' ↦ (Yn ω' : ℝ)) P' (fun ω' ↦ Rn ω' - U ω')
 
-/-- Section 5.3 corrected coupling difference and triangle inequality (`I-6`,
-`SteinIntro.tex:3142-3145`; `ISSUE-TYPO-5.3c`): with $Y_n = R_n^*$ and $Y_n^e = R_n - U$,
-$Y_n - Y_n^e = U + \sum_{j=1}^n (R_{n,j}' - R_{n,j})\mathbf{1}_{L_{n,j} > 0}$ (not $1 - U + \dots$
-as printed), and
-$|Y_n - Y_n^e| \le |U| + \sum_{j=1}^n R_{n,j}' \mathbf{1}_{L_{n,j} > 0} +
-\sum_{j=1}^n R_{n,j} \mathbf{1}_{L_{n,j} > 0}$. -/
+/-- Section 5.3 corrected coupling difference and triangle inequality (unlabeled display,
+`SteinIntro.tex:3142-3145`; `ISSUE-TYPO-5.3c` in `docs/SOURCE-ISSUES.md`): with $Y_n =
+R_n^*$ and $Y_n^e = R_n - U$, $Y_n - Y_n^e = U + \sum_{j=1}^n (R_{n,j}' -
+R_{n,j})\mathbf{1}_{L_{n,j} > 0}$ and $|Y_n - Y_n^e| \le |U| + \sum_{j=1}^n R_{n,j}'
+\mathbf{1}_{L_{n,j} > 0} + \sum_{j=1}^n R_{n,j} \mathbf{1}_{L_{n,j} > 0}$.
+
+Difference from printed result (`ISSUE-TYPO-5.3c`): replaces the printed leading term $1 - U$
+in `(1 + \sum_j R_{n,j}^*) - (1 + \sum_j R_{n,j} - U)` with $U$ (at $n = 0$, $Y_0 - Y_0^e = 1 -
+(1 - U) = U$, not $1 - U$). -/
 def Sec5_3_eq_3143_corrected : Prop :=
   ∀ {Ω' : Type*} (n : ℕ) (L R R' : ℕ → Ω' → ℕ) (U : Ω' → ℝ) (ω' : Ω'),
     let Yn : ℝ :=
@@ -1052,11 +1091,17 @@ def Sec5_3_eq_3143_corrected : Prop :=
         (∑ j ∈ Finset.Icc 1 n, (R j ω' : ℝ) * {ω'' : Ω' | 0 < L j ω''}.indicator 1 ω')
 
 /-- Section 5.3 negative correlation of $S_{n,j}$ and $\mathbf{1}_{L_{n,j} = 0}$ and corrected
-conditional expectation chain (`SteinIntro.tex:3158-3164`; `ISSUE-5.9-PROOF`, `I-8`): for every
-$j \in \{1, \dots, n\}$, $\mathbb{E}[S_{n,j} \mathbf{1}_{L_{n,j} = 0}] \le
-\mathbb{E}[S_{n,j}]\,\mathbb{P}(L_{n,j} = 0)$, $\mathbb{E}[R_{n,j}'] =
-\mathbb{E}[R_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} \mid L_{n,j} = 0] \le
-\mathbb{E}[S_{n,j}] = \sigma^2$, and $\mathbb{E}[S_n] - 1 = n \sigma^2$. -/
+conditional expectation chain (unlabeled display, `SteinIntro.tex:3158-3164`;
+`ISSUE-5.9-PROOF` in `docs/SOURCE-ISSUES.md`): for every $j \in \{1, \dots, n\}$,
+$\mathbb{E}[S_{n,j} \mathbf{1}_{L_{n,j} = 0}] \le \mathbb{E}[S_{n,j}]\,\mathbb{P}(L_{n,j} =
+0)$, $\mathbb{E}[R_{n,j}'] = \mathbb{E}[R_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} \mid
+L_{n,j} = 0] \le \mathbb{E}[S_{n,j}] = \sigma^2$, and $\mathbb{E}[S_n] - 1 = n \sigma^2$.
+
+Difference from printed result (`ISSUE-5.9-PROOF`): corrects the intermediate subtraction of
+$1$ in $\mathbb{E}[R_{n,j} \mid L_{n,j} = 0] \le \mathbb{E}[S_{n,j} - 1 \mid L_{n,j} = 0]$
+(since $S_{n,j} = L_{n,j} + R_{n,j}$ does not include the spine individual, $R_{n,j} = S_{n,j}$
+on $\{L_{n,j} = 0\}$) and records $\mathbb{E}[S_{n,j}] = \sigma^2$ whereas $\mathbb{E}[S_n] - 1
+= n \sigma^2$. -/
 def Sec5_3_neg_corr_3158_and_3160_corrected : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1081,11 +1126,11 @@ def Sec5_3_neg_corr_3158_and_3160_corrected : Prop :=
         ∫ ω', Snj j ω' ∂P' ∧
       ∫ ω', Snj j ω' ∂P' = σsq
 
-/-- Section 5.3 spine step bound (i) (`SteinIntro.tex:3148, 3154-3164`; `ISSUE-5.9-PROOF`): in a
-critical Galton–Watson process with $\operatorname{Var}(Z_1) = \sigma^2 < \infty$, for every
-$j \in \{1, \dots, n\}$,
-$\mathbb{E}[R_{n,j}' \mathbf{1}_{L_{n,j} > 0}] = \mathbb{E}[R_{n,j}'] \mathbb{P}(L_{n,j} > 0) \le
-\sigma^2 \mathbb{P}(L_{n,j} > 0)$. -/
+/-- Section 5.3 spine step bound `(i)` (unlabeled display, `SteinIntro.tex:3148`,
+`SteinIntro.tex:3154-3164`; `ISSUE-5.9-PROOF` in `docs/SOURCE-ISSUES.md`): in a critical
+Galton–Watson process with $\operatorname{Var}(Z_1) = \sigma^2 < \infty$, for every $j \in
+\{1, \dots, n\}$, $\mathbb{E}[R_{n,j}' \mathbf{1}_{L_{n,j} > 0}] = \mathbb{E}[R_{n,j}']
+\mathbb{P}(L_{n,j} > 0) \le \sigma^2 \mathbb{P}(L_{n,j} > 0)$. -/
 def Sec5_3_step_i : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1102,11 +1147,11 @@ def Sec5_3_step_i : Prop :=
       ∫ ω', (R' j ω' : ℝ) * {ω'' : Ω' | 0 < L j ω''}.indicator 1 ω' ∂P' ≤
         σsq * P'.real {ω' | 0 < L j ω'}
 
-/-- Section 5.3 spine step bound (ii) (`SteinIntro.tex:3149-3150, 3166-3177`; `I-9`): in a
-critical Galton–Watson process with $\mathbb{E}[Z_1^3] < \infty$, for every
-$j \in \{1, \dots, n\}$,
-$\mathbb{E}[R_{n,j} \mathbf{1}_{L_{n,j} > 0}] \le \mathbb{E}[X_j \mathbf{1}_{L_{n,j} > 0}] \le
-\mathbb{E}[Z_1^3]\,\mathbb{P}(Z_{n-j} > 0)$. -/
+/-- Section 5.3 spine step bound `(ii)` (unlabeled display, `SteinIntro.tex:3149-3150`,
+`SteinIntro.tex:3166-3177`; `ISSUE-5.9-PROOF` in `docs/SOURCE-ISSUES.md`): in a critical
+Galton–Watson process with $\mathbb{E}[Z_1^3] < \infty$, for every $j \in \{1, \dots, n\}$,
+$\mathbb{E}[R_{n,j} \mathbf{1}_{L_{n,j} > 0}] \le \mathbb{E}[X_j \mathbf{1}_{L_{n,j} > 0}]
+\le \mathbb{E}[Z_1^3]\,\mathbb{P}(Z_{n-j} > 0)$. -/
 def Sec5_3_step_ii : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1122,10 +1167,11 @@ def Sec5_3_step_ii : Prop :=
       ∫ ω', (X j ω' : ℝ) * {ω'' : Ω' | 0 < L j ω''}.indicator 1 ω' ∂P' ≤
         (∫ ω, (Z 1 ω : ℝ) ^ 3 ∂P) * P.real {ω | 0 < Z (n - j) ω}
 
-/-- Section 5.3 spine step bound (iii) (`SteinIntro.tex:3151, 3179-3187`; `I-3`): in a critical
-Galton–Watson process with $\operatorname{Var}(Z_1) = \sigma^2 < \infty$, there exists $C > 0$
-(depending only on the process) such that for all $n \ge 1$ and $j \in \{1, \dots, n\}$,
-$\mathbb{P}(L_{n,j} > 0) \le \sigma^2 \mathbb{P}(Z_{n-j} > 0) \le C (n - j + 1)^{-1}$. -/
+/-- Section 5.3 spine step bound `(iii)` (unlabeled display, `SteinIntro.tex:3151`,
+`SteinIntro.tex:3179-3187`): in a critical Galton–Watson process with
+$\operatorname{Var}(Z_1) = \sigma^2 < \infty$, there exists $C > 0$ (depending only on the
+process) such that for all $n \ge 1$ and $j \in \{1, \dots, n\}$, $\mathbb{P}(L_{n,j} > 0)
+\le \sigma^2 \mathbb{P}(Z_{n-j} > 0) \le C (n - j + 1)^{-1}$. -/
 def Sec5_3_step_iii : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ},
@@ -1141,10 +1187,10 @@ def Sec5_3_step_iii : Prop :=
     ∃ C : ℝ, 0 < C ∧ ∀ n : ℕ, ∀ j ∈ Finset.Icc 1 n,
       σsq * P.real {ω | 0 < Z (n - j) ω} ≤ C * ((n - j + 1 : ℕ) : ℝ)⁻¹
 
-/-- Section 5.3 Lyons–Pemantle–Peres $o(n)$ coupling discrepancy (`I-3`,
-`SteinIntro.tex:3027`): for a critical Galton–Watson process with
-$\operatorname{Var}(Z_1) < \infty$, the coupled variables $(Y_n, Y_n^e)$ satisfy
-$\lim_{n \to \infty} \mathbb{E}|Y_n - Y_n^e| / n = 0$. -/
+/-- Section 5.3 Lyons–Pemantle–Peres $o(n)$ coupling discrepancy (unlabeled prose,
+`SteinIntro.tex:3027`): for a critical Galton–Watson process with $\operatorname{Var}(Z_1)
+< \infty$, the coupled variables $(Y_n, Y_n^e)$ satisfy $\lim_{n \to \infty} \mathbb{E}|Y_n
+- Y_n^e| / n = 0$. -/
 def Sec5_3_lpp_mean_diff_o_n : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ}
@@ -1162,10 +1208,14 @@ def Sec5_3_lpp_mean_diff_o_n : Prop :=
     Filter.Tendsto (fun n : ℕ ↦ (∫ ω', |Yn n ω' - Yne n ω'| ∂P' n) / (n : ℝ))
       Filter.atTop (nhds 0)
 
-/-- Section 5.3 Kolmogorov survival asymptotic, restricted to $\sigma^2 > 0$ (`I-5`,
-`SteinIntro.tex:3028, 3185-3186`; `ISSUE-5.8`): for a critical Galton–Watson process with
-$0 < \sigma^2 = \operatorname{Var}(Z_1) < \infty$,
-$\lim_{n \to \infty} n\,\mathbb{P}(Z_n > 0) = 2 / \sigma^2$. -/
+/-- Section 5.3 Kolmogorov survival asymptotic, restricted to $\sigma^2 > 0$ (unlabeled prose,
+`SteinIntro.tex:3028`, `SteinIntro.tex:3185-3186`; `ISSUE-5.8` in `docs/SOURCE-ISSUES.md`):
+for a critical Galton–Watson process with $0 < \sigma^2 = \operatorname{Var}(Z_1) <
+\infty$, $\lim_{n \to \infty} n\,\mathbb{P}(Z_n > 0) = 2 / \sigma^2$.
+
+Difference from printed result (`ISSUE-5.8`): restricts $\sigma^2 < \infty$ to $0 < \sigma^2 <
+\infty$; when $\sigma^2 = 0$ ($Z_1 = 1$ a.s.), $n\,\mathbb{P}(Z_n > 0) = n \to \infty$ while $2
+/ \sigma^2$ divides by zero. -/
 def Sec5_3_kolmogorov_survival_restricted : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ},
@@ -1177,10 +1227,14 @@ def Sec5_3_kolmogorov_survival_restricted : Prop :=
     Filter.Tendsto (fun n : ℕ ↦ (n : ℝ) * P.real {ω | 0 < Z n ω})
       Filter.atTop (nhds (2 / σsq))
 
-/-- Section 5.3 logarithmic coupling discrepancy bound, restricted to $n \ge 2$ (`I-3`, `I-4`,
-`SteinIntro.tex:3022-3023, 3140-3145`; `ISSUE-5.9`): for a critical Galton–Watson process with
-$\mathbb{E}|Z_1|^3 < \infty$, there exists a constant $C$ such that for all $n \ge 2$, the coupled
-variables $(Y_n, Y_n^e)$ satisfy $\mathbb{E}|Y_n - Y_n^e| \le C \log(n)$. -/
+/-- Section 5.3 logarithmic coupling discrepancy bound, restricted to $n \ge 2$ (unlabeled
+prose, `SteinIntro.tex:3022-3023`, `SteinIntro.tex:3140-3145`; `ISSUE-5.9` in
+`docs/SOURCE-ISSUES.md`): for a critical Galton–Watson process with $\mathbb{E}|Z_1|^3 <
+\infty$, there exists a constant $C$ such that for all $n \ge 2$, the coupled variables
+$(Y_n, Y_n^e)$ satisfy $\mathbb{E}|Y_n - Y_n^e| \le C \log(n)$.
+
+Difference from printed result (`ISSUE-5.9`): restricts $n$ to $n \ge 2$ because at $n = 1$, $C
+\log(1) = 0$ while $\mathbb{E}|Y_1 - Y_1^e| > 0$. -/
 def Sec5_3_lpp_mean_diff_log_restricted : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {Z : ℕ → Ω → ℕ},
@@ -1197,12 +1251,13 @@ def Sec5_3_lpp_mean_diff_log_restricted : Prop :=
         (1 + ∑ j ∈ Finset.Icc 1 n, (R j ω' : ℝ)) - U ω'
       ∫ ω', |Yn ω' - Yne ω'| ∂P' ≤ C * Real.log (n : ℝ)
 
-/-- Section 5.3 proof opening: non-unit-mean witness for `ISSUE-5.9-PROOF-MEAN`
-(`SteinIntro.tex:3023-3024`; `SE-4`): there exists a critical Galton–Watson process with
-$\sigma^2 = \mathrm{Var}(Z_1) > 0$ and $\mathbb{E}|Z_1|^3 < \infty$ for which
-$\mathbb{E}[2 Y_n / (n\sigma^2)] > 1$ for every $n \ge 1$ (so Theorem 5.4 `\label{thm172}`, which
-requires $\mathbb{E}[W] = 1$, does not apply directly to $2 Y_n / (n\sigma^2)$ without the
-$|1 - \mathbb{E}[W]|$ bridge used in `thm5_9_restricted`). -/
+/-- Section 5.3 proof opening non-unit-mean witness (unlabeled proof note,
+`SteinIntro.tex:3023-3024`; `ISSUE-5.9-PROOF-MEAN` in `docs/SOURCE-ISSUES.md`): there
+exists a critical Galton–Watson process with $\sigma^2 = \mathrm{Var}(Z_1) > 0$ and
+$\mathbb{E}|Z_1|^3 < \infty$ for which $\mathbb{E}[2 Y_n / (n\sigma^2)] > 1$ for every $n
+\ge 1$ (so Theorem 5.4 (`\ref{thm172}`), which requires $\mathbb{E}[W] = 1$, does not apply
+directly to $2 Y_n / (n\sigma^2)$ without the $|1 - \mathbb{E}[W]|$ bridge used in
+`thm5_9_restricted`). -/
 def Sec5_3_scaled_Yn_mean_gt_one_witness : Prop :=
   ∃ (Ω : Type) (_ : MeasurableSpace Ω) (P : Measure Ω)
     (_ : IsProbabilityMeasure P) (Z : ℕ → Ω → ℕ),

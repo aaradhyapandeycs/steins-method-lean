@@ -13,8 +13,8 @@ import Formalization.Statements.Sec6
 /-!
 # Section 6 Proof Wrappers (`Formalization.Statements.Sec6Proofs`)
 
-Connects each `: Prop` entry in `Formalization.Statements.Sec6` to its library theorem in
-`Formalization.Geometric.*` (`AGENTS.md` Rule 5).
+Connects every `: Prop` entry in `Formalization.Statements.Sec6` (`\label{geo}`,
+`SteinIntro.tex:3190-3388`) to its library theorem (`AGENTS.md` Rule 5).
 -/
 
 open MeasureTheory
@@ -22,20 +22,21 @@ open scoped ENNReal
 
 namespace SteinMethod
 
-/-- Section 6 opening Wasserstein triangle-inequality bound, corrected
-(`SteinIntro.tex:3193-3198`; `ISSUE-6.0`) holds. -/
+/-- Section 6 opening Wasserstein triangle-inequality bound, corrected (unlabeled display,
+`SteinIntro.tex:3193-3198`; `ISSUE-6.0`) holds. -/
 theorem Sec6_opening_wasserstein_corrected_holds : Sec6_opening_wasserstein_corrected := by
   intro _ _ _ _ _ _ P _ P' _ P'' _ _ _ _ _ hp0 hp1 hW hW_pos hW_int hW_mean hX hX_law hZ hZ_law
   exact opening_wasserstein_corrected P P' P'' hp0 hp1 hW hW_pos hW_int hW_mean hX hX_law hZ hZ_law
 
-/-- Section 6 opening support-mismatch formula and limit (`SteinIntro.tex:3199-3200`) holds. -/
+/-- Section 6 opening support-mismatch formula and small-$p$ limit (unlabeled prose,
+`SteinIntro.tex:3199-3200`) holds. -/
 theorem Sec6_supportMismatch_holds : Sec6_supportMismatch := by
   refine ⟨?_, fun hk ↦ tendsto_supportMismatch hk⟩
   intro _ _ _ _ P _ P' _ _ _ _ _ hp0 hp1 hk hX hX_law hW_law
   exact tvDist_mul_posGeomLaw P P' hp0 hp1 hk hX hX_law hW_law
 
-/-- Section 6 opening & 6.3 failure of exponential approximation (`SteinIntro.tex:3211-3212`)
-holds. -/
+/-- Section 6 opening and Section 6.3 failure of exponential approximation (unlabeled prose,
+`SteinIntro.tex:3208-3212`) holds. -/
 theorem Sec6_3_not_exponential_holds : Sec6_3_not_exponential := by
   intro _ _ P _ n hn _ _ hG hG_law hI hIndep hI_law W
   have hn_pos : 0 < n := by omega
@@ -44,17 +45,19 @@ theorem Sec6_3_not_exponential_holds : Sec6_3_not_exponential := by
   rw [hid]
   exact ⟨hpt.2.1, hpt.2.2.1⟩
 
-/-- Lemma 6.1(1) (`\label{lem173}`, `SteinIntro.tex:3229-3236`) holds. -/
+/-- Lemma 6.1(1) (`\label{lem173}`, unlabeled item 1, `SteinIntro.tex:3229-3236`) holds. -/
 theorem Lem6_1_1_holds : Lem6_1_1 := by
   intro _ _ P _ _ _ hp0 hp1 hZ hZ_law _ hf
   exact integral_geomSteinOp_eq_zero_of_map_eq P hp0 hp1 hZ hZ_law hf
 
-/-- Lemma 6.1(2) (`\label{lem173}`, `SteinIntro.tex:3229-3241`; `ISSUE-6.1`) holds. -/
+/-- Lemma 6.1(2) (`\label{lem173}`, unlabeled item 2, `SteinIntro.tex:3229-3241`; `ISSUE-6.1`)
+holds. -/
 theorem Lem6_1_2_holds : Lem6_1_2 := by
   intro _ _ P _ _ _ hp0 hp1 hW hOp
   exact map_eq_geomLaw_of_integral_geomSteinOp_eq_zero P hp0 hp1 hW hOp
 
-/-- Lemma 6.2 (`\label{lem174}`, `SteinIntro.tex:3243-3249, 3264-3274`; `ISSUE-TYPO-6.2`) holds. -/
+/-- Lemma 6.2 (`\label{lem174}`, `SteinIntro.tex:3243-3249`, `SteinIntro.tex:3264-3274`;
+`ISSUE-TYPO-6.2`) holds. -/
 theorem Lem6_2_holds : Lem6_2 :=
   fun {p} hp0 hp1 A ↦
     ⟨geomSteinSol_zero p A,
@@ -73,8 +76,8 @@ theorem Prop6_4_holds : Prop6_4 := by
   intro _ _ _ _ P _ P' _ _ _ _ _ hp0 hp1 hW hW_int hW_mean hSB hWe hUnif
   exact isDiscreteEquilibrium_of_isSizeBias_uniform P P' hp0 hp1 hW hW_int hW_mean hSB hWe hUnif
 
-/-- Remark 6.2 & discrete equilibrium existence/uniqueness (`\label{rem175}`,
-`SteinIntro.tex:3290-3291, 3304-3310`; `ISSUE-6.4`) holds for $0 < p < 1$. -/
+/-- Remark 6.2 and discrete equilibrium existence/uniqueness, restricted (`\label{rem175}`,
+`SteinIntro.tex:3290-3291`, `SteinIntro.tex:3304-3310`; `ISSUE-6.4`) holds. -/
 theorem Rem6_2_restricted_holds : Rem6_2_restricted := by
   intro _ _ _ _ P _ _ _ hp0 hp1 hW hW_int hW_mean
   exact ⟨existsUnique_isDiscreteEquilibrium_measure P hp0 hp1 hW hW_int hW_mean,
@@ -85,8 +88,8 @@ theorem Thm6_5_holds : Thm6_5 := by
   intro _ _ _ _ P _ P' _ _ _ _ _ hW2 hEq _ hN_law
   exact tvDist_le_of_isDiscreteEquilibrium P P' hW2 hEq hN_law
 
-/-- Section 6.3 asymptotic geometric convergence without rate (`SteinIntro.tex:3342-3343`,
-`[brst01]`) holds. -/
+/-- Section 6.3 asymptotic geometric convergence without rate (unlabeled prose,
+`SteinIntro.tex:3342-3343`, `[brst01]`) holds. -/
 theorem Sec6_3_uniformAttachment_convergence_holds :
     Sec6_3_uniformAttachment_convergence := by
   intro Ω _ P _ G I hconds _

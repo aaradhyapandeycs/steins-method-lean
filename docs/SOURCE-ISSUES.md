@@ -634,6 +634,20 @@ Also, if we denote $m' := \frac{1}{n} \sum_{i=1}^n \s'$, then
 
 ---
 
+### `ISSUE-4.13` — Omitted Domain Guard $N \ge 2$ in Hypergeometric Variance and Total-Variation Bound (`SteinIntro.tex:2500-2505`)
+- **Location**: Example 4.13 (`[Hypergeometric distribution]`, unlabeled, `SteinIntro.tex:2480-2505`; cross-referencing `ISSUE-TYPO-4.13` in Part I).
+- **Issue**: Example 4.13 states $1 \le n \le N$ and $1 \le m \le N$, which allows $N = n = m = 1$. At $N = 1$, both the variance denominator $N^2 (N - 1)$ (`SteinIntro.tex:2500`) and every fraction $\frac{n}{N - 1}$, $\frac{m}{N - 1}$, $\frac{n m}{N(N - 1)}$, $\frac{1}{N - 1}$ in the displayed total-variation bound (`SteinIntro.tex:2504`) divide by $N - 1 = 0$ (whereas $W \equiv 1$ has $d_{\mathrm{TV}}(\delta_1, \mathrm{Po}(1)) = 1 - e^{-1} \gt 0$).
+- **Formalization**: `Ex4_13_moments_corrected` (`SteinIntro.tex:2499-2501`, also correcting $(n - m)$ to $(N - m)$ per `ISSUE-TYPO-4.13`) and `Ex4_13_restricted` (`SteinIntro.tex:2480-2505`) add the domain guard $2 \le N$ (`Ex4_13_sizeBias` holds for all $1 \le n, m \le N$).
+
+---
+
+### `ISSUE-4.15` — Omitted Domain Guard $n \ge 2$ in Uniform Coupon-Collecting Bound `(4.13)` (`SteinIntro.tex:2526-2551`)
+- **Location**: Example 4.15 (`[Coupon collecting]`, `\label{ex123}`, eq. `(4.13)` `\label{129}`, `SteinIntro.tex:2512-2551`).
+- **Issue**: Example 4.15 specifies $n$ coupon types and $k$ boxes without stating $n \ge 2$. At $n = 1$, redirecting balls from box $1$ uniformly among the remaining $n - 1$ boxes (`SteinIntro.tex:2536-2538`) has empty target set, and the term $(1 - \frac{1}{n - 1})^k$ in `(4.13)` (`SteinIntro.tex:2550`) divides by $n - 1 = 0$.
+- **Formalization**: `Ex4_15_restricted` (`SteinIntro.tex:2526-2551`, together with `Ex4_15_sizeBias` and `Ex4_15_asymptotic_ineq`) adds the domain guard $2 \le n$ (`Ex4_15_allTypes_iff` holds for all $n$).
+
+---
+
 ### `ISSUE-4.16` — Omitted Zero-Denominator Guard $k \ne \log(\lambda)$ in Non-Uniform Coupon Collecting (`SteinIntro_utf8.tex:2590`)
 - **Location**: Example 4.16 (`[Coupon collecting continued]`), `SteinIntro_utf8.tex` line 2590:
   `\dtv(W,Z)\leq \min\{1, \lambda\}\left[\max_{i}(1-p_i)^k+\frac{k}{\lambda}\left(\frac{\lambda \log(k)}{k-\log(\lambda)}+\frac{4}{k}\right)^2\right].`
