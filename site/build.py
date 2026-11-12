@@ -28,7 +28,8 @@ from reader.book import Book  # noqa: E402
 from reader.lean import REPO, Git, LeanIndex  # noqa: E402
 from reader.links import repo_link_problems  # noqa: E402
 from reader.render import Site  # noqa: E402
-from reader.depgraph import DepGraph, GraphPage, REVIEW_PATH  # noqa: E402
+from reader.depgraph import (DepGraph, GraphPage, LeanDeps, LEAN_DEPS_PATH, REVIEW_PATH,  # noqa: E402
+                              connections_html, declarations_page, selected_results_html)
 import json  # noqa: E402
 
 
@@ -134,9 +135,23 @@ def main() -> int:
     if bad:
         raise SystemExit("Lean cards not at their ledger item:\n  " + "\n  ".join(bad))
 
+    # Dependency data: curated (TeX cross-references, critic-reviewed) and extracted from the compiled
+    # Lean proofs (docs/graph/lean-deps.json). Both are read from the reader's Lean revision.
+    def committed_json(path):
+        try:
+            return json.loads(git.show(path))
+        except Exception:
+            return None
+    review = (committed_json(REVIEW_PATH) or {}).get("edges", {})
+    graph = DepGraph((book.tex_root / "SteinIntro_utf8.tex").read_text(encoding="utf-8"), lean.numbered_items, review)
+    ldeps = LeanDeps(committed_json(LEAN_DEPS_PATH), lean.numbered_items)
+    lean.connections = {e.name: connections_html(e.name, graph, ldeps, lean.lib_decls, git.blob) for e in lean.entries}
+    depgraph = GraphPage(site, graph, ldeps)
+
     html_pages = site.book_pages()
     html_pages["acknowledgements"] = site.ack_page()
     site.index_anchors(html_pages)  # anchors of book items, for links from the overview pages
+    site.selected_html = selected_results_html(site, graph)
     html_pages["index"] = site.index_page()
     html_pages["results"] = site.results_page()
     html_pages["book"] = site.book_landing_page()
@@ -146,16 +161,23 @@ def main() -> int:
     html_pages["contribute"] = site.contribute_page()
     html_pages["about"] = site.about_page()
     html_pages["errata"] = site.errata_page()
-    # dependency graph: TeX cross-references between numbered results, filtered by the committed edge review
-    try:
-        review = json.loads(git.show(REVIEW_PATH)).get("edges", {})
-    except Exception:
-        review = {}
-    depgraph = GraphPage(site, DepGraph((book.tex_root / "SteinIntro_utf8.tex").read_text(encoding="utf-8"),
-                                        lean.numbered_items, review))
     html_pages["graph"] = depgraph.page()
+    html_pages["declarations"] = declarations_page(site, ldeps, graph)
     html_pages["references"] = site.references_page()  # last: citations are collected above
     html_pages = site.resolve(html_pages)
+
+    def resolve_links(text):
+        def item(m):
+            h = site.item_href(graph.by_id[m.group(1)]) if m.group(1) in graph.by_id else None
+            return f'<a href="{h}">{m.group(2)}</a>' if h else m.group(2)
+
+        def leanref(m):
+            pid = site.where.get(f"lean-{m.group(1)}")
+            return (f'<a href="{pid}.html#lean-{m.group(1)}"><code>{m.group(1)}</code></a>' if pid
+                    else f'<code>{m.group(1)}</code>')
+        text = re.sub(r"@@ITEM\|([^|@]+)\|([^@]+)@@", item, text)
+        return re.sub(r"@@LEAN\|([^@]+)@@", leanref, text)
+    html_pages = {k: resolve_links(v) for k, v in html_pages.items()}
 
     problems = check_counts(html_pages, getattr(site, "data", {}))
     if problems:

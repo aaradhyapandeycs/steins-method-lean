@@ -287,7 +287,45 @@ A builder never certifies its own statement and never edits the coverage ledger.
 <p>Every exported theorem is checked by the Lean 4 kernel. The project enforces strict axiom hygiene:
 only the standard Lean foundation (<code>propext</code>, <code>Classical.choice</code>, <code>Quot.sound</code>) is permitted.
 No <code>sorry</code>, <code>admit</code>, custom axioms, or <code>native_decide</code> are allowed in any declaration;
-this is machine-verified by <a href="{attr(self.lean.git.blob('Audit.lean'))}"><code>Audit.lean</code></a>.</p>
+this is machine-verified by <a href="{attr(self.lean.git.blob('Audit.lean'))}"><code>Audit.lean</code></a>,
+which walks the transitive dependencies of every project declaration, so a <code>sorryAx</code> anywhere below a result
+fails the audit. A successful build alone is not taken as evidence: the reader site is deployed only after the
+CI run that builds the project and passes this audit on the same commit.</p>
+
+<h2 id="statuses">What the statuses mean</h2>
+<p>Proof completeness and statement fidelity are tracked separately, and every theorem card states both.</p>
+<table class="facts"><tbody>
+<tr><th>Planned</th><td>An inventory item with no Lean statement yet (shown as <em>open</em>).</td></tr>
+<tr><th>Statement formalized</th><td>The Lean <code>Prop</code> and its proof wrapper compile at the commit shown, but the
+critic has not accepted them (shown as <em>open</em> with “Lean work in progress, not yet reviewed”). Because every
+entry must compile without <code>sorry</code>, there is no separate “proof in progress” state for a compiled entry;
+unfinished proofs stay out of the build.</td></tr>
+<tr><th>Verified at a commit</th><td>Accepted: the proof is complete at that commit (build plus transitive axiom audit)
+and the statement was reviewed against the source. The fidelity is one of <em>proved</em> (as printed),
+<em>corrected</em> (a disclosed corrected form) or <em>restricted</em> (disclosed additional assumptions); definitions
+are <em>defined</em>.</td></tr>
+<tr><th>Source issue</th><td>The printed statement is refuted or ill-posed; the repair, if any, is a separate
+corrected entry.</td></tr>
+</tbody></table>
+<p>A numbered result counts toward completion when it is verified (proved, corrected, restricted or defined). The
+denominator is the 122 numbered environments of the source inventory; prose claims and displays are tracked in
+<code>COVERAGE.md</code> but are not part of that percentage. Reviews are by AI agents, not by the author or a referee.</p>
+
+<h2 id="dependencies">Two kinds of dependencies</h2>
+<p><strong>Paper dependencies</strong> are read from the TeX cross-references inside each numbered result and its
+proof, then classified by an AI critic as a proof dependency or as context
+(<a href="{attr(self.lean.git.blob('docs/graph/edge-review.json'))}"><code>docs/graph/edge-review.json</code></a>).
+<strong>Proof relations</strong> are extracted mechanically from the compiled Lean proofs by
+<a href="{attr(self.lean.git.blob('scripts/lean_deps/ExtractDeps.lean'))}"><code>scripts/lean_deps/ExtractDeps.lean</code></a>
+(<code>docs/graph/lean-deps.json</code>, which records the commit it was extracted at). The two are shown separately on the
+<a href="graph.html">dependency graph</a> and on every theorem card.</p>
+
+<h2 id="leandocs">Lean documentation</h2>
+<p>The <a href="declarations.html">Lean declarations</a> page lists every statement entry with its paper result, status
+and the library theorems its proof applies, linked to the source lines. A <a href="https://github.com/leanprover/doc-gen4">doc-gen4</a>
+build is not published: doc-gen4 documents every imported module, which for this project means all of Mathlib (several
+gigabytes, beyond what this site's deployment can host). Mathlib names are documented in the
+<a href="https://leanprover-community.github.io/mathlib4_docs/">Mathlib documentation</a>.</p>
 
 <h2 id="reproduce">Reproduce Locally</h2>
 <pre class="cite">git clone {REPO}.git
@@ -298,6 +336,7 @@ lake exe cache get                    # prebuilt Mathlib cache
 lake build                            # build Lean formalization
 lake env lean Audit.lean              # transitive axiom check
 python3 scripts/check.py              # automated project check
+python3 scripts/lean_deps/extract.py  # optional: refresh the Lean proof relations
 python3 site/build.py                 # build this reader website
 python3 site/check_fidelity.py        # fidelity and macro check</pre>"""
         return self.shell(f"Methodology · {TITLE}", body, "methodology", toc=False)

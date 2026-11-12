@@ -212,9 +212,24 @@ def _attr(t) -> str:
 
 
 class GraphPage:
-    def __init__(self, site, graph: DepGraph):
+    def __init__(self, site, graph: DepGraph, ldeps=None):
         self.site = site
         self.g = graph
+        self.ld = ldeps
+        self.lean_edges = ldeps.item_edges() if ldeps else []
+        # Current iff the recorded tree hashes of the Lean sources match this revision's (commit ids differ
+        # between the development repository and the public mirror; trees do not).
+        self.current = False
+        self.stale = ""
+        rec = (ldeps.data.get("lean_sources") if ldeps else None) or {}
+        if rec:
+            git = site.lean.git
+            now = git.run("rev-parse", f"{git.rev}:Formalization", f"{git.rev}:Formalization.lean").split()
+            self.current = now == [rec.get("Formalization"), rec.get("Formalization.lean")]
+        if ldeps and ldeps.entries and not self.current:
+            self.stale = ('<div class="incomplete" role="note"><strong>Proof relations may be stale.</strong> '
+                          'They were extracted from Lean sources that differ from this commit; rerun '
+                          '<code>scripts/lean_deps/extract.py</code>.</div>')
 
     def status(self, i: dict) -> str:
         return i["status"] if i["status"] in STATUS_LABELS else "open"
@@ -258,18 +273,26 @@ class GraphPage:
                 return f"M{x1 + W},{y1c} C{x1 + W + GX / 2},{y1c} {x2 - GX / 2},{y2c} {x2},{y2c}"
             return f"M{x1},{y1c} C{x1 - GX / 2},{y1c} {x2 + W + GX / 2},{y2c} {x2 + W},{y2c}"
 
+        # e-named: curated paper dependencies (default view); e-all: relations extracted from Lean
         for c in self.g.drawn():
-            out.append(f'<path d="{path(pos[c["from"]], pos[c["to"]])}" class="gn-edge e-all e-named" '
+            out.append(f'<path d="{path(pos[c["from"]], pos[c["to"]])}" class="gn-edge e-named" '
                        f'data-from="{_attr(html_id(c["from"]))}" data-to="{_attr(html_id(c["to"]))}" '
                        f'marker-end="url(#arrow)"/>')
+        for a, b in self.lean_edges:
+            out.append(f'<path d="{path(pos[a], pos[b])}" class="gn-edge e-all" '
+                       f'data-from="{_attr(html_id(a))}" data-to="{_attr(html_id(b))}" marker-end="url(#arrow)"/>')
+        lean_uses = {}
+        for a, b in self.lean_edges:
+            lean_uses.setdefault(b, []).append(a)
         for i in self.g.items:
             x, y = pos[i["id"]]
             st = self.status(i)
             uses = " ".join(html_id(u) for u in self.g.uses(i["id"]))
+            luses = " ".join(html_id(u) for u in lean_uses.get(i["id"], []))
             text = DepGraph.short_name(i)
             title = f'{self.long_name(i)}{" (" + i["labels"][0] + ")" if i["labels"] else ""}: {LEGEND_WORDS[st]}'
             node = (f'<g class="gn gl-{st} named" data-id="{_attr(html_id(i["id"]))}" data-ch="{_attr(i["section"])}" '
-                    f'data-named="1" data-uses="{_attr(uses)}" data-nuses="{_attr(uses)}" '
+                    f'data-named="1" data-uses="{_attr(luses)}" data-nuses="{_attr(uses)}" '
                     f'data-xy="{x},{y}" data-nxy="{x},{y}" transform="translate({x},{y})">'
                     f'<title>{_esc(title)}</title><rect x="0" y="0" width="{W}" height="{H}" rx="4"/>'
                     f'<text x="{W / 2}" y="15" clip-path="url(#nclip)">{_esc(text)}</text></g>')
@@ -355,12 +378,20 @@ dependencies (drawn) and {s['context']} as notation, comparison or interpretatio
 the decisions are in <code>docs/graph/edge-review.json</code> and were not reviewed by the author.{unrev}
 A real dependency may be used without a reference, so missing arrows are possible. The graph does not certify a
 section or the paper.</div>
+<p class="lede">Two kinds of edges, never mixed. <strong>Paper dependencies</strong> (default) are the curated
+edges above. <strong>Proof relations</strong> are extracted mechanically from the compiled Lean proofs
+({"of this commit's Lean sources" if self.current else "of an earlier version of the Lean sources"}; {len(self.lean_edges)} edges): result A points to
+result B when B's Lean proof transitively uses a library theorem that A's statement entry applies and that no other
+statement entry applies (a theorem applied by several entries is a shared tool and creates no edge). A proof
+relation describes the formal proofs, not the paper's argument.</p>
 <p class="lede">One node per numbered result ({s['nodes']}). The fill is the item's status; arrows point from a cited
 result to the result that uses it. Click a node to highlight what it uses (transitively) and what uses it; click it
 again to go to its row. <a href="status.html">Progress</a> · <a href="graph/nodes.json">nodes.json</a> ·
 <a href="graph/graph.dot">graph.dot</a> (Graphviz).</p>
-<ul class="glegend">{legend}</ul>
+{self.stale}<ul class="glegend">{legend}</ul>
 <div class="graph-controls" role="group" aria-label="Graph controls">
+<select id="g-edges" aria-label="Edges"><option value="curated">Paper dependencies (curated)</option>
+<option value="lean">Proof relations (extracted from Lean)</option></select>
 <select id="g-ch" aria-label="Section"><option value="">All sections</option>{secs}</select>
 <button type="button" class="chip" id="g-zoom-out" aria-label="Zoom out">−</button>
 <button type="button" class="chip" id="g-zoom-in" aria-label="Zoom in">+</button>
@@ -376,3 +407,173 @@ again to go to its row. <a href="status.html">Progress</a> · <a href="graph/nod
 <th>Lean entries</th><th>Uses</th></tr></thead>
 <tbody>{''.join(trs)}</tbody></table></div>"""
         return site.shell("Dependency graph · Fundamentals of Stein's method", body, "graph", toc=False)
+
+
+# ----------------------------------------------------------------------
+# Lean-extracted relations (docs/graph/lean-deps.json, written by scripts/lean_deps/ExtractDeps.lean)
+
+LEAN_DEPS_PATH = "docs/graph/lean-deps.json"
+
+
+def short(n: str) -> str:
+    return n.split(".", 1)[1] if n.startswith("SteinMethod.") else n
+
+
+class LeanDeps:
+    """Entry-level and item-level relations extracted from the compiled proofs."""
+
+    def __init__(self, data: dict | None, items: list[dict]):
+        self.data = data or {}
+        self.rev = self.data.get("extracted_at", "")
+        self.entries = {short(e["entry"]): e for e in self.data.get("entries", [])}
+        self.item_of = {}
+        for i in items:
+            if i.get("is_prose"):
+                continue
+            for n in i.get("lean_names", []):
+                self.item_of.setdefault(n, i["id"])
+        # A library theorem that is the root of several entries is a shared tool (for example the
+        # generic Wasserstein bound behind Theorems 3.1-3.7); reaching it says nothing about one result
+        # using another. Keep A -> B only through a root owned by A alone that B does not apply itself.
+        root_count = {}
+        for rec in self.entries.values():
+            for r in rec.get("roots", []):
+                root_count[r] = root_count.get(r, 0) + 1
+        self.uses = {}
+        for e, rec in self.entries.items():
+            own_roots = set(rec.get("roots", []))
+            kept = []
+            for u in rec["uses"]:
+                via = [v for v in u["via"] if root_count.get(v, 0) == 1 and v not in own_roots]
+                if via:
+                    kept.append((short(u["entry"]), [short(v) for v in via]))
+            self.uses[e] = kept
+        self.used_by = {}
+        for e, us in self.uses.items():
+            for a, via in us:
+                self.used_by.setdefault(a, []).append((e, via))
+
+    def roots(self, entry: str) -> list[str]:
+        return [short(r) for r in self.entries.get(entry, {}).get("roots", [])]
+
+    def item_edges(self) -> list[tuple[str, str]]:
+        """Item-level edges A -> B: some entry of B uses some entry of A (A != B)."""
+        out = set()
+        for e, us in self.uses.items():
+            b = self.item_of.get(e)
+            for a_entry, _ in us:
+                a = self.item_of.get(a_entry)
+                if a and b and a != b:
+                    out.add((a, b))
+        return sorted(out)
+
+
+def connections_html(entry: str, graph: DepGraph, ldeps: LeanDeps, lib_decls: dict, blob) -> str:
+    """The 'Connections' block of a theorem card: curated paper dependencies (reviewed TeX references),
+    Lean-extracted proof relations, and links to the library proofs. Links are placeholders resolved
+    after all pages are rendered: @@ITEM|id|text@@ and @@LEAN|name@@."""
+    rows = []
+    item = ldeps.item_of.get(entry)
+    if item:
+        def items(ids):
+            return ", ".join(f'@@ITEM|{x}|{_esc(DepGraph.short_name(graph.by_id[x]))}@@' for x in ids)
+        up = graph.uses(item, kinds=("dependency",))
+        down = [c["to"] for c in graph.candidates if c["from"] == item and c["decision"] == "dependency"]
+        rows.append(f'<dt>Uses (paper)</dt><dd>{items(up) or "—"}</dd>')
+        rows.append(f'<dt>Used by (paper)</dt><dd>{items(down) or "—"}</dd>')
+    lu = ldeps.uses.get(entry, [])
+    lb = ldeps.used_by.get(entry, [])
+
+    def entries(pairs):
+        return ", ".join(f'<span title="{_attr("shared: " + ", ".join(via))}">@@LEAN|{a}@@</span>'
+                         for a, via in sorted(pairs)[:12]) + (f" and {len(pairs) - 12} more" if len(pairs) > 12 else "")
+    if entry in ldeps.entries:
+        rows.append(f'<dt>Proof uses (Lean)</dt><dd>{entries(lu) or "—"}</dd>')
+        rows.append(f'<dt>Proof used by (Lean)</dt><dd>{entries(lb) or "—"}</dd>')
+        libs = []
+        for r in ldeps.roots(entry):
+            d = lib_decls.get(r)
+            if d:
+                libs.append(f'<a href="{_attr(blob(d["file"], d["line_start"], d["line_end"]))}"><code>{_esc(r)}</code></a>')
+            else:
+                libs.append(f'<code>{_esc(r)}</code>')
+        if libs:
+            rows.append(f'<dt>Library proof</dt><dd>{", ".join(libs[:6])}</dd>')
+    if not rows:
+        return ""
+    return ('<dl class="connections">' + "".join(rows) + '</dl>'
+            '<p class="conn-note">Paper dependencies are reviewed TeX cross-references. Lean relations are '
+            'extracted mechanically from the compiled proofs: an entry is listed when the other proof uses a '
+            'library theorem that only this entry applies (hover for it); shared tools do not count.</p>')
+
+
+# ----------------------------------------------------------------------
+# Lean declaration index and selected results
+
+SELECTED = [
+    ("thm-3-7", "Normal approximation with exchangeable pairs in the Wasserstein metric"),
+    ("thm-3-13", "Normal approximation with size-bias couplings"),
+    ("thm-3-27", "Kolmogorov-metric bound via zero-bias couplings"),
+    ("thm-4-14", "Poisson approximation for positively related indicators"),
+    ("thm-5-4", "Exponential approximation with equilibrium couplings"),
+    ("thm-5-8", "Yaglom's theorem for critical branching processes"),
+    ("thm-6-5", "Geometric approximation with discrete equilibrium couplings"),
+    ("thm-7-2", "Concentration inequalities from exchangeable pairs"),
+]
+
+
+def selected_results_html(site, graph: DepGraph) -> str:
+    rows = []
+    for nid, blurb in SELECTED:
+        i = graph.by_id.get(nid)
+        if not i:
+            continue
+        h = site.item_href(i)
+        name = _esc(i.get("source") or DepGraph.short_name(i))
+        name = f'<a href="{_attr(h)}">{name}</a>' if h else name
+        st = i["status"] if i["status"] in STATUS_LABELS else "open"
+        rows.append(f'<li><span class="sel-name">{name}</span> {chip(st, markers=i.get("markers", []))}'
+                    f'<span class="sel-blurb">{_esc(blurb)}</span></li>')
+    return ('<section><h2>Selected results</h2><ul class="selected">' + "".join(rows) + '</ul>'
+            '<p class="lede">Every numbered result is listed on the <a href="results.html">results page</a>; '
+            'its Lean statement, proof, dependencies and verification status sit next to the paper text.</p></section>')
+
+
+def declarations_page(site, ldeps: LeanDeps, graph: DepGraph) -> str:
+    lean = site.lean
+    trs = []
+    for e in sorted(lean.entries, key=lambda x: (x.file, x.line_start)):
+        pid = site.where.get(f"lean-{e.name}")
+        name = f'<a href="{pid}.html#lean-{_attr(e.name)}"><code>{_esc(e.name)}</code></a>' if pid else f'<code>{_esc(e.name)}</code>'
+        item = ldeps.item_of.get(e.name)
+        res = _esc(graph.by_id[item].get("source", "")) if item in graph.by_id else "prose claim or display"
+        libs = []
+        for r in ldeps.roots(e.name)[:4]:
+            d = lean.lib_decls.get(r)
+            libs.append(f'<a href="{_attr(lean.git.blob(d["file"], d["line_start"], d["line_end"]))}"><code>{_esc(r)}</code></a>'
+                        if d else f'<code>{_esc(r)}</code>')
+        st = e.status if e.status in STATUS_LABELS else "open"
+        src = f'<a href="{_attr(lean.git.blob(e.file, e.line_start, e.line_end))}">{_esc(e.file.rsplit("/", 1)[-1])}:{e.line_start}</a>'
+        search = " ".join([e.name, res, " ".join(ldeps.roots(e.name))]).lower()
+        trs.append(f'<tr data-label="{_attr(st)}" data-markers="" data-named="1" data-search="{_attr(search)}">'
+                   f'<td data-th="Statement entry">{name}<div class="label">{src}</div></td>'
+                   f'<td data-th="Paper">{res}</td><td data-th="Status">{chip(st, markers=e.markers)}</td>'
+                   f'<td data-th="Library proof" class="lean-names">{" ".join(libs) or "—"}</td></tr>')
+    chips = "".join(
+        f'<button type="button" class="chip" data-filter="{k}" aria-pressed="false">'
+        f'<span class="status {STATUS_LABELS[k][1]}">{_esc(STATUS_LABELS[k][0])}</span></button>'
+        for k in LEGEND_ORDER)
+    rev = lean.git.rev[:7]
+    body = f"""<h1>Lean declarations</h1>
+<p class="lede">Every statement entry of the formalization at commit <code>{_esc(rev)}</code>, with the paper result it
+states, its status, and the library theorems its proof applies (links go to the source lines). Each entry is a
+<code>Prop</code> in <code>Formalization/Statements/SecN.lean</code> proved by <code>…_holds</code> in
+<code>SecNProofs.lean</code>. Mathlib and core declarations are documented in the
+<a href="https://leanprover-community.github.io/mathlib4_docs/">Mathlib documentation</a>; a doc-gen4 build of this
+project is not published (see Methodology).</p>
+<div class="filters"><input type="search" id="q" placeholder="Search entry, result or library theorem" aria-label="Search declarations">
+<div class="chips"><button type="button" class="chip on" data-filter="" aria-pressed="true">All</button>{chips}</div>
+<p class="filter-count" aria-live="polite"></p></div>
+<div class="table-wrap"><table class="results stack decl-table"><thead><tr><th>Statement entry</th><th>Paper</th>
+<th>Status</th><th>Library proof</th></tr></thead><tbody>{''.join(trs)}</tbody></table></div>"""
+    return site.shell("Lean declarations · Fundamentals of Stein's method", body, "declarations", toc=False)

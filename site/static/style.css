@@ -400,3 +400,17 @@ svg.depgraph a:hover rect, svg.depgraph a:focus rect { stroke-width: 3; }
 @media (max-width: 640px) {
   .chapters > li > .ch-count { flex-basis: 100%; text-align: left; }
 }
+/* theorem cards: verification and connections */
+.lean-card dl.verif, .lean-card dl.connections { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px;
+  margin: 8px 0; font: 13.5px/1.5 var(--sans); }
+.lean-card dl dt { color: var(--muted); font-weight: 600; }
+.lean-card dl dd { margin: 0; overflow-wrap: anywhere; }
+.lean-card dl.connections { border-top: 1px solid var(--line); padding-top: 6px; }
+.conn-note { font: 12px/1.4 var(--sans); color: var(--muted); margin: 2px 0 6px; }
+@media (max-width: 640px) { .lean-card dl.verif, .lean-card dl.connections { grid-template-columns: 1fr; }
+  .lean-card dl dd { margin-bottom: 4px; } }
+ul.selected { list-style: none; padding: 0; margin: 8px 0 12px; }
+ul.selected li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 7px 0;
+  border-bottom: 1px solid var(--line); }
+ul.selected .sel-name { font-weight: 600; min-width: 9em; }
+ul.selected .sel-blurb { flex-basis: 100%; color: var(--muted); font-size: 15px; }

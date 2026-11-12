@@ -135,7 +135,8 @@
     var byId = {};
     nodes.forEach(function (g) { byId[g.dataset.id] = g; });
     var scale = 1, selected = null;
-    var named = function () { return !gNamed || gNamed.checked; };
+    var gEdges = document.getElementById("g-edges");
+    var named = function () { return gEdges ? gEdges.value !== "lean" : (!gNamed || gNamed.checked); };
     var size = function () {
       var w = +graph.dataset.w, h = +(named() ? graph.dataset.hNamed : graph.dataset.hAll);
       graph.setAttribute("viewBox", "0 0 " + w + " " + h);
@@ -215,6 +216,7 @@
       });
     });
     if (gNamed) gNamed.addEventListener("change", layout);
+    if (gEdges) gEdges.addEventListener("change", layout);
     if (gCh) gCh.addEventListener("change", function () {
       highlight(null);
       var t = graph.querySelector('.gn-col[data-ch="' + gCh.value + '"]');

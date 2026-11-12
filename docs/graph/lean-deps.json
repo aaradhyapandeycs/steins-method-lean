@@ -1,0 +1,6042 @@
+{
+ "_about": "Relations between statement entries extracted from the compiled Lean proofs by scripts/lean_deps/ExtractDeps.lean (roots: project theorems a wrapper applies; closure: project declarations reachable through types and proof terms). Not a curated mathematical dependency graph.",
+ "lean_sources": {
+  "Formalization": "f5dc21361b4c595dd2f2affb3d2c12024b628321",
+  "Formalization.lean": "e7d8eb1781fcc3c27b1c512f2c598c2cbcd70f7e"
+ },
+ "lean_toolchain": "leanprover/lean4:v4.34.0",
+ "entries": [
+  {
+   "entry": "SteinMethod.Sec5_3_spine_coupling",
+   "roots": [
+    "SteinMethod.sec5_3_spine_coupling"
+   ],
+   "closure_size": 288,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_4",
+     "via": [
+      "SteinMethod.sec5_3_item_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1712",
+     "via": [
+      "SteinMethod.sec5_3_eq_1712"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_3",
+     "via": [
+      "SteinMethod.sec5_3_item_3"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop5_5",
+     "via": [
+      "SteinMethod.prop5_5"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_1",
+     "via": [
+      "SteinMethod.sec5_3_item_1"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_5_steinPair_restricted",
+   "roots": [
+    "SteinMethod.combinatorial_isSteinPair_relaxed"
+   ],
+   "closure_size": 46,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_item_1",
+   "roots": [
+    "SteinMethod.sec5_3_item_1"
+   ],
+   "closure_size": 225,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_rucinski",
+   "roots": [
+    "SteinMethod.Sec3_2_1_triangles_rucinski_proof"
+   ],
+   "closure_size": 518,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+     "via": [
+      "SteinMethod.sizeBias_stein_identity"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.depGraph_iSup_normalWassersteinClass_le",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_13",
+     "via": [
+      "SteinMethod.sizeBias_wassersteinDist_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_dK_le_dW",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_le_stdNormal_rpow_wassersteinDist_map"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_2_1_triangles_restricted",
+     "via": [
+      "SteinMethod.Sec3_2_1_triangles_restricted_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_lpp_mean_diff_log_restricted",
+   "roots": [
+    "SteinMethod.sec5_3_lpp_mean_diff_log_restricted"
+   ],
+   "closure_size": 211,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_step_iii",
+     "via": [
+      "SteinMethod.sec5_3_step_iii"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_ii",
+     "via": [
+      "SteinMethod.sec5_3_step_ii"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_3143_corrected",
+     "via": [
+      "SteinMethod.sec5_3_eq_3143_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_kolmogorov_survival_restricted",
+     "via": [
+      "SteinMethod.sec5_3_kolmogorov_survival_restricted"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+     "via": [
+      "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_i",
+     "via": [
+      "SteinMethod.sec5_3_step_i"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex5_4_weak_conv",
+   "roots": [
+    "SteinMethod.ex5_4_weak_conv"
+   ],
+   "closure_size": 117,
+   "uses": [
+    {
+     "entry": "SteinMethod.Ex5_4_ceil_corrected",
+     "via": [
+      "SteinMethod.ex5_4_ceil_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_4",
+     "via": [
+      "SteinMethod.thm5_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem5_3",
+   "roots": [
+    "SteinMethod.rem5_3"
+   ],
+   "closure_size": 60,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem4_17_atMost",
+   "roots": [
+    "SteinMethod.rem4_17_atMost_holds"
+   ],
+   "closure_size": 226,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm5_3_1",
+   "roots": [
+    "SteinMethod.thm5_3_1"
+   ],
+   "closure_size": 49,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem4_1_1",
+   "roots": [
+    "SteinMethod.integral_poissonSteinOp_eq_zero_of_map_eq"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem4_18",
+   "roots": [
+    "SteinMethod.exchangeable_jump_prob_eq"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_14",
+   "roots": [
+    "SteinMethod.thm4_14_variance_proof"
+   ],
+   "closure_size": 154,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_10",
+     "via": [
+      "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop2_4",
+   "roots": [
+    "SteinMethod.ipm_map_stdNormalLaw_eq_iSup_normalSteinOp"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_1_zeroBias_of_steinPair",
+   "roots": [
+    "SteinMethod.goldstein_reinert_zeroBias_of_comap"
+   ],
+   "closure_size": 31,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Cor2_3_corrected",
+   "roots": [
+    "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+   ],
+   "closure_size": 35,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop3_6_1",
+   "roots": [
+    "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+   ],
+   "closure_size": 3,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem2_5_formula",
+   "roots": [
+    "SteinMethod.normalSteinSol_eq_neg_integral_Iic",
+    "SteinMethod.hasDerivAt_normalSteinSol_of_continuous"
+   ],
+   "closure_size": 25,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_15_sizeBias",
+   "roots": [
+    "SteinMethod.ex4_15_sizeBias"
+   ],
+   "closure_size": 42,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem2_1_2",
+   "roots": [
+    "SteinMethod.map_eq_stdNormalLaw_of_integral_normalSteinOp_eq_zero"
+   ],
+   "closure_size": 64,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_1",
+     "via": [
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_bounded"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_13_moments_corrected",
+   "roots": [
+    "SteinMethod.ex4_13_moments_corrected"
+   ],
+   "closure_size": 45,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec6_supportMismatch",
+   "roots": [
+    "SteinMethod.tvDist_mul_posGeomLaw",
+    "SteinMethod.tendsto_supportMismatch"
+   ],
+   "closure_size": 27,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_17_fkg",
+   "roots": [
+    "SteinMethod.fkg_independent_indicators_on"
+   ],
+   "closure_size": 23,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_gwSizeBiasProbV_sum_spine",
+   "roots": [
+    "SteinMethod.sec5_3_gwSizeBiasProbV_sum_spine"
+   ],
+   "closure_size": 235,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1711",
+     "via": [
+      "SteinMethod.sec5_3_eq_1711"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_gwProb_sum_genSize",
+     "via": [
+      "SteinMethod.sec5_3_gwProb_sum_genSize"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1710",
+     "via": [
+      "SteinMethod.sec5_3_eq_1710"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_21_EW2cycles",
+   "roots": [
+    "SteinMethod.expected_two_cycles"
+   ],
+   "closure_size": 21,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec1_1_1_kolmogorov_cdf_and_weakConv",
+   "roots": [
+    "SteinMethod.sec1_1_1_kolmogorov_cdf_and_weakConv_proof"
+   ],
+   "closure_size": 13,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_6",
+   "roots": [
+    "SteinMethod.tvDist_sum_indep_indicator_le"
+   ],
+   "closure_size": 142,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_sizeBias_cond_pos",
+   "roots": [
+    "SteinMethod.sec5_3_sizeBias_cond_pos"
+   ],
+   "closure_size": 6,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec4_2_1_longestRun",
+   "roots": [
+    "SteinMethod.longestRun_event_and_gumbel_approx"
+   ],
+   "closure_size": 260,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_8",
+     "via": [
+      "SteinMethod.tvDist_headRunCount_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_7_corrected",
+     "via": [
+      "SteinMethod.tvDist_sum_dep_indicator_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_dK_le_dW",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_le_stdNormal_rpow_wassersteinDist_map"
+   ],
+   "closure_size": 26,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_13_restricted",
+   "roots": [
+    "SteinMethod.ex4_13_restricted"
+   ],
+   "closure_size": 220,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_13_moments_corrected",
+     "via": [
+      "SteinMethod.ex4_13_moments_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_not_indep_L_R",
+   "roots": [
+    "SteinMethod.sec5_3_not_indep_L_R"
+   ],
+   "closure_size": 270,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_exists_isSizeBiasSpineCoupling",
+     "via": [
+      "SteinMethod.sec5_3_exists_isSizeBiasSpineCoupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_exists_isGaltonWatson_pos_var",
+     "via": [
+      "SteinMethod.sec5_3_exists_isGaltonWatson_pos_var"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_28",
+   "roots": [
+    "SteinMethod.IsSteinPair.kolmogorovDist_map_stdNormal_le"
+   ],
+   "closure_size": 140,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.normalSteinSolKolm_eq_neg_integral_Iic",
+      "SteinMethod.continuous_normalSteinSolKolm",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_24_corrected",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_eq_iSup_normalSteinOpLeft"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem6_1_2",
+   "roots": [
+    "SteinMethod.map_eq_geomLaw_of_integral_geomSteinOp_eq_zero"
+   ],
+   "closure_size": 9,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_exists_isGaltonWatson_pos_var",
+   "roots": [
+    "SteinMethod.sec5_3_exists_isGaltonWatson_pos_var"
+   ],
+   "closure_size": 17,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_20_coupling",
+   "roots": [
+    "SteinMethod.bernoulli_replaceOne_coupling"
+   ],
+   "closure_size": 21,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Cor4_11",
+   "roots": [
+    "SteinMethod.sizeBias_sum_of_zero_one"
+   ],
+   "closure_size": 5,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_18",
+   "roots": [
+    "SteinMethod.zeroBias_wassersteinDist_le"
+   ],
+   "closure_size": 133,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex3_6_printed",
+   "roots": [
+    "SteinMethod.indepSum_wassersteinDist_le_ex3_6_printed"
+   ],
+   "closure_size": 177,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm6_3",
+   "roots": [
+    "SteinMethod.tvDist_geomLaw_le"
+   ],
+   "closure_size": 30,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem6_2",
+     "via": [
+      "SteinMethod.geomSteinSol_steinEq",
+      "SteinMethod.fwdDiff_geomSteinSol",
+      "SteinMethod.fwdDiff_geomSteinSol_bounds",
+      "SteinMethod.geomSteinSol_zero"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm7_5",
+   "roots": [
+    "SteinMethod.exchangeable_antisymm_tail_bound"
+   ],
+   "closure_size": 7,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_step_ii",
+   "roots": [
+    "SteinMethod.sec5_3_step_ii"
+   ],
+   "closure_size": 151,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_1_indepSum_kolmogorov",
+   "roots": [
+    "SteinMethod.sec3_6_1_indepSum_kolmogorov_proof"
+   ],
+   "closure_size": 148,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_27",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_of_isZeroBias_bdd"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_restricted",
+     "via": [
+      "SteinMethod.ae_abs_le_of_isZeroBias_of_ae_abs_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_26",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_21",
+     "via": [
+      "SteinMethod.zeroBias_sum_of_iIndepFun"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm7_2",
+   "roots": [
+    "SteinMethod.steinPair_tail_bounds"
+   ],
+   "closure_size": 12,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_5",
+     "via": [
+      "SteinMethod.exchangeable_antisymm_tail_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_2_eq5_6",
+   "roots": [
+    "SteinMethod.sec5_2_eq5_6"
+   ],
+   "closure_size": 39,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem4_1_2",
+   "roots": [
+    "SteinMethod.map_eq_poissonLaw_of_integral_poissonSteinOp_eq_zero"
+   ],
+   "closure_size": 3,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem3_3",
+   "roots": [
+    "SteinMethod.reversibleMarkov_isExchangeablePair"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop7_3",
+   "roots": [
+    "SteinMethod.combinatorial_concentration"
+   ],
+   "closure_size": 48,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_5",
+     "via": [
+      "SteinMethod.exchangeable_antisymm_tail_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_3_eq3_18_wasserstein",
+   "roots": [
+    "SteinMethod.sec3_3_eq3_18_wasserstein_proof"
+   ],
+   "closure_size": 136,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_3_eq3_18",
+     "via": [
+      "SteinMethod.sec3_3_eq3_18_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem4_14",
+   "roots": [
+    "SteinMethod.rem4_14"
+   ],
+   "closure_size": 252,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_13_moments_corrected",
+     "via": [
+      "SteinMethod.ex4_13_moments_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop3_20",
+   "roots": [
+    "SteinMethod.IsZeroBias.const_mul"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_1_indepSum_thirdMoment",
+   "roots": [
+    "SteinMethod.sec3_1_indepSum_thirdMoment_proof"
+   ],
+   "closure_size": 135,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec7_thm7_2_from_thm7_5",
+   "roots": [
+    "SteinMethod.steinPair_reduction_to_antisymm"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm3_17",
+   "roots": [
+    "SteinMethod.Thm3_17_proof"
+   ],
+   "closure_size": 350,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm3_13",
+     "via": [
+      "SteinMethod.sizeBias_wassersteinDist_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+     "via": [
+      "SteinMethod.sizeBias_stein_identity"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec4_2_1_headRun_declumping",
+   "roots": [
+    "SteinMethod.sec4_2_1_headRun_declumping_proof"
+   ],
+   "closure_size": 47,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm5_3_2",
+   "roots": [
+    "SteinMethod.thm5_3_2"
+   ],
+   "closure_size": 50,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_1",
+     "via": [
+      "SteinMethod.lem5_2_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_17_implicit_coupling_corrected",
+   "roots": [
+    "SteinMethod.thm4_17_implicit_coupling_corrected"
+   ],
+   "closure_size": 77,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_17_fkg",
+     "via": [
+      "SteinMethod.fkg_independent_indicators_on"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_17_comp_monotone_corrected",
+     "via": [
+      "SteinMethod.thm4_17_comp_monotone_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_18",
+     "via": [
+      "SteinMethod.lem4_18_cond"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Cor3_26",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_stdNormal_le_iSup_normalSteinOp"
+   ],
+   "closure_size": 93,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop3_6_2",
+   "roots": [
+    "SteinMethod.IsSteinPair.integral_eq_zero_and_sq_sub_eq"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+   "roots": [
+    "SteinMethod.sec5_1_equilibrium_ac"
+   ],
+   "closure_size": 15,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_clt_regime_restricted",
+   "roots": [
+    "SteinMethod.Sec3_2_1_triangles_clt_regime_restricted_proof"
+   ],
+   "closure_size": 354,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_dK_le_dW",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_le_stdNormal_rpow_wassersteinDist_map"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_2_1_triangles_restricted",
+     "via": [
+      "SteinMethod.Sec3_2_1_triangles_restricted_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_iSup_normalWassersteinClass_le",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_10",
+   "roots": [
+    "SteinMethod.ex4_10"
+   ],
+   "closure_size": 176,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_17_fkg",
+     "via": [
+      "SteinMethod.fkg_independent_indicators_on"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_17_corrected",
+     "via": [
+      "SteinMethod.thm4_17_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_20_identity",
+   "roots": [
+    "SteinMethod.integral_poissonSteinOp_exchangeable_eq"
+   ],
+   "closure_size": 6,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_20_antisym",
+     "via": [
+      "SteinMethod.integral_poissonExchTestFn_eq_zero"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop3_20_restricted",
+   "roots": [
+    "SteinMethod.zeroBias_const_mul_restricted"
+   ],
+   "closure_size": 24,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_20",
+     "via": [
+      "SteinMethod.IsZeroBias.const_mul"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_15",
+   "roots": [
+    "SteinMethod.thm4_15_variance_proof"
+   ],
+   "closure_size": 259,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_10",
+     "via": [
+      "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem6_2_restricted",
+   "roots": [
+    "SteinMethod.existsUnique_isDiscreteEquilibrium_measure",
+    "SteinMethod.isDiscreteEquilibrium_iff_tail"
+   ],
+   "closure_size": 18,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem4_3",
+   "roots": [
+    "SteinMethod.dna_match_iIndepFun_and_prob",
+    "SteinMethod.dna_match_map_eq_pi"
+   ],
+   "closure_size": 8,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem4_4",
+   "roots": [
+    "SteinMethod.abs_poissonSteinSol_le",
+    "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+    "SteinMethod.one_sub_exp_neg_div_le_min"
+   ],
+   "closure_size": 103,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_13_sizeBias",
+   "roots": [
+    "SteinMethod.ex4_13_sizeBias"
+   ],
+   "closure_size": 59,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_2_lindeberg_sufficient",
+   "roots": [
+    "SteinMethod.tendsto_stdNormalLaw_of_lindeberg"
+   ],
+   "closure_size": 180,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_21",
+     "via": [
+      "SteinMethod.zeroBias_sum_of_iIndepFun"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem3_9",
+   "roots": [
+    "SteinMethod.isExchangeablePair_of_identDistrib_int_abs_sub_le_one"
+   ],
+   "closure_size": 20,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec2_stdNormalCDF_tail_le",
+   "roots": [
+    "SteinMethod.sec2_stdNormalCDF_tail_le_proof"
+   ],
+   "closure_size": 28,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_gwProb_sum_genSize",
+   "roots": [
+    "SteinMethod.sec5_3_gwProb_sum_genSize"
+   ],
+   "closure_size": 143,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm5_7_corrected",
+   "roots": [
+    "SteinMethod.thm5_7_corrected_minimal"
+   ],
+   "closure_size": 133,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm5_6",
+   "roots": [
+    "SteinMethod.thm5_6"
+   ],
+   "closure_size": 176,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_7_corrected",
+     "via": [
+      "SteinMethod.thm5_7_corrected_minimal"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_kolmogorov_restricted",
+   "roots": [
+    "SteinMethod.erdosRenyi_triangles_kolmogorovDist_le"
+   ],
+   "closure_size": 533,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm",
+      "SteinMethod.continuous_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_2_1_triangles_restricted",
+     "via": [
+      "SteinMethod.Sec3_2_1_triangles_restricted_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.depGraph_iSup_normalWassersteinClass_le",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_24_corrected",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_eq_iSup_normalSteinOpLeft"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_depNeighborhoods_intermediate_bound",
+   "roots": [
+    "SteinMethod.sec3_2_depNeighborhoods_intermediate_bound_proof"
+   ],
+   "closure_size": 149,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_indep_isDependencyGraph",
+   "roots": [
+    "SteinMethod.sec3_2_indep_isDependencyGraph_proof"
+   ],
+   "closure_size": 4,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop1_2_2",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_le_rpow_wassersteinDist_map"
+   ],
+   "closure_size": 20,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem4_17_atLeast_corrected",
+   "roots": [
+    "SteinMethod.rem4_17_atLeast_corrected_holds"
+   ],
+   "closure_size": 224,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_5",
+   "roots": [
+    "SteinMethod.tvDist_map_le_iSup_poissonSteinClass"
+   ],
+   "closure_size": 129,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_9_corrected",
+   "roots": [
+    "SteinMethod.erdos_renyi_longestQualityRun_ae"
+   ],
+   "closure_size": 76,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem3_5",
+   "roots": [
+    "SteinMethod.rem3_5_proof"
+   ],
+   "closure_size": 40,
+   "uses": [
+    {
+     "entry": "SteinMethod.Rem3_3",
+     "via": [
+      "SteinMethod.reversibleMarkov_isExchangeablePair"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_1_combinatorial_kolmogorov",
+   "roots": [
+    "SteinMethod.sec3_6_1_combinatorial_kolmogorov"
+   ],
+   "closure_size": 232,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_27",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_of_isZeroBias_bdd"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_26",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_20",
+     "via": [
+      "SteinMethod.IsZeroBias.const_mul"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+   "roots": [
+    "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+   ],
+   "closure_size": 153,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Cor4_12",
+   "roots": [
+    "SteinMethod.sizeBias_sum_of_exchangeable_zero_one_fin"
+   ],
+   "closure_size": 8,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_5_coupling",
+   "roots": [
+    "SteinMethod.isolatedVertices_coupling"
+   ],
+   "closure_size": 107,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_12",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_exchangeable_zero_one_fin"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem4_19",
+   "roots": [
+    "SteinMethod.poisson_detailed_balance",
+    "SteinMethod.poisson_stationary_birth_death"
+   ],
+   "closure_size": 3,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem2_5_2",
+   "roots": [
+    "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+    "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+    "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+   ],
+   "closure_size": 109,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_24_corrected",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_stdNormal_eq_iSup_normalSteinOpLeft"
+   ],
+   "closure_size": 41,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_5_corrected",
+   "roots": [
+    "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+    "SteinMethod.depGraph_aemeasurable_W",
+    "SteinMethod.depGraph_iSup_normalWassersteinClass_le"
+   ],
+   "closure_size": 196,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem2_2_corrected",
+   "roots": [
+    "SteinMethod.bdd_normalSteinSolKolm",
+    "SteinMethod.continuous_normalSteinSolKolm",
+    "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm",
+    "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+    "SteinMethod.normalSteinSolKolm_eq_neg_integral_Iic",
+    "SteinMethod.eq_normalSteinSolKolm_of_continuous_bounded"
+   ],
+   "closure_size": 81,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_4",
+   "roots": [
+    "SteinMethod.lawOfSmallNumbers_sizeBias_and_tvDist"
+   ],
+   "closure_size": 146,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_21_EW2",
+   "roots": [
+    "SteinMethod.expected_fixed_points_sq"
+   ],
+   "closure_size": 18,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_scaled_Yn_mean_gt_one_witness",
+   "roots": [
+    "SteinMethod.sec5_3_scaled_Yn_mean_gt_one_witness"
+   ],
+   "closure_size": 127,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_eq_3143_corrected",
+   "roots": [
+    "SteinMethod.sec5_3_eq_3143_corrected"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_item_2",
+   "roots": [
+    "SteinMethod.sec5_3_item_2"
+   ],
+   "closure_size": 234,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_sizeBias_cond_pos",
+     "via": [
+      "SteinMethod.sec5_3_sizeBias_cond_pos"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_1",
+     "via": [
+      "SteinMethod.sec5_3_item_1"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Cor4_3",
+   "roots": [
+    "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+   ],
+   "closure_size": 20,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex3_9_moments",
+   "roots": [
+    "SteinMethod.Ex3_9_moments_proof"
+   ],
+   "closure_size": 107,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex3_6_corrected",
+   "roots": [
+    "SteinMethod.indepSum_replaceOne_isSteinPair",
+    "SteinMethod.indepSum_replaceOne_integral_W_sq",
+    "SteinMethod.indepSum_replaceOne_thm3_7_rhs_le_corrected"
+   ],
+   "closure_size": 21,
+   "uses": [
+    {
+     "entry": "SteinMethod.Ex3_6_steinPair",
+     "via": [
+      "SteinMethod.indepSum_replaceOne_isSteinPair"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_17_comp_monotone_corrected",
+   "roots": [
+    "SteinMethod.thm4_17_comp_monotone_corrected"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_6",
+   "roots": [
+    "SteinMethod.degreeDVertices_coupling"
+   ],
+   "closure_size": 128,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_12",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_exchangeable_zero_one_fin"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop7_4",
+   "roots": [
+    "SteinMethod.curieWeiss_concentration_of_map"
+   ],
+   "closure_size": 51,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_5",
+     "via": [
+      "SteinMethod.exchangeable_antisymm_tail_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_15_rate",
+   "roots": [
+    "SteinMethod.ex4_15_rate"
+   ],
+   "closure_size": 244,
+   "uses": [
+    {
+     "entry": "SteinMethod.Ex4_15_restricted",
+     "via": [
+      "SteinMethod.ex4_15_restricted"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_15_asymptotic_ineq",
+     "via": [
+      "SteinMethod.ex4_15_asymptotic_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop3_14",
+   "roots": [
+    "SteinMethod.sizeBias_sum_of_condDistrib_recipe"
+   ],
+   "closure_size": 7,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec4_3_2_subgraph_coupling",
+   "roots": [
+    "SteinMethod.sec4_3_2_subgraph_coupling_proof"
+   ],
+   "closure_size": 62,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop3_21",
+   "roots": [
+    "SteinMethod.zeroBias_sum_of_iIndepFun"
+   ],
+   "closure_size": 22,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm3_7",
+   "roots": [
+    "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+    "SteinMethod.steinPair_iSup_normalWassersteinClass_le"
+   ],
+   "closure_size": 136,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem5_2_2",
+   "roots": [
+    "SteinMethod.lem5_2_2"
+   ],
+   "closure_size": 37,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_20",
+   "roots": [
+    "SteinMethod.aux_tvDist_indep_bernoulli_sum_poissonLaw_le"
+   ],
+   "closure_size": 109,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_20_antisym",
+     "via": [
+      "SteinMethod.integral_poissonExchTestFn_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_20_coupling",
+     "via": [
+      "SteinMethod.bernoulli_replaceOne_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20",
+     "via": [
+      "SteinMethod.tvDist_poissonLaw_exchangeable_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20_identity",
+     "via": [
+      "SteinMethod.integral_poissonSteinOp_exchangeable_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_2_lindeberg_not_necessary_corrected",
+   "roots": [
+    "SteinMethod.lindeberg_not_necessary_for_clt"
+   ],
+   "closure_size": 12,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem3_3",
+   "roots": [
+    "SteinMethod.indepSum_stein_expansion"
+   ],
+   "closure_size": 6,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+   "roots": [
+    "SteinMethod.exists_bdd_zeroBias_of_pos_var_exists",
+    "SteinMethod.zeroBias_law_characterization"
+   ],
+   "closure_size": 28,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_restricted",
+     "via": [
+      "SteinMethod.ae_abs_le_of_isZeroBias_of_ae_abs_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_27",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_stdNormal_le_of_isZeroBias_bdd"
+   ],
+   "closure_size": 106,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_26",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem4_18_strassen_1d",
+   "roots": [
+    "SteinMethod.lem4_18_strassen_1d_iff"
+   ],
+   "closure_size": 22,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop6_4",
+   "roots": [
+    "SteinMethod.isDiscreteEquilibrium_of_isSizeBias_uniform"
+   ],
+   "closure_size": 19,
+   "uses": [
+    {
+     "entry": "SteinMethod.Rem6_2_restricted",
+     "via": [
+      "SteinMethod.isDiscreteEquilibrium_iff_tail"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem3_4",
+   "roots": [
+    "SteinMethod.evariance_condExp_mono"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_item_4",
+   "roots": [
+    "SteinMethod.sec5_3_item_4"
+   ],
+   "closure_size": 267,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_3",
+     "via": [
+      "SteinMethod.sec5_3_item_3"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop5_5",
+     "via": [
+      "SteinMethod.prop5_5"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_1",
+     "via": [
+      "SteinMethod.sec5_3_item_1"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem3_29",
+   "roots": [
+    "SteinMethod.IsSteinPair.integral_sq_sub_mul_indicator_Ioc_le"
+   ],
+   "closure_size": 17,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm1_1",
+   "roots": [
+    "SteinMethod.BerryEsseen.berry_esseen_iid"
+   ],
+   "closure_size": 108,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex3_9_sizeBias",
+   "roots": [
+    "SteinMethod.Ex3_9_sizeBias_le_one_proof"
+   ],
+   "closure_size": 66,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_13",
+   "roots": [
+    "SteinMethod.sizeBias_wassersteinDist_le"
+   ],
+   "closure_size": 137,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+     "via": [
+      "SteinMethod.sizeBias_stein_identity"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_4_1",
+   "roots": [
+    "SteinMethod.indepSum_hoeffding_tail_bound"
+   ],
+   "closure_size": 27,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_2",
+     "via": [
+      "SteinMethod.steinPair_tail_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex7_4_steinPair",
+     "via": [
+      "SteinMethod.indepSum_unscaled_isSteinPair"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_5",
+     "via": [
+      "SteinMethod.exchangeable_antisymm_tail_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec6_3_uniformAttachment_convergence",
+   "roots": [
+    "SteinMethod.sec6_3_uniformAttachment_convergence_proof"
+   ],
+   "closure_size": 122,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm6_5",
+     "via": [
+      "SteinMethod.tvDist_le_of_isDiscreteEquilibrium"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem6_2",
+     "via": [
+      "SteinMethod.geomSteinSol_zero",
+      "SteinMethod.geomSteinSol_steinEq",
+      "SteinMethod.fwdDiff_geomSteinSol",
+      "SteinMethod.fwdDiff_geomSteinSol_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm6_3",
+     "via": [
+      "SteinMethod.tvDist_geomLaw_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+   "roots": [
+    "SteinMethod.sizeBias_stein_identity"
+   ],
+   "closure_size": 4,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_7",
+   "roots": [
+    "SteinMethod.ex4_7_holds_proof"
+   ],
+   "closure_size": 339,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_10",
+     "via": [
+      "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_16",
+     "via": [
+      "SteinMethod.cor4_16_holds_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_15",
+     "via": [
+      "SteinMethod.thm4_15_variance_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_restricted",
+   "roots": [
+    "SteinMethod.Sec3_2_1_triangles_restricted_proof"
+   ],
+   "closure_size": 309,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_iSup_normalWassersteinClass_le",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem4_2",
+   "roots": [
+    "SteinMethod.poissonSteinSol_zero",
+    "SteinMethod.poissonSteinOp_poissonSteinSol",
+    "SteinMethod.eq_poissonSteinSol_of_poissonSteinOp_eq"
+   ],
+   "closure_size": 21,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_16_sizeBias",
+   "roots": [
+    "SteinMethod.ex4_16_sizeBias_holds"
+   ],
+   "closure_size": 37,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_1_iid_wasserstein_rate",
+   "roots": [
+    "SteinMethod.sec3_1_iid_wasserstein_rate_proof"
+   ],
+   "closure_size": 155,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.indepSum_iSup_normalWassersteinClass_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_4",
+     "via": [
+      "SteinMethod.indepSum_normalSteinOp_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_3",
+     "via": [
+      "SteinMethod.indepSum_stein_expansion"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_21_coupling",
+   "roots": [
+    "SteinMethod.fixedPoints_transposition_coupling"
+   ],
+   "closure_size": 77,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex7_2_order_restricted",
+   "roots": [
+    "SteinMethod.poisson_bound_order_restricted"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex7_2",
+   "roots": [
+    "SteinMethod.poisson_concentration_with_minimizer"
+   ],
+   "closure_size": 6,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_15_restricted",
+   "roots": [
+    "SteinMethod.ex4_15_restricted"
+   ],
+   "closure_size": 236,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem5_1_1",
+   "roots": [
+    "SteinMethod.lem5_1_1_integrable"
+   ],
+   "closure_size": 17,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec6_3_not_exponential",
+   "roots": [
+    "SteinMethod.sec6_3_not_exponential_proof"
+   ],
+   "closure_size": 113,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Cor3_16",
+   "roots": [
+    "SteinMethod.sizeBias_sum_of_zero_one"
+   ],
+   "closure_size": 5,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_20",
+   "roots": [
+    "SteinMethod.tvDist_poissonLaw_exchangeable_le"
+   ],
+   "closure_size": 88,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_20_antisym",
+     "via": [
+      "SteinMethod.integral_poissonExchTestFn_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20_identity",
+     "via": [
+      "SteinMethod.integral_poissonSteinOp_exchangeable_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Cor3_12_restricted",
+   "roots": [
+    "SteinMethod.sizeBias_nat_pmf"
+   ],
+   "closure_size": 3,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_15_asymptotic_ineq",
+   "roots": [
+    "SteinMethod.ex4_15_asymptotic_bounds"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm6_6",
+   "roots": [
+    "SteinMethod.tvDist_uniformAttachment_inDegree_le"
+   ],
+   "closure_size": 119,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm6_5",
+     "via": [
+      "SteinMethod.tvDist_le_of_isDiscreteEquilibrium"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem6_2",
+     "via": [
+      "SteinMethod.geomSteinSol_zero",
+      "SteinMethod.geomSteinSol_steinEq",
+      "SteinMethod.fwdDiff_geomSteinSol",
+      "SteinMethod.fwdDiff_geomSteinSol_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm6_3",
+     "via": [
+      "SteinMethod.tvDist_geomLaw_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm7_6_corrected",
+   "roots": [
+    "SteinMethod.sizeBias_tail_bounds"
+   ],
+   "closure_size": 6,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_4_2_order",
+   "roots": [
+    "SteinMethod.indepSum_unitInterval_bound_order"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec4_poissonSteinSol_pointMass_corrected",
+   "roots": [
+    "SteinMethod.sec4_poissonSteinSol_pointMass_corrected_proof"
+   ],
+   "closure_size": 99,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem3_4",
+   "roots": [
+    "SteinMethod.indepSum_normalSteinOp_bound"
+   ],
+   "closure_size": 15,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_3",
+     "via": [
+      "SteinMethod.indepSum_stein_expansion"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_21_EW",
+   "roots": [
+    "SteinMethod.expected_fixed_points"
+   ],
+   "closure_size": 10,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_eq_1712",
+   "roots": [
+    "SteinMethod.sec5_3_eq_1712"
+   ],
+   "closure_size": 229,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_item_3",
+   "roots": [
+    "SteinMethod.sec5_3_item_3"
+   ],
+   "closure_size": 224,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_1_equilibrium_scale_restricted",
+   "roots": [
+    "SteinMethod.sec5_1_equilibrium_scale_restricted"
+   ],
+   "closure_size": 5,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem2_5_ode_contAt",
+   "roots": [
+    "SteinMethod.hasDerivAt_normalSteinSol"
+   ],
+   "closure_size": 24,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Cor3_15",
+   "roots": [
+    "SteinMethod.sizeBias_sum_of_iIndepFun"
+   ],
+   "closure_size": 6,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_eq_1710",
+   "roots": [
+    "SteinMethod.sec5_3_eq_1710"
+   ],
+   "closure_size": 17,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_identDistrib_of_integral_deriv_compactSupport",
+   "roots": [
+    "SteinMethod.sec3_5_identDistrib_of_integral_deriv_compactSupport_proof"
+   ],
+   "closure_size": 9,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm5_9_restricted",
+   "roots": [
+    "SteinMethod.thm5_9_restricted"
+   ],
+   "closure_size": 473,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_exists_isSizeBiasSpineCoupling",
+     "via": [
+      "SteinMethod.sec5_3_exists_isSizeBiasSpineCoupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_4",
+     "via": [
+      "SteinMethod.sec5_3_item_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_lpp_mean_diff_log_restricted",
+     "via": [
+      "SteinMethod.sec5_3_lpp_mean_diff_log_restricted"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1712",
+     "via": [
+      "SteinMethod.sec5_3_eq_1712"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_3",
+     "via": [
+      "SteinMethod.sec5_3_item_3"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_3143_corrected",
+     "via": [
+      "SteinMethod.sec5_3_eq_3143_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_ii",
+     "via": [
+      "SteinMethod.sec5_3_step_ii"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_kolmogorov_survival_restricted",
+     "via": [
+      "SteinMethod.sec5_3_kolmogorov_survival_restricted"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop5_5",
+     "via": [
+      "SteinMethod.prop5_5"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_iii",
+     "via": [
+      "SteinMethod.sec5_3_step_iii"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_i",
+     "via": [
+      "SteinMethod.sec5_3_step_i"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+     "via": [
+      "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_spine_coupling",
+     "via": [
+      "SteinMethod.sec5_3_spine_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_1",
+     "via": [
+      "SteinMethod.sec5_3_item_1"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_5_footnote_comparison",
+   "roots": [
+    "SteinMethod.ex4_5_footnote_comparison"
+   ],
+   "closure_size": 77,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem5_2_formula",
+   "roots": [
+    "SteinMethod.lem5_2_formula"
+   ],
+   "closure_size": 26,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem5_2_1",
+   "roots": [
+    "SteinMethod.lem5_2_1"
+   ],
+   "closure_size": 13,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem5_1_2",
+   "roots": [
+    "SteinMethod.lem5_1_2"
+   ],
+   "closure_size": 43,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_1",
+     "via": [
+      "SteinMethod.lem5_2_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_setup_and_moments",
+   "roots": [
+    "SteinMethod.sec3_2_1_triangles_setup_and_moments_proof"
+   ],
+   "closure_size": 75,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm3_22",
+   "roots": [
+    "SteinMethod.lindeberg_iff_tendstoInMeasure_zeroBias"
+   ],
+   "closure_size": 32,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex5_4_ceil_corrected",
+   "roots": [
+    "SteinMethod.ex5_4_ceil_corrected"
+   ],
+   "closure_size": 18,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Rem7_3",
+   "roots": [
+    "SteinMethod.condVar_linear_bound_nonneg"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_binomial_order",
+   "roots": [
+    "SteinMethod.binomial_kolmogorovDist_and_wassersteinDist_order"
+   ],
+   "closure_size": 239,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_21",
+     "via": [
+      "SteinMethod.zeroBias_sum_of_iIndepFun"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.indepSum_aemeasurable_W",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.indepSum_iSup_normalWassersteinClass_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_4",
+     "via": [
+      "SteinMethod.indepSum_normalSteinOp_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_restricted",
+     "via": [
+      "SteinMethod.ae_abs_le_of_isZeroBias_of_ae_abs_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_27",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_of_isZeroBias_bdd"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_26",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_3",
+     "via": [
+      "SteinMethod.indepSum_stein_expansion"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm6_5",
+   "roots": [
+    "SteinMethod.tvDist_le_of_isDiscreteEquilibrium"
+   ],
+   "closure_size": 37,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem6_2",
+     "via": [
+      "SteinMethod.geomSteinSol_steinEq",
+      "SteinMethod.fwdDiff_geomSteinSol",
+      "SteinMethod.geomSteinSol_zero",
+      "SteinMethod.fwdDiff_geomSteinSol_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm6_3",
+     "via": [
+      "SteinMethod.tvDist_geomLaw_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_1",
+   "roots": [
+    "SteinMethod.stdNormal_concentration_with_minimizer"
+   ],
+   "closure_size": 23,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm5_8_restricted",
+   "roots": [
+    "SteinMethod.thm5_8_restricted"
+   ],
+   "closure_size": 466,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_exists_isSizeBiasSpineCoupling",
+     "via": [
+      "SteinMethod.sec5_3_exists_isSizeBiasSpineCoupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_lpp_mean_diff_o_n",
+     "via": [
+      "SteinMethod.sec5_3_lpp_mean_diff_o_n"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_4",
+     "via": [
+      "SteinMethod.sec5_3_item_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1712",
+     "via": [
+      "SteinMethod.sec5_3_eq_1712"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_3",
+     "via": [
+      "SteinMethod.sec5_3_item_3"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_eq_3143_corrected",
+     "via": [
+      "SteinMethod.sec5_3_eq_3143_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop5_5",
+     "via": [
+      "SteinMethod.prop5_5"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_i",
+     "via": [
+      "SteinMethod.sec5_3_step_i"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+     "via": [
+      "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_spine_coupling",
+     "via": [
+      "SteinMethod.sec5_3_spine_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_item_1",
+     "via": [
+      "SteinMethod.sec5_3_item_1"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop5_5",
+   "roots": [
+    "SteinMethod.prop5_5"
+   ],
+   "closure_size": 7,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Cor4_16",
+   "roots": [
+    "SteinMethod.cor4_16_holds_proof"
+   ],
+   "closure_size": 258,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_10",
+     "via": [
+      "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_16_restricted",
+   "roots": [
+    "SteinMethod.ex4_16_restricted"
+   ],
+   "closure_size": 244,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_opening_steinSol_regularity",
+   "roots": [
+    "SteinMethod.sec3_opening_steinSol_regularity_proof"
+   ],
+   "closure_size": 136,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.continuous_normalSteinSolKolm",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_16_exists_zero_denom",
+   "roots": [
+    "SteinMethod.ex4_16_exists_zero_denom"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem5_2_ode_contAt",
+   "roots": [
+    "SteinMethod.lem5_2_ode_contAt"
+   ],
+   "closure_size": 21,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec7_3_eq7_12_minimizer_corrected",
+   "roots": [
+    "SteinMethod.sec7_3_eq7_12_minimizer_corrected"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop4_13",
+   "roots": [
+    "SteinMethod.isolatedVertices_tvDist_poisson"
+   ],
+   "closure_size": 271,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_12",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_exchangeable_zero_one_fin"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_5_coupling",
+     "via": [
+      "SteinMethod.isolatedVertices_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec7_mgf_hasDerivAt",
+   "roots": [
+    "SteinMethod.mgf_integrable_mul_and_hasDerivAt"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem6_2",
+   "roots": [
+    "SteinMethod.geomSteinSol_zero",
+    "SteinMethod.geomSteinSol_steinEq",
+    "SteinMethod.eq_geomSteinSol_of_steinEq",
+    "SteinMethod.fwdDiff_geomSteinSol",
+    "SteinMethod.fwdDiff_geomSteinSol_bounds"
+   ],
+   "closure_size": 22,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop3_19_corrected",
+   "roots": [
+    "SteinMethod.zeroBias_law_characterization"
+   ],
+   "closure_size": 20,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem3_25_corrected",
+   "roots": [
+    "SteinMethod.lem3_25_corrected_bounds"
+   ],
+   "closure_size": 103,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.normalSteinSolKolm_eq_neg_integral_Iic",
+      "SteinMethod.continuous_normalSteinSolKolm",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_2",
+   "roots": [
+    "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+    "SteinMethod.indepSum_aemeasurable_W",
+    "SteinMethod.indepSum_iSup_normalWassersteinClass_le"
+   ],
+   "closure_size": 145,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_4",
+     "via": [
+      "SteinMethod.indepSum_normalSteinOp_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_3",
+     "via": [
+      "SteinMethod.indepSum_stein_expansion"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_2_1_triangles_rucinski_power_regime",
+   "roots": [
+    "SteinMethod.Sec3_2_1_triangles_rucinski_power_regime_proof"
+   ],
+   "closure_size": 520,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+     "via": [
+      "SteinMethod.sizeBias_stein_identity"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.depGraph_iSup_normalWassersteinClass_le",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp",
+      "SteinMethod.depGraph_aemeasurable_W"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_13",
+     "via": [
+      "SteinMethod.sizeBias_wassersteinDist_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_2_1_triangles_rucinski",
+     "via": [
+      "SteinMethod.Sec3_2_1_triangles_rucinski_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_dK_le_dW",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_le_stdNormal_rpow_wassersteinDist_map"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_2_1_triangles_restricted",
+     "via": [
+      "SteinMethod.Sec3_2_1_triangles_restricted_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_4_steinPair",
+   "roots": [
+    "SteinMethod.indepSum_unscaled_isSteinPair"
+   ],
+   "closure_size": 15,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex7_2_order_corrected",
+   "roots": [
+    "SteinMethod.poisson_bound_order_corrected"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex5_4",
+   "roots": [
+    "SteinMethod.ex5_4"
+   ],
+   "closure_size": 102,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_4",
+     "via": [
+      "SteinMethod.thm5_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_2_antiVoter_kolmogorov",
+   "roots": [
+    "SteinMethod.sec3_6_2_antiVoter_kolmogorov"
+   ],
+   "closure_size": 342,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.normalSteinSolKolm_eq_neg_integral_Iic",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm",
+      "SteinMethod.continuous_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_3_1_antiVoter_ergodic_corrected",
+     "via": [
+      "SteinMethod.three_le_card_of_not_isBipartite",
+      "SteinMethod.one_le_degree_of_not_isBipartite"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_10",
+     "via": [
+      "SteinMethod.antiVoter_variance_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_28",
+     "via": [
+      "SteinMethod.IsSteinPair.kolmogorovDist_map_stdNormal_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_24_corrected",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_eq_iSup_normalSteinOpLeft"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_9",
+     "via": [
+      "SteinMethod.isExchangeablePair_of_identDistrib_int_abs_sub_le_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.steinPair_iSup_normalWassersteinClass_le",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_8",
+     "via": [
+      "SteinMethod.antiVoter_steinPair_and_wasserstein_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem2_5_1",
+   "roots": [
+    "SteinMethod.abs_normalSteinSol_le_of_bounded",
+    "SteinMethod.abs_deriv_normalSteinSol_le_of_bounded"
+   ],
+   "closure_size": 73,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_step_i",
+   "roots": [
+    "SteinMethod.sec5_3_step_i"
+   ],
+   "closure_size": 155,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+     "via": [
+      "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem3_5_uniqueness_restricted",
+   "roots": [
+    "SteinMethod.rem3_5_uniqueness_restricted_proof"
+   ],
+   "closure_size": 65,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem3_10",
+   "roots": [
+    "SteinMethod.antiVoter_variance_bounds"
+   ],
+   "closure_size": 39,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_extinction",
+   "roots": [
+    "SteinMethod.sec5_3_extinction"
+   ],
+   "closure_size": 125,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop3_11_restricted",
+   "roots": [
+    "SteinMethod.sizeBias_law_characterization"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_12",
+   "roots": [
+    "SteinMethod.ex4_12"
+   ],
+   "closure_size": 229,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_17_fkg",
+     "via": [
+      "SteinMethod.fkg_independent_indicators_on"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_17_corrected",
+     "via": [
+      "SteinMethod.thm4_17_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec4_1_binomial_limit",
+   "roots": [
+    "SteinMethod.tendsto_tvDist_binomial_poissonLaw"
+   ],
+   "closure_size": 145,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_6",
+     "via": [
+      "SteinMethod.tvDist_sum_indep_indicator_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_8",
+   "roots": [
+    "SteinMethod.tvDist_headRunCount_le"
+   ],
+   "closure_size": 225,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_7_corrected",
+     "via": [
+      "SteinMethod.tvDist_sum_dep_indicator_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_1_equilibrium_rhs_wellDefined",
+   "roots": [
+    "SteinMethod.sec5_1_equilibrium_rhs_wellDefined"
+   ],
+   "closure_size": 16,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_20_antisym",
+   "roots": [
+    "SteinMethod.integral_poissonExchTestFn_eq_zero"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_21",
+   "roots": [
+    "SteinMethod.tvDist_fixedPoints_poissonLaw_le"
+   ],
+   "closure_size": 190,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_20_antisym",
+     "via": [
+      "SteinMethod.integral_poissonExchTestFn_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_21_EW2",
+     "via": [
+      "SteinMethod.expected_fixed_points_sq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_21_EW",
+     "via": [
+      "SteinMethod.expected_fixed_points"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_21_coupling",
+     "via": [
+      "SteinMethod.fixedPoints_transposition_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20",
+     "via": [
+      "SteinMethod.tvDist_poissonLaw_exchangeable_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_21_EW2cycles",
+     "via": [
+      "SteinMethod.expected_two_cycles"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20_identity",
+     "via": [
+      "SteinMethod.integral_poissonSteinOp_exchangeable_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_eq_1711",
+   "roots": [
+    "SteinMethod.sec5_3_eq_1711"
+   ],
+   "closure_size": 32,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_eq_1710",
+     "via": [
+      "SteinMethod.sec5_3_eq_1710"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_lpp_mean_diff_o_n",
+   "roots": [
+    "SteinMethod.sec5_3_lpp_mean_diff_o_n"
+   ],
+   "closure_size": 186,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_eq_3143_corrected",
+     "via": [
+      "SteinMethod.sec5_3_eq_3143_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_neg_corr_3158_and_3160_corrected",
+     "via": [
+      "SteinMethod.sec5_3_neg_corr_3158_and_3160_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_3_step_i",
+     "via": [
+      "SteinMethod.sec5_3_step_i"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec7_eq7_4",
+   "roots": [
+    "SteinMethod.abs_exp_sub_exp_le"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_kolmogorov_survival_restricted",
+   "roots": [
+    "SteinMethod.sec5_3_kolmogorov_survival_restricted"
+   ],
+   "closure_size": 151,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_3_1_antiVoter_not_reversible",
+   "roots": [
+    "SteinMethod.sec3_3_1_antiVoter_not_reversible_proof"
+   ],
+   "closure_size": 196,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec3_3_1_antiVoter_ergodic_corrected",
+     "via": [
+      "SteinMethod.three_le_card_of_not_isBipartite",
+      "SteinMethod.antiVoter_ergodic_and_unique_stationary",
+      "SteinMethod.antiVoterStep_support_nonconst"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Prop7_1",
+   "roots": [
+    "SteinMethod.chernoff_tail_bounds"
+   ],
+   "closure_size": 1,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Lem2_1_1",
+   "roots": [
+    "SteinMethod.integral_normalSteinOp_eq_zero_of_map_eq"
+   ],
+   "closure_size": 18,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex3_6_steinPair",
+   "roots": [
+    "SteinMethod.indepSum_replaceOne_isSteinPair"
+   ],
+   "closure_size": 15,
+   "uses": [
+    {
+     "entry": "SteinMethod.Ex3_6_corrected",
+     "via": [
+      "SteinMethod.indepSum_replaceOne_isSteinPair"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec7_curieWeiss_mode",
+   "roots": [
+    "SteinMethod.curieWeiss_mode_extended"
+   ],
+   "closure_size": 11,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_5_asymptotics",
+   "roots": [
+    "SteinMethod.isolatedVertices_asymptotics"
+   ],
+   "closure_size": 6,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_19",
+   "roots": [
+    "SteinMethod.thm4_19"
+   ],
+   "closure_size": 158,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec6_opening_wasserstein_corrected",
+   "roots": [
+    "SteinMethod.opening_wasserstein_corrected"
+   ],
+   "closure_size": 110,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_4",
+     "via": [
+      "SteinMethod.thm5_4"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_step_iii",
+   "roots": [
+    "SteinMethod.sec5_3_step_iii"
+   ],
+   "closure_size": 188,
+   "uses": [
+    {
+     "entry": "SteinMethod.Sec5_3_kolmogorov_survival_restricted",
+     "via": [
+      "SteinMethod.sec5_3_kolmogorov_survival_restricted"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex7_4_2_corrected",
+   "roots": [
+    "SteinMethod.indepSum_unitInterval_tail_bound"
+   ],
+   "closure_size": 27,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_2",
+     "via": [
+      "SteinMethod.steinPair_tail_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex7_4_steinPair",
+     "via": [
+      "SteinMethod.indepSum_unscaled_isSteinPair"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm7_5",
+     "via": [
+      "SteinMethod.exchangeable_antisymm_tail_bound"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_1",
+   "roots": [
+    "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+   ],
+   "closure_size": 130,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem5_5",
+   "roots": [
+    "SteinMethod.rem5_5"
+   ],
+   "closure_size": 172,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_7_corrected",
+     "via": [
+      "SteinMethod.thm5_7_corrected_minimal"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_3_eq3_18",
+   "roots": [
+    "SteinMethod.sec3_3_eq3_18_proof"
+   ],
+   "closure_size": 6,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_7_corrected",
+   "roots": [
+    "SteinMethod.tvDist_sum_dep_indicator_le"
+   ],
+   "closure_size": 153,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem4_18",
+   "roots": [
+    "SteinMethod.lem4_18_cond"
+   ],
+   "closure_size": 29,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_8",
+   "roots": [
+    "SteinMethod.ex4_8_holds_proof"
+   ],
+   "closure_size": 340,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_10",
+     "via": [
+      "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_11",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_16",
+     "via": [
+      "SteinMethod.cor4_16_holds_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_15",
+     "via": [
+      "SteinMethod.thm4_15_variance_proof"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_16",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_zero_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_zeroBias_bdd_restricted",
+   "roots": [
+    "SteinMethod.ae_abs_le_of_isZeroBias_of_ae_abs_le"
+   ],
+   "closure_size": 8,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop1_2_1",
+   "roots": [
+    "SteinMethod.kolmogorovDist_map_le_tvDist_map"
+   ],
+   "closure_size": 8,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex3_6_restricted",
+   "roots": [
+    "SteinMethod.indepSum_replaceOne_corrected_rhs_le_restricted"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec1_1_1_metrics_axioms",
+   "roots": [
+    "SteinMethod.sec1_1_1_metrics_axioms_proof"
+   ],
+   "closure_size": 22,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex4_21_true_rate",
+   "roots": [
+    "SteinMethod.fixedPoints_true_rate"
+   ],
+   "closure_size": 44,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_2_zeroBias_imp_tendstoInMeasure",
+   "roots": [
+    "SteinMethod.tendstoInMeasure_and_max_variance_tendsto_of_zeroBias"
+   ],
+   "closure_size": 34,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem5_2_ode_ae",
+   "roots": [
+    "SteinMethod.lem5_2_ode_ae",
+    "SteinMethod.lem5_2_ode_ae_bdd"
+   ],
+   "closure_size": 28,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec5_3_exists_isSizeBiasSpineCoupling",
+   "roots": [
+    "SteinMethod.sec5_3_exists_isSizeBiasSpineCoupling"
+   ],
+   "closure_size": 56,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_3_1_antiVoter_ergodic_corrected",
+   "roots": [
+    "SteinMethod.three_le_card_of_not_isBipartite",
+    "SteinMethod.one_le_degree_of_not_isBipartite",
+    "SteinMethod.antiVoterStep_support_nonconst",
+    "SteinMethod.antiVoter_ergodic_and_unique_stationary"
+   ],
+   "closure_size": 185,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm3_23",
+   "roots": [
+    "SteinMethod.tendsto_stdNormalLaw_of_tendstoInMeasure_zeroBias"
+   ],
+   "closure_size": 171,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_19_corrected",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_6_zeroBias_bdd_exists",
+     "via": [
+      "SteinMethod.zeroBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_21",
+     "via": [
+      "SteinMethod.zeroBias_sum_of_iIndepFun"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_15_allTypes_iff",
+   "roots": [
+    "SteinMethod.ex4_15_allTypes_iff"
+   ],
+   "closure_size": 2,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Thm4_17_corrected",
+   "roots": [
+    "SteinMethod.thm4_17_corrected"
+   ],
+   "closure_size": 110,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_17_fkg",
+     "via": [
+      "SteinMethod.fkg_independent_indicators_on"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem4_2",
+   "roots": [
+    "SteinMethod.headRun_mean_and_error_asymptotics"
+   ],
+   "closure_size": 7,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex7_6_corrected",
+   "roots": [
+    "SteinMethod.circularRuns_sizeBias_concentration"
+   ],
+   "closure_size": 125,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm7_6_corrected",
+     "via": [
+      "SteinMethod.sizeBias_tail_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec7_eq7_4",
+     "via": [
+      "SteinMethod.abs_exp_sub_exp_le"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_11",
+   "roots": [
+    "SteinMethod.ex4_11"
+   ],
+   "closure_size": 226,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_17_fkg",
+     "via": [
+      "SteinMethod.fkg_independent_indicators_on"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_17_corrected",
+     "via": [
+      "SteinMethod.thm4_17_corrected"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm4_10",
+   "roots": [
+    "SteinMethod.tvDist_poisson_le_of_isSizeBias"
+   ],
+   "closure_size": 137,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm3_8",
+   "roots": [
+    "SteinMethod.antiVoter_steinPair_and_wasserstein_bound"
+   ],
+   "closure_size": 231,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_9",
+     "via": [
+      "SteinMethod.isExchangeablePair_of_identDistrib_int_abs_sub_le_one"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_3_1_antiVoter_ergodic_corrected",
+     "via": [
+      "SteinMethod.three_le_card_of_not_isBipartite",
+      "SteinMethod.one_le_degree_of_not_isBipartite"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.steinPair_iSup_normalWassersteinClass_le",
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem3_10",
+     "via": [
+      "SteinMethod.antiVoter_variance_bounds"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem4_1",
+   "roots": [
+    "SteinMethod.tvDist_sum_indicator_condExp_le"
+   ],
+   "closure_size": 148,
+   "uses": [
+    {
+     "entry": "SteinMethod.Cor4_3",
+     "via": [
+      "SteinMethod.abs_measureReal_sub_poissonLaw_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_2",
+     "via": [
+      "SteinMethod.poissonSteinOp_poissonSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem4_4",
+     "via": [
+      "SteinMethod.abs_poissonSteinSol_le",
+      "SteinMethod.abs_fwdDiff_poissonSteinSol_le",
+      "SteinMethod.one_sub_exp_neg_div_le_min"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec3_6_2_indepSum_kolmogorov",
+   "roots": [
+    "SteinMethod.sec3_6_2_indepSum_kolmogorov"
+   ],
+   "closure_size": 163,
+   "uses": [
+    {
+     "entry": "SteinMethod.Prop3_6_1",
+     "via": [
+      "SteinMethod.IsExchangeablePair.integral_antisymm_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.normalSteinSolKolm_eq_neg_integral_Iic",
+      "SteinMethod.continuous_normalSteinSolKolm",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne",
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_28",
+     "via": [
+      "SteinMethod.IsSteinPair.kolmogorovDist_map_stdNormal_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_24_corrected",
+     "via": [
+      "SteinMethod.kolmogorovDist_map_stdNormal_eq_iSup_normalSteinOpLeft"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Thm5_4",
+   "roots": [
+    "SteinMethod.thm5_4"
+   ],
+   "closure_size": 67,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem5_2_2",
+     "via": [
+      "SteinMethod.lem5_2_2"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_formula",
+     "via": [
+      "SteinMethod.lem5_2_formula"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem5_2_ode_contAt",
+     "via": [
+      "SteinMethod.lem5_2_ode_contAt"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm5_3_1",
+     "via": [
+      "SteinMethod.thm5_3_1"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec5_1_equilibrium_ac",
+     "via": [
+      "SteinMethod.sec5_1_equilibrium_ac"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Sec2_cor2_3_iff_stdNormal",
+   "roots": [
+    "SteinMethod.sec2_cor2_3_iff_stdNormal_proof"
+   ],
+   "closure_size": 44,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_2_corrected",
+     "via": [
+      "SteinMethod.hasDerivWithinAt_Iic_normalSteinSolKolm",
+      "SteinMethod.hasDerivAt_normalSteinSolKolm_of_ne"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor2_3_corrected",
+     "via": [
+      "SteinMethod.abs_measureReal_Iic_sub_stdNormalCDF_eq"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Rem3_5_uniqueness_probTail_restricted",
+   "roots": [
+    "SteinMethod.rem3_5_uniqueness_probTail_proof"
+   ],
+   "closure_size": 106,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Ex3_8",
+   "roots": [
+    "SteinMethod.sizeBias_indepSum_wassersteinDist_le"
+   ],
+   "closure_size": 163,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm3_13",
+     "via": [
+      "SteinMethod.sizeBias_wassersteinDist_le"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Rem3_4",
+     "via": [
+      "SteinMethod.evariance_condExp_mono"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_11_restricted",
+     "via": [
+      "SteinMethod.sizeBias_law_characterization"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_2",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_7",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_2",
+     "via": [
+      "SteinMethod.abs_iteratedDeriv_two_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_normalSteinSol_le_of_lipschitzDeriv",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_lipschitzDeriv"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Sec3_4_sizeBias_identity",
+     "via": [
+      "SteinMethod.sizeBias_stein_identity"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_5_corrected",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Cor3_15",
+     "via": [
+      "SteinMethod.sizeBias_sum_of_iIndepFun"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm3_1",
+     "via": [
+      "SteinMethod.wassersteinDist_map_stdNormal_le_iSup_normalSteinOp"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Lem6_1_1",
+   "roots": [
+    "SteinMethod.integral_geomSteinOp_eq_zero_of_map_eq"
+   ],
+   "closure_size": 10,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Prop1_2_3",
+   "roots": [
+    "SteinMethod.tvDist_map_eq_half_tsum"
+   ],
+   "closure_size": 9,
+   "uses": []
+  },
+  {
+   "entry": "SteinMethod.Sec3_5_zeroBias_fixedPoint",
+   "roots": [
+    "SteinMethod.isZeroBias_self_iff_normalLaw"
+   ],
+   "closure_size": 104,
+   "uses": [
+    {
+     "entry": "SteinMethod.Lem2_5_formula",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol_of_continuous",
+      "SteinMethod.normalSteinSol_eq_neg_integral_Iic"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_1",
+     "via": [
+      "SteinMethod.abs_normalSteinSol_le_of_bounded",
+      "SteinMethod.abs_deriv_normalSteinSol_le_of_bounded"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Prop3_20",
+     "via": [
+      "SteinMethod.IsZeroBias.const_mul"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Lem2_5_ode_contAt",
+     "via": [
+      "SteinMethod.hasDerivAt_normalSteinSol"
+     ]
+    }
+   ]
+  },
+  {
+   "entry": "SteinMethod.Ex4_20_direct_eq161",
+   "roots": [
+    "SteinMethod.ex4_20_direct_eq161"
+   ],
+   "closure_size": 28,
+   "uses": [
+    {
+     "entry": "SteinMethod.Thm4_20_antisym",
+     "via": [
+      "SteinMethod.integral_poissonExchTestFn_eq_zero"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Ex4_20_coupling",
+     "via": [
+      "SteinMethod.bernoulli_replaceOne_coupling"
+     ]
+    },
+    {
+     "entry": "SteinMethod.Thm4_20_identity",
+     "via": [
+      "SteinMethod.integral_poissonSteinOp_exchangeable_eq"
+     ]
+    }
+   ]
+  }
+ ]
+}

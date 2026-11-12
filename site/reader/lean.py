@@ -1105,6 +1105,31 @@ class LeanIndex:
             )
         return " · ".join(links)
 
+    FIDELITY = {
+        "proved": "as printed in the paper",
+        "corrected": "a disclosed corrected form of the printed result",
+        "restricted": "the printed result under disclosed additional assumptions",
+        "defined": "a formalized definition",
+    }
+
+    def verification_html(self, e: Entry) -> str:
+        """Proof completeness and statement fidelity, stated separately."""
+        rev = self.git.rev[:7]
+        if e.status in self.FIDELITY:
+            proof = (f'complete at commit <code>{esc(rev)}</code>: <code>{esc(e.name)}_holds</code> and every '
+                     'declaration it depends on compile without <code>sorry</code>, and the transitive axiom audit '
+                     'admits only <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code> '
+                     '(CI run linked in the footer)')
+            fid = f'{self.FIDELITY[e.status]}; reviewed by an AI critic against the source, not by the author'
+        elif e.status == "source-issue":
+            proof = "the printed statement is refuted or ill-posed; see the source issue"
+            fid = "not applicable"
+        else:
+            proof = f'statement formalized at commit <code>{esc(rev)}</code>; proof not yet accepted'
+            fid = "not yet reviewed"
+        return (f'<dl class="verif"><dt>Proof</dt><dd>{proof}</dd>'
+                f'<dt>Statement</dt><dd>{fid}</dd></dl>')
+
     def card(self, e: Entry) -> str:
         rec = e.record or {}
         st = e.status
@@ -1142,6 +1167,8 @@ class LeanIndex:
             f'<article class="lean-card" id="lean-{attr(e.name)}">',
             f'<header>{header_chips}<code class="decl" title="{attr(e.full)}">{esc(e.name)}</code></header>',
             "".join(body),
+            self.verification_html(e),
+            getattr(self, "connections", {}).get(e.name, ""),
             f'<div class="meta">{" · ".join(links)}</div>',
             '<details><summary>Lean statement</summary>',
             code_block(e.source, e.line_start),

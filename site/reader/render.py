@@ -427,6 +427,7 @@ class Site(InfoPages):
         ("results",     "Results"),
         ("book",        "Paper"),
         ("graph",       "Dependency graph"),
+        ("declarations", "Lean"),
         ("status",      "Status", [("status", "Progress"), ("errata", "Source issues")]),
         ("methodology", "Methodology"),
         ("contribute",  "Contribute"),
@@ -807,6 +808,8 @@ This formalization is <strong>not complete</strong>, it is <strong>not endorsed 
 reviews were done by AI agents, <strong>not by a human referee</strong>.</p>
 <p class="actions"><a class="button primary" href="book.html">Read the paper</a>
 <a class="button" href="status.html">Progress</a>
+<a class="button" href="graph.html">Dependency graph</a>
+<a class="button" href="declarations.html">Lean declarations</a>
 <a class="button" href="methodology.html">Methodology</a></p>
 </section>
 <section><h2>At a glance</h2>
@@ -815,6 +818,7 @@ reviews were done by AI agents, <strong>not by a human referee</strong>.</p>
 {self.stacked_bar()}
 <p>{self.count_sentence()}</p>
 <p class="snapshot">{self.snapshot_line()}</p></section>
+{getattr(self, "selected_html", "")}
 <section><h2>Sections</h2><ol class="chapters">{''.join(lis)}</ol></section>
 <section class="abstract"><details><summary><h2>About the paper</h2></summary>
 <p>N. Ross, <em>Fundamentals of Stein's method</em>, Probability Surveys 8 (2011) 210–293,
