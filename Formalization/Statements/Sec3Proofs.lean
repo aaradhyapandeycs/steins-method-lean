@@ -20,6 +20,7 @@ import Formalization.Kolmogorov.BinomialOrder
 import Formalization.Kolmogorov.ExchangeableBound
 import Formalization.Leftovers.Ex36SmallN
 import Formalization.Leftovers.Ex38IndepSum
+import Formalization.Leftovers.OUProbTail
 import Formalization.Leftovers.OUUniqueness
 import Formalization.Leftovers.OrnsteinUhlenbeck
 import Formalization.Leftovers.RandomGraphAddenda
@@ -182,6 +183,12 @@ theorem Rem3_5_holds : Rem3_5 :=
 /-- Remark 3.5 uniqueness, restricted (`SteinIntro.tex:1009-1024`; `BL8`) holds. -/
 theorem Rem3_5_uniqueness_restricted_holds : Rem3_5_uniqueness_restricted :=
   rem3_5_uniqueness_restricted_proof
+
+/-- Remark 3.5 semigroup uniqueness under Ross's printed probability tail
+(`SteinIntro.tex:1009-1024`; `BL8-2`) holds. -/
+theorem Rem3_5_uniqueness_probTail_restricted_holds :
+    Rem3_5_uniqueness_probTail_restricted :=
+  rem3_5_uniqueness_probTail_proof
 
 /-- Display `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1046`) holds. -/
 theorem Sec3_3_eq3_18_holds : Sec3_3_eq3_18 := by

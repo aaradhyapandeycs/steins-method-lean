@@ -470,6 +470,17 @@ class Book:
                 front.append(b)
             else:
                 body.append(b)
+        # The index page shows only the abstract: drop the preamble (document class,
+        # geometry, theorem and macro definitions) and the title/author block.
+        masked = mask_comments(raw)
+        a0 = re.search(r"\\begin\{abstract\}", masked)
+        a1 = re.search(r"\\end\{abstract\}", masked)
+        if a0 and a1:
+            # Preamble blocks get unreliable line numbers, so match on text instead.
+            words = lambda s: re.sub(r"\s+", " ", re.sub(r"<[^>]+>|\\[A-Za-z]+|[{}]", " ", s)).strip()
+            abstract = words(raw[a0.end():a1.start()])
+            front = [b for b in front
+                     if (t := words(getattr(b, "html", "")))[:40] and t[:40] in abstract]
         return front, [body], back  # wrap body in a list to match RL API
 
     def paginate(self, sections: list) -> list:

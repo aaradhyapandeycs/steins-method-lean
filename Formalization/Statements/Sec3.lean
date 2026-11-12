@@ -609,9 +609,10 @@ def Rem3_5 : Prop :=
 Reading note: this `_restricted` statement adds two regularity hypotheses not literally printed in
 Remark 3.5: (i) the Lindeberg second-moment tail in place of Item 3's probability tail, and
 (ii) small-time quadratic moment domination (as a regularity reading of "diffusion process" for
-the expectation-interchange steps). Whether the printed probability-tail form already suffices for
-Chapman–Kolmogorov Markov semigroups is left open. Reversibility of `ouKernel` and stationarity of
-`stdNormalLaw` are proved in `Rem3_5`; Parts 2–3 supply the uniqueness of the process and of its
+the expectation-interchange steps). For Chapman–Kolmogorov Markov semigroups,
+`Rem3_5_uniqueness_probTail_restricted` below proves that the printed probability-tail form already
+suffices under small-time quadratic moment domination. Reversibility of `ouKernel` and stationarity
+of `stdNormalLaw` are proved in `Rem3_5`; Parts 2–3 supply the uniqueness of the process and of its
 stationary law. -/
 def Rem3_5_uniqueness_restricted : Prop :=
   ((∀ s : ℝ, 0 < s → ∀ t : ℝ, 0 < t →
@@ -663,6 +664,65 @@ def Rem3_5_uniqueness_restricted : Prop :=
             (∀ μ : Measure ℝ, IsProbabilityMeasure μ →
               (∃ t₀ : ℝ, 0 < t₀ ∧ μ.bind (K t₀) = μ) →
               μ = stdNormalLaw)))))
+
+/-- Remark 3.5, semigroup uniqueness under Ross's printed probability tail, restricted
+(`SteinIntro.tex:1009-1024`; resolves `BL8-2`):
+1. (*Non-vacuity*): `ouKernel` is a Chapman–Kolmogorov Markov semigroup satisfying Remark 3.5's
+   printed Items 1–3 and small-time quadratic moment domination;
+2. (*Semigroup & stationary-law uniqueness*): every Chapman–Kolmogorov Markov semigroup
+   `(K t)_{t > 0}` satisfying Remark 3.5's literally printed Items 1–3 (including the probability
+   tail `(K a x).real {y | ε < |y - x|} = o(a)`) and small-time quadratic moment domination
+   satisfies `K t = ouKernel t` for all `t > 0`, and every probability measure `μ` with
+   `μ.bind (K t₀) = μ` for some `t₀ > 0` equals `stdNormalLaw`.
+Reading note: retains `_restricted` solely for small-time quadratic moment domination (the
+regularity reading of "diffusion process" justifying expectation interchanges); the Lindeberg
+second-moment tail is no longer assumed for semigroups. -/
+def Rem3_5_uniqueness_probTail_restricted : Prop :=
+  ((∀ a : ℝ, 0 < a → ProbabilityTheory.IsMarkovKernel (ouKernel a)) ∧
+    (∀ s : ℝ, 0 < s → ∀ t : ℝ, 0 < t →
+      ouKernel (s + t) = ProbabilityTheory.Kernel.comp (ouKernel t) (ouKernel s)) ∧
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ∂ouKernel a x) - (-a * x)) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ^ 2 ∂ouKernel a x) - 2 * a) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+    (∀ x : ℝ, ∀ ε : ℝ, 0 < ε →
+      Filter.Tendsto
+        (fun a : ℝ ↦ (ouKernel a x).real {y : ℝ | ε < |y - x|} / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+    (∃ a₀ : ℝ, 0 < a₀ ∧ ∃ C : ℝ, 0 ≤ C ∧
+      ∀ a ∈ Set.Ioo 0 a₀, ∀ x : ℝ,
+        Integrable (fun y : ℝ ↦ (y - x) ^ 2) (ouKernel a x) ∧
+          |∫ y, (y - x) ∂ouKernel a x| ≤ C * a * (1 + |x|) ∧
+          (∫ y, (y - x) ^ 2 ∂ouKernel a x) ≤ C * a * (1 + x ^ 2))) ∧
+  (∀ K : ℝ → ProbabilityTheory.Kernel ℝ ℝ,
+    (∀ a : ℝ, 0 < a → ProbabilityTheory.IsMarkovKernel (K a)) →
+    (∀ s : ℝ, 0 < s → ∀ t : ℝ, 0 < t →
+      K (s + t) = ProbabilityTheory.Kernel.comp (K t) (K s)) →
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ∂K a x) - (-a * x)) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ^ 2 ∂K a x) - 2 * a) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (∀ x : ℝ, ∀ ε : ℝ, 0 < ε →
+      Filter.Tendsto
+        (fun a : ℝ ↦ (K a x).real {y : ℝ | ε < |y - x|} / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (∃ a₀ : ℝ, 0 < a₀ ∧ ∃ C : ℝ, 0 ≤ C ∧
+      ∀ a ∈ Set.Ioo 0 a₀, ∀ x : ℝ,
+        Integrable (fun y : ℝ ↦ (y - x) ^ 2) (K a x) ∧
+          |∫ y, (y - x) ∂K a x| ≤ C * a * (1 + |x|) ∧
+          (∫ y, (y - x) ^ 2 ∂K a x) ≤ C * a * (1 + x ^ 2)) →
+    (∀ t : ℝ, 0 < t → K t = ouKernel t) ∧
+      (∀ μ : Measure ℝ, IsProbabilityMeasure μ →
+        (∃ t₀ : ℝ, 0 < t₀ ∧ μ.bind (K t₀) = μ) →
+        μ = stdNormalLaw))
 
 /-- Display `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1046`): for an $a$-Stein pair $(W, W')$
 and a twice-differentiable function $f : \mathbb{R} \to \mathbb{R}$ with $|f| \le B_0$,

@@ -271,9 +271,13 @@ table.facts td { padding: 4px 0; font: 14px var(--sans); overflow-wrap: anywhere
 .book-toc .sections { columns: 2 280px; font: 14.5px/1.6 var(--sans); padding-left: 1.2em; list-style: none; }
 .people { columns: 3 180px; }
 .chapters { padding-left: 0; list-style: none; }
-.chapters li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;
-  padding: 8px 0; border-bottom: 1px solid var(--line); }
-.ch-count { font: 13px var(--sans); color: var(--muted); }
+.chapters > li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+  gap: 4px 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.chapters > li > a { font-weight: 600; }
+.ch-count { font: 13px var(--sans); color: var(--muted); text-align: right; }
+.chapters > li > .sections { flex-basis: 100%; list-style: none; margin: 4px 0 0; padding-left: 1.6em;
+  columns: 2 260px; column-gap: 32px; }
+.chapters .sections li { display: block; padding: 2px 0; border: 0; break-inside: avoid; }
 .lede { font-size: 15.5px; color: var(--muted); }
 .filters { position: sticky; top: var(--header-h); background: var(--bg); padding: 10px 0; z-index: 5; }
 .filters input { width: 100%; max-width: 520px; padding: 8px 10px; font: 15px var(--sans); border: 1px solid var(--line);
@@ -392,3 +396,6 @@ svg.depgraph a:hover rect, svg.depgraph a:focus rect { stroke-width: 3; }
 .errata-entry p { margin: 0.4em 0; }
 
 [hidden] { display: none !important; }
+@media (max-width: 640px) {
+  .chapters > li > .ch-count { flex-basis: 100%; text-align: left; }
+}
