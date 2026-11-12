@@ -141,8 +141,9 @@ mjx-merror { color: #b3261e; }
     linear-gradient(to left, rgba(0,0,0,.14), transparent) right / 10px 100% no-repeat scroll; }
 @media (max-width: 640px) {
   .nobr { white-space: normal; }
-  mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden;
-    vertical-align: middle; }
+  /* Inline math keeps its baseline and never scrolls: a scroll box with hidden vertical overflow showed a
+     stray scrollbar under subscripts and raised the formula. Wide formulas are display math, which scrolls. */
+  mjx-container:not([display="true"]) { max-width: 100%; }
   .book-col, .lean-col, .lean-card, .what, .scope { overflow-wrap: anywhere; }
 }
 

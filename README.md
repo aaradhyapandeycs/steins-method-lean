@@ -130,11 +130,13 @@ cited alongside the corrected formalization.
 - **Lean 4 and Python code** in this repository: [Apache-2.0](LICENSE) (see also
   [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for third-party components).
 - **Paper text**: Nathan Ross, *"Fundamentals of Stein's method"*, *Probability Surveys* 8 (2011)
-  210–293, is published open-access under
-  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) by the Institute of Mathematical
-  Statistics.  The TeX source is **not** stored in this repository; the reader website fetches
-  and hash-verifies it from `arXiv:1109.1880v1` at build time and renders it with full CC BY 4.0
-  attribution.  The rendering is unofficial and may differ from the published version.
+  210–293, [DOI 10.1214/11-PS182](https://doi.org/10.1214/11-PS182), is published open-access by
+  the Institute of Mathematical Statistics; *Probability Surveys* applies the
+  [Creative Commons Attribution License](https://imstat.org/journals-and-publications/probability-surveys/probability-surveys-manuscript-submission/) to all its articles (the author retains copyright).
+  The TeX source is **not** stored in this repository; the reader website fetches and hash-verifies
+  the author's preprint `arXiv:1109.1880v1` (arXiv non-exclusive distribution license) at build time
+  and renders it with attribution and a DOI link.  The rendering is unofficial, may differ from the
+  published version, and changes only formatting.
 
 ---
 

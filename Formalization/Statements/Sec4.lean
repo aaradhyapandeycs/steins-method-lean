@@ -500,7 +500,7 @@ def Ex4_4 : Prop :=
         min 1 (r : ℝ)⁻¹ * ∑ i : Fin n, p i ^ 2
 
 /-- Example 4.5 footnote comparison under the Section 3.4 proof-method reading
-(`SteinIntro.tex:2181-2186`, referencing eq. `(3.26)` `\label{78}` at `SteinIntro.tex:1380-1388`;
+(`SteinIntro.tex:2181-2186`, referencing eq. `(3.30)` `\label{78}` at `SteinIntro.tex:1380-1388`;
 `stmts-review-SWEEP-D` `SD-4`): for isolated vertices in $G \sim G(n, p)$ ($n \ge 1$,
 $0 \le p \le 1$), let $W(G) = \sum_{i=1}^n X_i(G)$ be the isolated-vertex count,
 $W^s_{(i)}(G) = \sum_{j \ne i} X_j(G \setminus E(v_i)) + 1$ be the vertex-$i$ edge-deletion
@@ -508,7 +508,8 @@ coupling, $W^s_{\mathrm{fix}} = W^s_{(v_1)}$ be the deterministic Corollary 4.12
 (`Ex4_5_coupling`), and $W^s_{\mathrm{rand}}(G, I) = W^s_{(I)}(G)$
 ($I \sim \mathrm{Unif}(\mathrm{Fin}\,n)$ independent of $G$) be the randomized Corollary 4.11
 coupling (`Ex3_9`). Then:
-(1) when conditioning on the graph $G$ as in Section 3.4 (`L1386`, via Proposition 3.15),
+(1) when conditioning on the graph $G$ as in Section 3.4 (`L1386`, via Corollary 3.16
+`\label{cor72}` and Remark 3.4 at `SteinIntro.tex:1000-1008`),
 $\mathrm{Var}(\mathbb{E}[W^s_{\mathrm{rand}} - W \mid G]) =
 \frac{1}{n^2}\mathrm{Var}(\sum_{i=1}^n (W^s_{(i)} - W))$ carries the $1/n^2$ averaging factor ($1/n$
 in standard deviation);
@@ -811,7 +812,7 @@ def Cor4_16 : Prop :=
           (min 1 (r : ℝ) *
             (p ^ e_H + ∑ t ∈ Finset.Ico 1 e_H, ((Γ_t t).card : ℝ) * (p ^ t - p ^ e_H)))
 
-/-- Example 4.7 (`SteinIntro.tex:2334-2343`, eq. `(4.13)` `\label{124}`): for triangle counts in
+/-- Example 4.7 (`SteinIntro.tex:2334-2343`, eq. `(4.10)` `\label{124}`): for triangle counts in
 $G \sim G(n, p)$ ($n \ge 3$, $0 \le p \le 1$) with $H = K_3$ (`SimpleGraph.cycleGraph 3`),
 $e_H = 3$, $|\Gamma| = \binom{n}{3}$, $|\Gamma_\alpha^1| = 0$ and $|\Gamma_\alpha^2| = 3(n - 3)$
 for every $\alpha \in \Gamma$, $W = \mathrm{subgraphCount}\,(\mathrm{cycleGraph}\,3)\,n\,G$ agrees
@@ -858,7 +859,7 @@ def Ex4_7 : Prop :=
       ∃ B₁ B₂ : ℝ, 0 < B₁ ∧ 0 < B₂ ∧ ∀ᶠ n : ℕ in Filter.atTop,
         B₁ / (n : ℝ) ≤ err n ∧ err n ≤ B₂ / (n : ℝ))
 
-/-- Example 4.8 (`SteinIntro.tex:2344-2366`, eq. `(4.14)` `\label{125}`; `ISSUE-TYPO-4.8` and
+/-- Example 4.8 (`SteinIntro.tex:2344-2366`, eq. `(4.11)` `\label{125}`; `ISSUE-TYPO-4.8` and
 Critic G2-3): for $k$-cycle counts in $G \sim G(n, p)$ with
 $H = \mathrm{SimpleGraph.cycleGraph}\,k$ ($k \ge 3$), there exist constants $c_t > 0$ and
 $C_k > 0$ such that for all $n \ge k$, all $\alpha \in \Gamma$, and all $1 \le t \le k - 1$,
@@ -870,7 +871,7 @@ $|\Gamma| = \binom{n}{k} \frac{(k - 1)!}{2}$ (`ISSUE-TYPO-4.8`: `L2361` prints a
 $p^k$ on the right-hand side of $|\Gamma|$), $\lambda = |\Gamma| p^k =
 \binom{n}{k} \frac{(k - 1)!}{2} p^k$, $\lambda$ is of order $(np)^k$ (`L2364`: for $2k \le n$,
 $\frac{(np)^k}{2k \cdot 2^k} \le \lambda \le \frac{(np)^k}{2k}$), and when $p \asymp 1 / n$,
-$\lambda \asymp 1$ and the upper bound `(4.14)` is of order $1 / n$. -/
+$\lambda \asymp 1$ and the upper bound `(4.11)` is of order $1 / n$. -/
 def Ex4_8 : Prop :=
   ∀ {k : ℕ}, 3 ≤ k →
     ∃ (c : ℕ → ℝ) (C_k : ℝ), (∀ t, 0 < c t) ∧ 0 < C_k ∧
@@ -1447,8 +1448,9 @@ def Ex4_15_restricted : Prop :=
       tvDist (P.map W) (P'.map Z) ≤ ENNReal.ofReal err ∧
       |P.real {ω | W ω = 0} - Real.exp (-lam)| ≤ err
 
-/-- Example 4.15, intermediate analytic identity and logarithmic bounds (`\label{ex123}`,
-`SteinIntro.tex:2554-2560`; `review-05G4` item 2): setting $a = \frac{n(n - 2)}{(n - 1)^2}$ and
+/-- Example 4.15, intermediate analytic identity and logarithmic bounds (`SteinIntro.tex:2553-2560`,
+Example 4.15 `\label{ex123}` at `SteinIntro.tex:2512`; `review-05G4` item 2): setting
+$a = \frac{n(n - 2)}{(n - 1)^2}$ and
 $\lambda = n(1 - 1/n)^k$, for all $2 \le n$ eq. `(4.13)` equals
 $\min\{1, \lambda\}(\frac{\lambda}{n} + \frac{n - 1}{n}\lambda(1 - a^k))$ and is at most
 $\frac{\lambda}{n} + \lambda(1 - a^k)$, and for $3 \le n$ it satisfies
@@ -1494,7 +1496,7 @@ def Ex4_15_rate : Prop :=
           tvDist (P.map W) (poissonLaw r) ≤ ENNReal.ofReal (C * Real.log (n : ℝ) / (n : ℝ))
 
 /-- Example 4.16, non-uniform redistribution size-bias coupling (`[Coupon collecting continued]`,
-`SteinIntro.tex:2581-2587`): for $k$ balls placed independently into $n$ boxes with probabilities
+`SteinIntro.tex:2569-2587`): for $k$ balls placed independently into $n$ boxes with probabilities
 $(p_1, \dots, p_n)$ ($\sum_i p_i = 1$, $p_i \ge 0$), redirecting each ball in box $i$ ($p_i < 1$)
 independently to box $j \ne i$ with probability $p_j / (1 - p_i)$ yields indicators
 $(X_j^{(i)})_{j \ne i}$ with the conditional law of $(X_j)_{j \ne i}$ given $X_i = 1$, satisfies
@@ -1703,7 +1705,7 @@ def Rem4_18 : Prop :=
     IsExchangeablePair P W W' →
     P.real {ω | W' ω = W ω + 1} = P.real {ω | W ω = W' ω + 1}
 
-/-- Remark 4.19 (`SteinIntro.tex:2633-2641`; `stmts-review-05H`): the $\mathrm{Po}(\lambda)$ law
+/-- Remark 4.19 (`SteinIntro.tex:2633-2642`; `stmts-review-05H`): the $\mathrm{Po}(\lambda)$ law
 satisfies detailed balance $\lambda \pi(k) = (k + 1) \pi(k + 1)$ for all $k \in \mathbb{N}$ and is
 stationary (global balance) for the birth-death process with birth rate $\alpha(k) = \lambda$ and
 death rate $\beta(k) = k$. -/
@@ -1718,7 +1720,7 @@ def Rem4_19 : Prop :=
           (r : ℝ) * (poissonLaw r).real {k} +
             ((k + 2 : ℕ) : ℝ) * (poissonLaw r).real {k + 2})
 
-/-- Theorem 4.20 proof anti-symmetry sub-claim (`SteinIntro.tex:2647-2650`): for an exchangeable
+/-- Theorem 4.20 proof anti-symmetry sub-claim (`SteinIntro.tex:2645-2650`): for an exchangeable
 pair $(W, W')$ and any bounded $f : \mathbb{N} \to \mathbb{R}$,
 $\mathbb{E}[\mathbb{I}[W' = W + 1] f(W') - \mathbb{I}[W = W' + 1] f(W)] = 0$. -/
 def Thm4_20_antisym : Prop :=
@@ -1731,13 +1733,13 @@ def Thm4_20_antisym : Prop :=
       ∫ ω, ((if W' ω = W ω + 1 then f (W' ω) else 0) -
              (if W ω = W' ω + 1 then f (W ω) else 0)) ∂P = 0
 
-/-- Theorem 4.20 proof key identity eq. `(4.3)` (`\label{161}`, `SteinIntro.tex:2656-2660`;
+/-- Theorem 4.20 proof key identity eq. `(4.14)` (`\label{161}`, `SteinIntro.tex:2656-2660`;
 `stmts-review-05H` `H2`): for an exchangeable pair $(W, W')$ with integrable $W$,
 $\sigma(W) \subseteq \mathcal{F}$, bounded $f : \mathbb{N} \to \mathbb{R}$, and $c \in \mathbb{R}$,
 $\mathbb{E}[\lambda f(W + 1) - W f(W)] =
 \mathbb{E}[(\lambda - c\,\mathbb{P}(W' = W + 1 \mid \mathcal{F})) f(W + 1) -
 (W - c\,\mathbb{P}(W = W' + 1 \mid \mathcal{F})) f(W)]$.
-`Integrable (fun ω ↦ (W ω : ℝ)) P` is included because `(4.3)` is a proof sub-claim whose
+`Integrable (fun ω ↦ (W ω : ℝ)) P` is included because `(4.14)` is a proof sub-claim whose
 left-hand side writes $\mathbb{E}[W f(W)]$ as a real expectation. -/
 def Thm4_20_identity : Prop :=
   ∀ {Ω : Type*} [mΩ : MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
@@ -1810,8 +1812,9 @@ def Ex4_20 : Prop :=
     tvDist (P.map (fun ω ↦ ∑ i : Fin n, X i ω)) (poissonLaw r) ≤
       ENNReal.ofReal (2 * min 1 ((r : ℝ) ^ (-(1 / 2 : ℝ))) * ∑ i : Fin n, p i ^ 2)
 
-/-- Example 4.20 direct bound of eq. `(4.15)` (`\label{161}`, `SteinIntro.tex:2678-2679`;
-`stmts-review-SWEEP-D` `SD-5`): in the replace-one exchangeable-pair coupling of `Ex4_20_coupling`
+/-- Example 4.20 direct bound of eq. `(4.14)` (`SteinIntro.tex:2678-2679`, referencing `\label{161}`
+at `SteinIntro.tex:2656-2660`; `stmts-review-SWEEP-D` `SD-5`): in the replace-one exchangeable-pair
+coupling of `Ex4_20_coupling`
 with $\mathcal{F} = \sigma(X_1, \dots, X_n)$, $c = n$, and $\lambda = \sum_{i=1}^n p_i > 0$, the
 right-hand side of `Thm4_20_identity` (`\eq{161}`) simplifies for every bounded
 $f : \mathbb{N} \to \mathbb{R}$ to $\mathbb{E}[(\sum_{i=1}^n p_i X_i) \Delta f(W)]$, bounding its
@@ -1906,7 +1909,7 @@ def Ex4_21_EW2cycles : Prop :=
     ∫ π, (numTwoCycles π : ℝ) ∂
       (PMF.uniformOfFintype (Equiv.Perm (Fin n))).toMeasure = 1 / 2
 
-/-- Example 4.21 (`SteinIntro.tex:2694-2699`): for $n \ge 2$, the number of fixed points $W$ of a
+/-- Example 4.21 (`SteinIntro.tex:2681-2702`): for $n \ge 2$, the number of fixed points $W$ of a
 uniform random permutation on `Fin n` satisfies
 $d_{\mathrm{TV}}(\mathcal{L}(W), \mathrm{Po}(1)) \le 4 / n$. -/
 def Ex4_21 : Prop :=
@@ -1915,7 +1918,7 @@ def Ex4_21 : Prop :=
       ((PMF.uniformOfFintype (Equiv.Perm (Fin n))).toMeasure.map numFixedPoints)
       (poissonLaw 1) ≤ ENNReal.ofReal (4 / (n : ℝ))
 
-/-- Example 4.21 true-rate prose claim (`SteinIntro.tex:2702-2703`, citing `[abt03]`;
+/-- Example 4.21 true-rate prose claim (`SteinIntro.tex:2702-2706`, citing `[abt03]`;
 `stmts-review-05H` `H4`, `stmts-review-BL6` `BL6-1`, Backlog item 6): for the number of fixed
 points $W_n(\pi) = |\{i \in \mathrm{Fin}\,n \mid \pi(i) = i\}|$ of a uniformly chosen random
 permutation $\pi \in \mathrm{Sym}(n)$, the total variation distance to $\mathrm{Po}(1)$ satisfies

@@ -68,7 +68,7 @@ def Sec6_supportMismatch : Prop :=
     Tendsto (fun p : ℝ ↦ 1 - p * (1 - p) ^ (k - 1) / (1 - (1 - p) ^ k))
       (nhdsWithin 0 (Set.Ioi 0)) (nhds (((k : ℝ) - 1) / (k : ℝ))))
 
-/-- Section 6 opening & 6.3 failure of exponential approximation (`SteinIntro.tex:3211-3212`):
+/-- Section 6 opening & 6.3 failure of exponential approximation (`SteinIntro.tex:3208-3212`):
 for $n \ge 2$, the in-degree $W_n$ of an independent uniformly chosen vertex in
 `uniformAttachment n` satisfies $\mathbb{P}(W_n = 0) = \frac{n - 1}{2n}$ and
 $d_{\mathrm{K}}(\mathcal{L}(W_n), \mathrm{Exp}(1)) \ge \frac{n - 1}{2n}$. -/
@@ -193,7 +193,7 @@ def Prop6_4 : Prop :=
    renewal theory"* is read as the stationary-excess formula
    $\mathbb{P}(W^e = k) = \mathbb{P}(W > k) / \mathbb{E}[W] = \frac{p}{1 - p}\mathbb{P}(W > k)$
    for all $k \in \mathbb{N}$ (stationarity of the delayed renewal process $Y^e + Y_1 + \cdots$ is
-   Remark 5.3 at `SteinIntro.tex:2875-2879`). -/
+   Remark 5.3 at `SteinIntro.tex:2875-2880`). -/
 def Rem6_2_restricted : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
     (P : Measure Ω) [IsProbabilityMeasure P]

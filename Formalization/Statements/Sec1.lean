@@ -38,7 +38,7 @@ def Thm1_1 : Prop :=
     |P.real {ω | W_n ω ≤ x} - stdNormalCDF x| ≤
       1.88 * (∫ ω, |X 0 ω| ^ 3 ∂P) / Real.sqrt n
 
-/-- Section 1.1.1 probability-metric axioms (`\label{probmet}`, `SteinIntro.tex:503-522`;
+/-- Section 1.1.1 probability-metric axioms (`\label{probmet}`, `SteinIntro.tex:502-522`;
 `D1`–`D3`): `kolmogorovDist` and `wassersteinDist` satisfy symmetry, the triangle inequality, and
 separation (`d μ ν = 0 ↔ μ = ν`) on all Borel probability measures on `ℝ`, and `tvDist` satisfies
 symmetry, the triangle inequality, and separation on all probability measures on any measurable
@@ -60,7 +60,8 @@ def Sec1_1_1_metrics_axioms : Prop :=
     tvDist μ ρ ≤ tvDist μ ν + tvDist ν ρ ∧
     (tvDist μ ν = 0 ↔ μ = ν))
 
-/-- Section 1.1.1 Item 1 (`\label{probmet}`, `SteinIntro.tex:513-515`, `708`): for Borel
+/-- Section 1.1.1 Item 1 (`\label{probmet}`, `SteinIntro.tex:502-515`, `SteinIntro.tex:708-709`):
+for Borel
 probability measures on `ℝ`, `kolmogorovDist μ ν` equals the supremum distance between cumulative
 distribution functions `ProbabilityTheory.cdf`, and convergence `kolmogorovDist (μ n) ν → 0`
 implies weak convergence in `ProbabilityMeasure ℝ`. -/
@@ -86,7 +87,8 @@ def Prop1_2_1 : Prop :=
     AEMeasurable W P → AEMeasurable Z P' →
     kolmogorovDist (P.map W) (P'.map Z) ≤ tvDist (P.map W) (P'.map Z)
 
-/-- Proposition 1.2(2) (`\label{prop22}`, `SteinIntro.tex:527-531`): if $Z$ has Lebesgue density
+/-- Proposition 1.2(2) (`\label{prop22}`, `SteinIntro.tex:523-524`, `SteinIntro.tex:527-531`): if
+$Z$ has Lebesgue density
 bounded almost everywhere by $C$, then for any real-valued random variable $W$,
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \sqrt{2 C \, d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))}$. -/
@@ -101,7 +103,8 @@ def Prop1_2_2 : Prop :=
     kolmogorovDist (P.map W) (P'.map Z) ≤
       (2 * ENNReal.ofReal C * wassersteinDist (P.map W) (P'.map Z)) ^ (1 / 2 : ℝ)
 
-/-- Proposition 1.2(3) (`\label{prop22}`, `SteinIntro.tex:532-537`): if $W$ and $Z$ take values in
+/-- Proposition 1.2(3) (`\label{prop22}`, `SteinIntro.tex:523-524`, `SteinIntro.tex:532-537`): if
+$W$ and $Z$ take values in
 a countable measurable-singleton space $S$, then
 $d_{\mathrm{TV}}(\mathcal{L}(W), \mathcal{L}(Z)) =
 \frac{1}{2} \sum_{s \in S} |\mathbb{P}(W = s) - \mathbb{P}(Z = s)|$. -/

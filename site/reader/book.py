@@ -22,7 +22,7 @@ import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .tex import Block, FileConverter, assemble, label_id, mask_comments, mathjax_compat, parse_macros, read_group
+from .tex import Block, FileConverter, assemble, expand_calligraphic, label_id, mask_comments, mathjax_compat, parse_macros, read_group
 
 TEX = "docs/source"           # relative to repo root
 MAIN = "SteinIntro_utf8.tex"  # UTF-8 normalised copy
@@ -46,8 +46,8 @@ MATH_OVERRIDES: dict = {
     "Po":   (0, None, "\\mathrm{Po}"),        # Poisson distribution
     "Exp":  (0, None, "\\mathrm{Exp}"),       # Exponential distribution
     "Ge":   (0, None, "\\mathrm{Ge}"),        # Geometric (one variant)
-    "Geo":  (0, None, "\\mathrm{Geo}"),       # Geometric (another variant)
-    "ER":   (0, None, "\\mathcal{G}(n,p)"),   # Erdős–Rényi random graph
+    "Geo":  (0, None, "\\mathrm{Ge}^0"),      # \def\Geo{\Ge^0}: geometric on {0, 1, ...}
+    "ER":   (0, None, "Erdős-Rényi"),         # text macro: \def\ER{Erd\H{o}s-R\'enyi}
     "var":  (0, None, "\\mathrm{Var}"),       # variance
     "cov":  (0, None, "\\mathrm{Cov}"),       # covariance
     # One-argument macros
@@ -70,7 +70,7 @@ MATH_OVERRIDES: dict = {
     "bbklg":  (1, None, "\\Bigl\\{#1\\Bigr\\}"),
     "bbbklg": (1, None, "\\biggl\\{#1\\biggr\\}"),
     "bbbbklg": (1, None, "\\Biggl\\{#1\\Biggr\\}"),
-    "P":    (0, None, "P_\\lambda"),
+    "P":    (0, None, "\\mathcal{P}_\\lambda"),  # \def\P{\%P_\lambda}
     "s":    (0, None, "\\sigma"),
     "dh":   (0, None, "d_{\\mathcal{H}}"),
     "IC":   (0, None, "\\mathbb{C}"),
@@ -175,7 +175,7 @@ class Book:
 
     def load_macros(self) -> dict:
         """Parse macros from the preamble of the main TeX file."""
-        main_text = (self.tex_root / MAIN).read_text(encoding="utf-8")
+        main_text = expand_calligraphic((self.tex_root / MAIN).read_text(encoding="utf-8"))
         preamble = main_text.split("\\begin{document}")[0]
         macros = parse_macros(preamble)
         # MATH_OVERRIDES win over preamble definitions
@@ -235,7 +235,7 @@ class Book:
         if not target.is_file():
             self.warn(f"missing include {path}")
             return []
-        conv = FileConverter(self, self.rel(target), target.read_text(encoding="utf-8"))
+        conv = FileConverter(self, self.rel(target), expand_calligraphic(target.read_text(encoding="utf-8")))
         return conv.convert()
 
     def image(self, path: str) -> str:
@@ -397,7 +397,7 @@ class Book:
         section headings when paginating.
         """
         main_path = self.tex_root / MAIN
-        raw = main_path.read_text(encoding="utf-8")
+        raw = expand_calligraphic(main_path.read_text(encoding="utf-8"))
         # Split at \begin{document}
         doc_match = re.search(r"\\begin\{document\}", mask_comments(raw))
         if doc_match:

@@ -159,6 +159,8 @@ def check(build: Path) -> list:
     problems = []
     for name, body in sorted(cfg.items()):
         body = body[0] if isinstance(body, list) else body
+        if re.search(r"\\%[A-Za-z{]", body):
+            problems.append(("mathjax-config.js", "macro body", f"\\{name} contains an unexpanded \\% (renders as %)"))
         for n in sorted(set(undefined(body, defined, envs))):
             problems.append(("mathjax-config.js", "macro body", f"\\{name} uses undefined \\{n}"))
     for f in sorted(glob.glob(str(build / "*.html"))):
@@ -175,6 +177,10 @@ def check(build: Path) -> list:
             problems.append((rel, "raw macro outside math", r))
         seen = set()
         for tex in math:
+            # The paper defines \% as \mathcal (\def\%#1{\mathcal{#1}}); MathJax reads \% as a percent sign,
+            # so an unexpanded \%F renders as "%F". The builder expands it; this guards against regressions.
+            for m in sorted(set(re.findall(r"\\%[A-Za-z{]", tex))):
+                problems.append((rel, "unexpanded paper macro \\% (renders as a percent sign)", m))
             for n in undefined(tex, defined, envs):
                 if n not in seen:
                     seen.add(n)

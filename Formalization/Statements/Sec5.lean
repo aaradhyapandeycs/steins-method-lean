@@ -32,7 +32,7 @@ def Lem5_1_1 : Prop :=
     Integrable (fun ω ↦ deriv f (Z ω)) P →
     Integrable (fun ω ↦ expSteinOp f (Z ω)) P ∧ ∫ ω, expSteinOp f (Z ω) ∂P = 0
 
-/-- Lemma 5.1(2) (`\label{lem171}`, `SteinIntro.tex:2734-2736`; `D5` literal): if $W \ge 0$ a.s. is
+/-- Lemma 5.1(2) (`\label{lem171}`, `SteinIntro.tex:2726-2738`; `D5` literal): if $W \ge 0$ a.s. is
 a real-valued random variable such that $\mathbb{E}[\mathcal{A}f(W)] = 0$ for every locally
 absolutely continuous function $f : \mathbb{R} \to \mathbb{R}$ satisfying
 $\mathbb{E}|f'(Z)| < \infty$ for $Z \sim \mathrm{Exp}(1)$, then $W \sim \mathrm{Exp}(1)$. -/
@@ -76,8 +76,9 @@ def Lem5_2_ode_contAt : Prop :=
       HasDerivAt (expSteinSol h) (expSteinSol h x + h x - stdExpExpect h) x
 
 /-- Lemma 5.2, local absolute continuity, a.e. ODE, and a.e. uniqueness (`\label{lem172}`,
-eqs. `(5.1)`–`(5.2)` `\label{171}`–`\label{172}`, `SteinIntro_utf8.tex:2740-2745, 2774-2779`;
-`ISSUE-5.2-ODE`, `M1`): for locally integrable $h : \mathbb{R} \to \mathbb{R}$ integrable under
+eqs. `(5.1)`–`(5.2)` `\label{171}`–`\label{172}`, `SteinIntro.tex:2740-2745`,
+`SteinIntro.tex:2774-2779`; `ISSUE-5.2-ODE`, `M1`): for locally integrable
+$h : \mathbb{R} \to \mathbb{R}$ integrable under
 $\mathrm{Exp}(1)$ — and in particular for every bounded measurable $h : \mathbb{R} \to \mathbb{R}$ —
 `expSteinSol h` is locally absolutely continuous on $\mathbb{R}$, satisfies
 $f_h'(x) - f_h(x) = h(x) - \mathbb{E}[h(Z)]$ with a two-sided derivative at Lebesgue-almost-every
@@ -149,8 +150,8 @@ def Thm5_3_1 : Prop :=
     wassersteinDist (P.map W) (P'.map Z) ≤
       ⨆ f ∈ expWassersteinClass, ENNReal.ofReal |∫ ω, (deriv f (W ω) - f (W ω)) ∂P|
 
-/-- Theorem 5.3(2) (`\label{thm171}`, `SteinIntro.tex:2758-2760, 2767-2772`; `D6` literal class):
-if $W \ge 0$ a.s. has finite mean and $Z \sim \mathrm{Exp}(1)$, then
+/-- Theorem 5.3(2) (`\label{thm171}`, `SteinIntro.tex:2758-2760`, `SteinIntro.tex:2767-2773`; `D6`
+literal class): if $W \ge 0$ a.s. has finite mean and $Z \sim \mathrm{Exp}(1)$, then
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \sup_{f \in \mathcal{F}_K} |\mathbb{E}[f'(W) - f(W)]|$. -/
 def Thm5_3_2 : Prop :=
@@ -392,8 +393,8 @@ def Thm5_6 : Prop :=
       (nhdsWithin 0 (Set.Ioi 0))
       (nhds 0)
 
-/-- Section 5.2, equation (5.6) equilibrium coupling (`\label{179}`,
-`SteinIntro_utf8.tex:2953-2957`; `M2`): for independent non-negative mean-$1$ summands
+/-- Section 5.2, equation (5.6) equilibrium coupling (`\label{179}`, `SteinIntro.tex:2953-2957`;
+`M2`): for independent non-negative mean-$1$ summands
 $(X_i)_{i \ge 1}$ (requiring $L^1$ only), integer-valued $N, M \ge 1$ a.s. with
 $\mathbb{E}[N] = 1/p$ and $\mathbb{P}(M = m) = p\,\mathbb{P}(N \ge m)$ ($m \ge 1$) jointly
 independent of $(X_i)_{i \ge 1}$, and equilibrium variables $X_i^e$ each independent of
@@ -530,7 +531,8 @@ def Sec5_3_exists_isGaltonWatson_pos_var : Prop :=
     P.real {ω | Z 1 ω = 2} = 1 / 2
 
 /-- Section 5.3 existence of the Lyons–Pemantle–Peres size-bias spine coupling (`I-2`,
-`SteinIntro.tex:3030-3042, 3128-3136`): for every critical Galton–Watson branching process with
+`SteinIntro.tex:3030-3044`, `SteinIntro.tex:3065-3067`, `SteinIntro.tex:3117-3138`,
+`SteinIntro.tex:3167-3168`): for every critical Galton–Watson branching process with
 finite variance and every generation $n \ge 0$, there exists a probability space $(\Omega', P')$
 supporting $(X, L, R, R', U)$ satisfying `IsSizeBiasSpineCoupling`. -/
 def Sec5_3_exists_isSizeBiasSpineCoupling : Prop :=
@@ -656,7 +658,8 @@ def Sec5_3_gwProb_sum_genSize : Prop :=
           P.real {ω | Z n ω = k}
 
 /-- Section 5.3 size-bias tree-probability link to the spine joint law and normalization
-(`I-1(b,c)`, `SteinIntro.tex:3048-3052, 3074-3079`): for a critical Galton–Watson process with
+(`I-1(b,c)`, `SteinIntro.tex:3047-3056`, `SteinIntro.tex:3070-3079`, `SteinIntro.tex:3100-3101`):
+for a critical Galton–Watson process with
 offspring PMF $p(k) = \mathbb{P}(Z_1 = k)$ and spine $(X, L, R)$ at generation $n$, summing
 `gwSizeBiasProbV p t v` over all $(t, v)$ with $t_n = k$ and $\mathrm{left}(t, v) = m$ yields
 $\mathbb{P}(S_n = k \wedge L_n = m)$, summing `gwSizeBiasProb p t` over $t_n = k$ yields
@@ -702,7 +705,7 @@ def Sec5_3_item_1 : Prop :=
     let Sn : Ω' → ℝ := fun ω' ↦ 1 + ∑ j ∈ Finset.Icc 1 n, ((L j ω' : ℝ) + (R j ω' : ℝ))
     IsSizeBias P (fun ω ↦ (Z n ω : ℝ)) P' Sn
 
-/-- Section 5.3 positive-conditioning size-bias invariance (`SteinIntro.tex:3077-3078`):
+/-- Section 5.3 positive-conditioning size-bias invariance (`SteinIntro.tex:3076-3078`):
 conditioning a non-negative integrable random variable $X$ with $\mathbb{E}[X] > 0$ to be strictly
 positive does not change its size-bias distribution. -/
 def Sec5_3_sizeBias_cond_pos : Prop :=
@@ -718,7 +721,8 @@ def Sec5_3_sizeBias_cond_pos : Prop :=
     PY.map Y = (ProbabilityTheory.cond P {ω | 0 < X ω}).map X →
     (IsSizeBias P X P' Xs ↔ IsSizeBias PY Y P' Xs)
 
-/-- Section 5.3 Item (2) (`\label{i172a}`, `SteinIntro.tex:3062-3063, 3077-3078`): in a critical
+/-- Section 5.3 Item (2) (`\label{i172a}`, `SteinIntro.tex:3062-3063`, `SteinIntro.tex:3076-3078`):
+in a critical
 Galton–Watson process ($\mathbb{E}[Z_1] = 1$), if $Y_n \stackrel{d}{=} (Z_n \mid Z_n > 0)$ and
 $Y_n^s$ has the size-bias distribution of $Y_n$, then $S_n \stackrel{d}{=} Y_n^s$. -/
 def Sec5_3_item_2 : Prop :=
@@ -800,7 +804,7 @@ def Sec5_3_eq_1712 : Prop :=
     P' {ω' | Ln ω' = 0} = P {ω | 0 < Z n ω} ∧
       (ProbabilityTheory.cond P' {ω' | Ln ω' = 0}).map Sn = PY.map Y
 
-/-- Section 5.3 non-independence of $L_{n,j}$ and $R_{n,j}$ (`SteinIntro.tex:3122-3126`):
+/-- Section 5.3 non-independence of $L_{n,j}$ and $R_{n,j}$ (`SteinIntro.tex:3119-3126`):
 $L_{n,n}$ and $R_{n,n}$ are the numbers of siblings of $v_n$ to the left and right
 ($L_{n,n} + R_{n,n} = X_n$ a.s.), and for fixed $j$, $L_{n,j}$ and $R_{n,j}$ are in general not
 independent (witnessed by $Z_1 \sim \frac{1}{2}\delta_0 + \frac{1}{2}\delta_2$ at $j = n$). -/
@@ -859,8 +863,8 @@ def Sec5_3_eq_3143_corrected : Prop :=
         (∑ j ∈ Finset.Icc 1 n, (R' j ω' : ℝ) * {ω'' : Ω' | 0 < L j ω''}.indicator 1 ω') +
         (∑ j ∈ Finset.Icc 1 n, (R j ω' : ℝ) * {ω'' : Ω' | 0 < L j ω''}.indicator 1 ω')
 
-/-- Section 5.3 negative correlation of $S_{n,j}$ and $\mathbf{1}_{L_{n,j} = 0}$ (`L3158`) and
-corrected conditional expectation chain (`L3160-3163`; `ISSUE-5.9-PROOF`, `I-8`): for every
+/-- Section 5.3 negative correlation of $S_{n,j}$ and $\mathbf{1}_{L_{n,j} = 0}$ and corrected
+conditional expectation chain (`SteinIntro.tex:3158-3164`; `ISSUE-5.9-PROOF`, `I-8`): for every
 $j \in \{1, \dots, n\}$, $\mathbb{E}[S_{n,j} \mathbf{1}_{L_{n,j} = 0}] \le
 \mathbb{E}[S_{n,j}]\,\mathbb{P}(L_{n,j} = 0)$, $\mathbb{E}[R_{n,j}'] =
 \mathbb{E}[R_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} \mid L_{n,j} = 0] \le

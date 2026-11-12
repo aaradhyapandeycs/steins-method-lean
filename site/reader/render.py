@@ -464,7 +464,7 @@ class Site(InfoPages):
         return "".join(out)
 
     def shell(self, title: str, body: str, current: str | None = None, toc: bool = True) -> str:
-        """Generate the full HTML page frame (WIP banner + CC BY 4.0 footer + CI status link)."""
+        """Generate the full HTML page frame (WIP banner + attribution footer + CI status link)."""
         rev = self.lean.git.rev
         layout = (
             f'<div class="layout">{self.toc(current)}<main id="main">{body}</main></div>'
@@ -507,8 +507,8 @@ class Site(InfoPages):
 <p>Paper text: N. Ross, <em>Fundamentals of Stein's method</em>,
 Probability Surveys 8 (2011) 210–293,
 <a href="https://doi.org/10.1214/11-PS182">DOI 10.1214/11-PS182</a>,
-<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>,
-rendered from <a href="{ARXIV}">{SUBTITLE}</a>.
+published under the journal's <a href="https://imstat.org/journals-and-publications/probability-surveys/probability-surveys-manuscript-submission/">Creative Commons Attribution License</a>;
+rendered from the author's preprint <a href="{ARXIV}">{SUBTITLE}</a>.
 Text rendered unofficially; may differ from the published version.
 Lean code: Apache-2.0, commit <a href="{REPO}/tree/{rev}"><code>{rev[:10]}</code></a>
 ({ci_link}), Lean <code>{esc(self.toolchain())}</code>, Mathlib

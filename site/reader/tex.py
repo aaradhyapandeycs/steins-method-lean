@@ -98,6 +98,17 @@ def attr(text: str) -> str:
     return html.escape(text, quote=True)
 
 
+CALLIGRAPHIC_RE = re.compile(r"\\%(?:\{([^{}]*)\}|([A-Za-z]))")
+
+
+def expand_calligraphic(text: str) -> str:
+    """Expand the paper's `\\def\\%#1{\\mathcal{#1}}`: `\\%F` and `\\%{A}` become `\\mathcal{F}` and
+    `\\mathcal{A}`. MathJax would otherwise read `\\%` as a literal percent sign and print `%F`. A real
+    percent sign (`\\%` before a digit, space or punctuation) is left alone; newlines are unchanged, so
+    line numbers are preserved."""
+    return CALLIGRAPHIC_RE.sub(lambda m: "{\\mathcal{" + (m.group(1) if m.group(1) is not None else m.group(2)) + "}}", text)
+
+
 def mask_comments(text: str) -> str:
     """Replace unescaped % comments by spaces, keeping offsets and newlines."""
     out = list(text)

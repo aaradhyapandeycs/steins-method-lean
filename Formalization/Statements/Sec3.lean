@@ -19,7 +19,7 @@ open scoped ENNReal ProbabilityTheory
 
 namespace SteinMethod
 
-/-- Section 3 Kolmogorov–Wasserstein normal comparison (`SteinIntro.tex:703-707`): for any
+/-- Section 3 Kolmogorov–Wasserstein normal comparison (`SteinIntro.tex:701-709`): for any
 real-valued random variable $W$ and standard normal $Z \sim \mathcal{N}(0, 1)$,
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 (2 / \pi)^{1/4} \sqrt{d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))}$. -/
@@ -150,7 +150,7 @@ def Sec3_1_indepSum_thirdMoment : Prop :=
     wassersteinDist (P.map W) (P'.map Z) ≤
       ENNReal.ofReal (3 / (n : ℝ) ^ (3 / 2 : ℝ) * ∑ i : Fin n, ∫ ω, |X i ω| ^ 3 ∂P)
 
-/-- Lemma 3.3 (`\label{lem33}`, eqs. `(3.3)`–`(3.4)` `\label{345}`–`\label{345a}`,
+/-- Lemma 3.3 (`\label{lem33}`, eqs. `(3.2)`–`(3.3)` `\label{345}`–`\label{345a}`,
 `SteinIntro.tex:753-759`; `ISSUE-TYPO-3.3`, `ISSUE-3.3`): leave-one-out Stein expansion for
 $W = (\sum_{i=1}^n X_i)/\sqrt{n}$ and $W_i = (\sum_{j \ne i} X_j)/\sqrt{n}$. -/
 def Lem3_3 : Prop :=
@@ -173,7 +173,7 @@ def Lem3_3 : Prop :=
         ∫ ω, (1 / Real.sqrt n) * ∑ i : Fin n,
           X i ω * (W ω - W_i i ω) * deriv f (W ω) ∂P
 
-/-- Lemma 3.4 (`\label{lem33aa}`, eq. `(3.6)` `\label{337}`, `SteinIntro.tex:771-776`): bound on
+/-- Lemma 3.4 (`\label{lem33aa}`, eq. `(3.5)` `\label{337}`, `SteinIntro.tex:771-776`): bound on
 $|\mathbb{E}[f'(W) - W f(W)]|$ for $W = (\sum_{i=1}^n X_i)/\sqrt{n}$ when $f$ is bounded with
 bounded first and second derivatives. -/
 def Lem3_4 : Prop :=
@@ -270,7 +270,7 @@ def Sec3_2_depNeighborhoods_intermediate_bound : Prop :=
                   (fun ω ↦ ∑ i : Fin n, ∑ j ∈ N i, X i ω * X j ω) P))
 
 /-- Section 3.2.1 triangle-indicator setup, pairwise-independence criterion, dependency-graph
-degree, and central moments (`SteinIntro.tex:919-928`; `ISSUE-3.2.1`): for $n \ge 3$ and any fixed
+degree, and central moments (`SteinIntro.tex:918-929`; `ISSUE-3.2.1`): for $n \ge 3$ and any fixed
 enumeration `enum : Fin (n.choose 3) ≃ {s : Finset (Fin n) // s.card = 3}` of the $\binom{n}{3}$
 three-vertex subsets:
 (1) the triangle count $T(G)$ is $\sum_i Y_i(G)$;
@@ -339,7 +339,7 @@ def Sec3_2_1_triangles_restricted : Prop :=
                 ((n.choose 3 : ℝ) * p ^ 3 * (1 - p ^ 3) * ((1 - p ^ 3) ^ 3 + p ^ 9)))
 
 /-- Section 3.2.1 literal $d_{\mathrm{K}}$ inequality, restricted to $0 < p < 1$
-(`SteinIntro.tex:935-939`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`): although Theorem 3.5 bounds
+(`SteinIntro.tex:934-939`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`): although Theorem 3.5 bounds
 $d_{\mathrm{W}}(W, Z)$ (`Sec3_2_1_triangles_restricted`), the literal printed bound with
 $d_{\mathrm{K}}(W, Z)$ on the left-hand side also holds unconditionally for all $n \ge 3$ and
 $0 < p < 1$. -/
@@ -408,7 +408,7 @@ def Sec3_2_1_triangles_clt_regime_restricted : Prop :=
           (fun n : ℕ ↦ kolmogorovDist ((erdosRenyi n (p n)).map (W n)) stdNormalLaw)
           Filter.atTop (nhds 0))
 
-/-- Section 3.2.1 Ruciński triangle-count CLT criterion (`SteinIntro.tex:943-944`, citing
+/-- Section 3.2.1 Ruciński triangle-count CLT criterion (`SteinIntro.tex:941-944`, citing
 Ruciński 1988 `\cite{ruc88}`, Theorem 2 specialized to $H = K_3$ with
 $m(K_3) = e(K_3)/v(K_3) = 1$, proved from scratch): for $G \sim G(n, p_n)$ with $0 \le p_n \le 1$,
 the standardized triangle count $W_n = (T_n - \mathbb{E}[T_n]) / \sigma_n$ converges in
@@ -507,7 +507,8 @@ def Prop3_6_1 : Prop :=
     (∀ x y : ℝ, F (x, y) = -F (y, x)) →
     ∫ ω, F (W ω, W' ω) ∂P = 0
 
-/-- Proposition 3.6(2) (`\label{prop51}`, `SteinIntro.tex:967-971`): if $(W, W')$ is an
+/-- Proposition 3.6(2) (`\label{prop51}`, `SteinIntro.tex:962`, `SteinIntro.tex:967-971`): if
+$(W, W')$ is an
 $a$-Stein pair with finite second moment (`MemLp W 2 P`), then $\mathbb{E}[W] = 0$ and
 $\mathbb{E}[(W' - W)^2] = 2 a \operatorname{Var}(W)$. -/
 def Prop3_6_2 : Prop :=
@@ -571,8 +572,8 @@ diffusion properties as `a → 0⁺`:
 3. $\mathbb{P}(|D(t + a) - D(t)| > \varepsilon \mid D(t) = x) = o(a)$ for all $\varepsilon > 0$,
 and for every $a > 0$, `ouKernel a` is a Markov kernel reversible with respect to `stdNormalLaw`,
 has stationary distribution `stdNormalLaw`, and realizes a $(1 - e^{-a})$-Stein pair under
-`stdNormalLaw ⊗ₘ ouKernel a` (`L1021-1022`).
-Note: uniqueness from the infinitesimal properties (`L1018`) is formalized separately in
+`stdNormalLaw ⊗ₘ ouKernel a` (`L1021-1023`).
+Note: uniqueness from the infinitesimal properties (`L1018-1019`) is formalized separately in
 `Rem3_5_uniqueness_restricted` (`BL8`). -/
 def Rem3_5 : Prop :=
   (∀ x : ℝ,
@@ -748,7 +749,7 @@ def Sec3_3_eq3_18 : Prop :=
         ENNReal.ofReal (B₂ / (6 * a)) *
           ∫⁻ ω, ENNReal.ofReal (|W' ω - W ω| ^ 3) ∂P
 
-/-- Wasserstein corollary of `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1048`): taking the
+/-- Wasserstein corollary of `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1049`): taking the
 supremum of `Sec3_3_eq3_18` over `normalWassersteinClass` ($B_1 = \sqrt{2/\pi}$, $B_2 = 2$) via
 Theorem 3.1 bounds $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))$ without requiring fourth
 moments, with cubic coefficient $2 / (6a) = 1 / (3a)$. -/
@@ -1185,7 +1186,8 @@ def Ex3_8 : Prop :=
             ∑ i : Fin n, ((∫ ω, X i ω ^ 3 ∂P) - (∫ ω, X i ω ∂P) * ∫ ω, X i ω ^ 2 ∂P))
 
 /-- Example 3.9, size-bias realization and increment identity (`\label{ex72}`,
-`SteinIntro.tex:1354-1367, 1380-1383`): for $G \sim G(n, p)$ ($n \ge 1$, $0 \le p \le 1$) and an
+`SteinIntro.tex:1379-1383`, `SteinIntro.tex:1354-1367`): for $G \sim G(n, p)$ ($n \ge 1$,
+$0 \le p \le 1$) and an
 independent uniform vertex $I \in \{1, \dots, n\}$, erasing all edges incident to $I$
 (`SimpleGraph.deleteIncidenceSet`) yields a size-bias version $X^s$ of the isolated-vertex count
 $X = \sum_{i=1}^n X_i$, with increment $X^s - X = D_I + \mathbf{1}_{d_I > 0}$, where $d_i$ is the
@@ -1508,7 +1510,8 @@ def Thm3_22 : Prop :=
           Filter.atTop (nhds 0)) ↔
       MeasureTheory.TendstoInMeasure P (fun n ω ↦ Xz n (I n ω) ω) Filter.atTop 0)
 
-/-- Section 3.5.2 prose claim (`SteinIntro.tex:1585-1586, 1625-1646`): under the hypotheses of
+/-- Section 3.5.2 prose claim (`SteinIntro.tex:1584-1586`, `SteinIntro.tex:1625-1646`): under the
+hypotheses of
 Theorem 3.22, $X_{I_n, n}^z \stackrel{p}{\to} 0$ implies $\max_i \sigma_{i, n}^2 \to 0$ and
 $X_{I_n, n} \stackrel{p}{\to} 0$. -/
 def Sec3_5_2_zeroBias_imp_tendstoInMeasure : Prop :=
@@ -1697,13 +1700,13 @@ def Sec3_6_zeroBias_bdd_exists : Prop :=
     (∀ᵐ ω ∂P, |W ω| ≤ M) →
     ∃ ν : Measure ℝ, IsProbabilityMeasure ν ∧ IsZeroBias P W ν id ∧ ∀ᵐ x : ℝ ∂ν, |x| ≤ M
 
-/-- Section 3.6.1 bounded independent-sum Kolmogorov bound (`SteinIntro.tex:1741-1742`,
+/-- Section 3.6.1 bounded independent-sum Kolmogorov bound (`SteinIntro.tex:1741-1743`,
 `%%XXXX Exercise 3`; `ISSUE-TYPO-3.27`): if $X_1, \dots, X_n$ are independent mean-zero random
 variables satisfying $|X_i| \le C$ almost surely with
 $\sigma^2 = \mathrm{Var}(\sum_{i=1}^n X_i) > 0$, $W = (\sum_{i=1}^n X_i) / \sigma$, and
 $Z \sim \mathcal{N}(0, 1)$, then $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 (1 + 1/\sqrt{2\pi} + \sqrt{2\pi}/4)\,(2 C / \sigma)$. (Reading notes: (1) centering
-(`∫ X_i = 0`) comes from Proposition 3.21's zero-bias sum recipe (`L1530`); (2) Ross prints no
+(`∫ X_i = 0`) comes from Proposition 3.21's zero-bias sum recipe (`L1530-1531`); (2) Ross prints no
 explicit formula and leaves the application as an exercise, so this bound is the project's explicit
 solution combining Proposition 3.21, `Sec3_6_zeroBias_bdd_exists`, and Theorem 3.27
 (`\delta = 2 C / \sigma`); (3) $\sigma^2 > 0$ is typing for $W = S / \sigma$.) -/
@@ -1726,8 +1729,8 @@ def Sec3_6_1_indepSum_kolmogorov : Prop :=
       ENNReal.ofReal
         ((1 + 1 / Real.sqrt (2 * Real.pi) + Real.sqrt (2 * Real.pi) / 4) * (2 * C / σ))
 
-/-- Section 3.6.1 Kolmogorov bound in Hoeffding's combinatorial CLT (`SteinIntro.tex:1742-1743`,
-`%%XXXX Exercise 3`, referencing Example 7.5 `SteinIntro.tex:3597-3610`; `ISSUE-TYPO-3.27`): for a
+/-- Section 3.6.1 Kolmogorov bound in Hoeffding's combinatorial CLT (`SteinIntro.tex:1741-1743`,
+`%%XXXX Exercise 3`, referencing Example 7.5 `SteinIntro.tex:3597-3611`; `ISSUE-TYPO-3.27`): for a
 real array $(a_{ij})_{i, j \in \mathrm{Fin}\,n}$ with $|a_{ij}| \le C$, a uniform random
 permutation $\pi$ of `Fin n` with $\sigma^2 = \mathrm{Var}(\sum_{i=1}^n a_{i, \pi(i)}) > 0$,
 $\mu = \frac{1}{n}\sum_{i, j} a_{ij}$, $W = (\sum_{i=1}^n a_{i, \pi(i)} - \mu) / \sigma$,
@@ -1765,7 +1768,8 @@ $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \frac{\sqrt{\operatorname{Var}(\mathbb{E}[(W' - W)^2 \mid W])}}{2a} + \frac{\delta^3}{2a} +
 \frac{3\delta}{2}$.
 
-Proof note (`ISSUE-3.25`): obtaining denominator $2a$ in the first term at `SteinIntro.tex:1768`
+Proof note (`ISSUE-3.25`): obtaining denominator $2a$ in the first term at
+`SteinIntro.tex:1766-1769`
 uses the sharp bound $|D_- f_x(w)| \le 1$ (CGS 2011 Lemma 2.3) rather than the looser bound
 $\|f_x'\| \le 2$ printed in Lemma 3.25; the theorem holds as printed. -/
 def Thm3_28 : Prop :=
@@ -1796,14 +1800,15 @@ def Lem3_29 : Prop :=
     ∫ ω, (W' ω - W ω) ^ 2 * (Set.Ioc x (x + δ)).indicator 1 (W ω) ∂P ≤ 3 * δ * a
 
 /-- Section 3.6.2 bounded independent-sum Kolmogorov bound via exchangeable pairs
-(`SteinIntro.tex:1810`, applying Theorem 3.28 `\label{thm92}` with Example 3.6's Stein pair): if
+(`SteinIntro.tex:1810-1812`, applying Theorem 3.28 `\label{thm92}` with Example 3.6's Stein pair):
+if
 $X_1, \dots, X_n$ are independent mean-zero random variables satisfying $|X_i| \le C$ almost
 surely with $\sigma^2 = \mathrm{Var}(\sum_{i=1}^n X_i) > 0$, $W = (\sum_{i=1}^n X_i) / \sigma$,
 and $Z \sim \mathcal{N}(0, 1)$, then
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \frac{\sqrt{\sum_{i=1}^n \mathrm{Var}(X_i^2)}}{2 \sigma^2} + \frac{4 n C^3}{\sigma^3} +
 \frac{3 C}{\sigma}$. (Reading notes: (1) centering (`∫ X_i = 0`) and the $(1/n)$-Stein pair
-$W' = W - X_I/\sigma + X_I'/\sigma$ follow Example 3.6 (`L1054-1059`); (2) Ross prints no explicit
+$W' = W - X_I/\sigma + X_I'/\sigma$ follow Example 3.6 (`L1053-1059`); (2) Ross prints no explicit
 formula at `L1810`, so this bound is obtained from Theorem 3.28 (`a = 1/n`, `δ = 2 C / σ`) after
 upper-bounding $\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid W]) \le
 \mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid X])$ via conditional Jensen / Remark 3.4 (`Rem3_4`) and

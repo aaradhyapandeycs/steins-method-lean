@@ -352,8 +352,12 @@ python3 site/check_fidelity.py        # fidelity and macro check</pre>"""
 <p>N. Ross, <em>{TITLE}</em>, <em>Probability Surveys</em> 8 (2011) 210–293,
 <a href="https://doi.org/10.1214/11-PS182">DOI 10.1214/11-PS182</a>,
 <a href="{ARXIV}">arXiv:1109.1880v1</a>.</p>
-<p>The paper text is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
-Text rendered unofficially from arXiv:1109.1880v1; it may differ from the published journal version.
+<p>The published article appears in <em>Probability Surveys</em>, which applies the
+<a href="https://imstat.org/journals-and-publications/probability-surveys/probability-surveys-manuscript-submission/">Creative Commons Attribution License</a> to all articles it publishes: the author retains
+copyright, and reuse is permitted with attribution and a link to the article's DOI. The text on this site is rendered
+unofficially from the author's arXiv preprint (arXiv:1109.1880v1, distributed by arXiv under its non-exclusive
+license); it may differ from the published version, and the site's changes are formatting only (rendering, numbering
+and links).
 The author of the paper has not reviewed and does not endorse this formalization.</p>
 
 <h2>The Lean Formalization</h2>
@@ -426,7 +430,8 @@ alongside a machine-checked Lean 4 formalization.</p>
         back_html = "".join(getattr(b, "html", "") for b in self.back)
         body = f"""<h1>Acknowledgements</h1>
 <p>We thank Nathan Ross for his clear, foundational exposition in <em>Fundamentals of Stein's method</em>
-and the Institute of Mathematical Statistics for publishing <em>Probability Surveys</em> under open-access CC BY 4.0 licensing.</p>
+and the Institute of Mathematical Statistics for publishing <em>Probability Surveys</em> as an open-access journal
+under the Creative Commons Attribution License.</p>
 <p>We also gratefully acknowledge the Lean 4 and Mathlib developer community for providing the interactive theorem proving infrastructure.</p>
 {back_html}"""
         return self.shell(f"Acknowledgements · {TITLE}", body, "acknowledgements", toc=False)

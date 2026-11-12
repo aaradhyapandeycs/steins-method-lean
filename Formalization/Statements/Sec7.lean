@@ -104,7 +104,7 @@ def Ex7_2_order_restricted : Prop :=
       Real.exp (-t * (Real.log (1 + t / lam) - 1) - lam * Real.log (1 + t / lam))
     Filter.Tendsto (fun t : ℝ ↦ Real.exp (-t * Real.log t) / B t) Filter.atTop (nhds 0)
 
-/-- Section 7 prose MGF derivative identity (`SteinIntro.tex:3464-3467`): if
+/-- Section 7 prose MGF derivative identity (`SteinIntro.tex:3464-3469`): if
 $\mathbb{E}[e^{\theta W}] < \infty$ for all $\theta \in (-\delta, \delta)$ ($\delta > 0$), then
 $m(\theta) = \mathbb{E}[e^{\theta W}]$ satisfies $m'(\theta) = \mathbb{E}[W e^{\theta W}]$ (and
 $W e^{\theta W}$ is integrable) for all $\theta \in (-\delta, \delta)$. -/
@@ -218,7 +218,8 @@ def Ex7_4_2_corrected : Prop :=
           P.real {ω | t ≤ |S ω - μ| / σ} ≤
             2 * Real.exp (-t ^ 2 / (2 * (μ / σ ^ 2) + t / σ)))
 
-/-- Example 7.4(2), exponential order of `(7.2)` (`\label{21198}`, `SteinIntro.tex:3528`): for
+/-- Example 7.4(2), exponential order of `(7.2)` (`\label{21198}`, `SteinIntro.tex:3528-3529`):
+for
 constant $\mu \ge 0$, $\exp(-t^2 / (2\mu + t)) / e^{-t} \to e^{2\mu}$ as $t \to \infty$, so the
 upper bound `(7.2)` is of order $e^{-t}$. -/
 def Ex7_4_2_order : Prop :=
@@ -284,7 +285,7 @@ def Prop7_3 : Prop :=
       P.real {ω | t ≤ |W ω|} ≤
         2 * Real.exp (-t ^ 2 / ((4 / (n : ℝ)) * (∑ i : Fin n, ∑ j : Fin n, a i j) + 2 * t))
 
-/-- Section 7.2 Curie–Weiss ground-state mode claim (`SteinIntro.tex:3640-3641`): for
+/-- Section 7.2 Curie–Weiss ground-state mode claim (`SteinIntro.tex:3641`): for
 $\beta > 0$, the all-$(+1)$ spin configuration uniquely maximizes the Curie–Weiss Gibbs weight and
 probability `(7.6)` when $h > 0$, the all-$(-1)$ configuration uniquely maximizes `(7.6)` when
 $h < 0$, and at $h = 0$ both constant configurations tie and strictly dominate every non-constant
@@ -403,7 +404,7 @@ def Thm7_6_corrected : Prop :=
             Real.exp (-t ^ 2 / (2 * (C * μ / σ ^ 2 + C / (2 * σ) * t)))))
 
 /-- Proof of Theorem 7.6(2), corrected optimization of `(7.12)` (`\label{2134b}`,
-`SteinIntro.tex:3862-3870`; `ISSUE-7.6-PROOF`): for $C, \mu, \sigma, t > 0$ and
+`SteinIntro.tex:3863-3870`; `ISSUE-7.6-PROOF`): for $C, \mu, \sigma, t > 0$ and
 $R(\theta) = \exp\bigl(\frac{\mu C \theta^2}{\sigma^2(2 - C\theta/\sigma)} - \theta t\bigr)$ on
 $[0, 2\sigma/C)$, the printed choice $\theta_{\mathrm{sub}} = t(C\mu/\sigma^2 + Ct/(2\sigma))^{-1}$
 lies in $(0, 2\sigma/C)$ and evaluates to Theorem 7.6(2)'s bound, while the true minimizer of $R$

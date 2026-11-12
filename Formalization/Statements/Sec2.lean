@@ -31,7 +31,7 @@ def Lem2_1_1 : Prop :=
     Integrable (fun ω ↦ deriv f (Z ω)) P →
     ∫ ω, normalSteinOp f (Z ω) ∂P = 0
 
-/-- Lemma 2.1(2) (`\label{lem1}`, `SteinIntro.tex:570-574`; `D5` literal): if $W$ is a real-valued
+/-- Lemma 2.1(2) (`\label{lem1}`, `SteinIntro.tex:562-574`; `D5` literal): if $W$ is a real-valued
 random variable such that $\mathbb{E}[\mathcal{A}f(W)] = 0$ for every locally absolutely continuous
 function $f : \mathbb{R} \to \mathbb{R}$ satisfying $\mathbb{E}|f'(Z)| < \infty$ for
 $Z \sim \mathcal{N}(0, 1)$, then $W$ has the standard normal distribution $\mathcal{N}(0, 1)$. -/
@@ -93,8 +93,8 @@ def Sec2_cor2_3_iff_stdNormal : Prop :=
     ((∀ x : ℝ, |∫ ω, normalSteinOp (normalSteinSolKolm x) (W ω) ∂P| = 0) ↔
       P.map W = stdNormalLaw)
 
-/-- Gaussian upper-tail bound in the proof of Lemma 2.2 (`\label{lem2}`,
-`SteinIntro.tex:612-615`): for all $w > 0$,
+/-- Gaussian upper-tail bound in the proof of Lemma 2.2 (`SteinIntro.tex:612-614`, Lemma 2.2
+`\label{lem2}` at `SteinIntro.tex:578-588`): for all $w > 0$,
 $1 - \Phi(w) \le \min\bigl\{\frac{1}{2}, \frac{1}{w\sqrt{2\pi}}\bigr\} e^{-w^2/2}$. -/
 def Sec2_stdNormalCDF_tail_le : Prop :=
   ∀ w : ℝ, 0 < w →
@@ -144,7 +144,7 @@ def Lem2_5_ode_contAt : Prop :=
     ∀ w : ℝ, ContinuousAt h w →
       HasDerivAt (normalSteinSol h) (w * normalSteinSol h w + h w - stdNormalExpect h) w
 
-/-- Lemma 2.5(1) (`\label{lem31}` item 1 `\label{i31}`, `SteinIntro.tex:686-689`): for measurable
+/-- Lemma 2.5(1) (`\label{lem31}` item 1 `\label{i31}`, `SteinIntro.tex:674-689`): for measurable
 $h : \mathbb{R} \to \mathbb{R}$ satisfying $|h(t) - \Phi(h)| \le M$ for all $t \in \mathbb{R}$,
 $|f_h(w)| \le \sqrt{\pi / 2}\,M$ and $|f_h'(w)| \le 2 M$ for all $w \in \mathbb{R}$. -/
 def Lem2_5_1 : Prop :=
@@ -155,7 +155,8 @@ def Lem2_5_1 : Prop :=
       |normalSteinSol h w| ≤ Real.sqrt (Real.pi / 2) * M ∧
       |deriv (normalSteinSol h) w| ≤ 2 * M
 
-/-- Lemma 2.5(2) (`\label{lem31}` item 2 `\label{i32}`, `SteinIntro.tex:690-694`): for locally
+/-- Lemma 2.5(2) (`\label{lem31}` item 2 `\label{i32}`, `SteinIntro.tex:674-684`,
+`SteinIntro.tex:690-695`): for locally
 absolutely continuous $h : \mathbb{R} \to \mathbb{R}$ (`D5`) satisfying $|h'(t)| \le L$ for all
 $t \in \mathbb{R}$, $|f_h(w)| \le 2 L$, $|f_h'(w)| \le \sqrt{2 / \pi}\,L$, and
 $|f_h''(w)| \le 2 L$ for all $w \in \mathbb{R}$. -/
