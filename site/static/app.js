@@ -202,8 +202,8 @@
           a.href = "#n-" + id;
           a.textContent = t;
           info.appendChild(a);
-          info.appendChild(document.createTextNode(": cites " + Object.keys(up).length + ", cited by " +
-            Object.keys(down).length + " (transitively, unreviewed)"));
+          info.appendChild(document.createTextNode(": uses " + Object.keys(up).length + ", used by " +
+            Object.keys(down).length + " (transitively)"));
         } else {
           info.textContent = "";
         }

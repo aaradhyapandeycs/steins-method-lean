@@ -325,6 +325,7 @@ svg.depgraph { display: block; font: 11.5px var(--sans); }
 .gn rect { stroke: var(--muted); }
 .gl-proved rect, .gl-stated rect { fill: var(--stated-fill); stroke: var(--proved); }
 .gl-corrected rect { fill: var(--corr-fill); stroke: var(--corrected); }
+.gl-defined rect { fill: var(--surface); stroke: var(--defined); }
 .gl-restricted rect { fill: var(--restr-fill); stroke: var(--restricted); }
 .gl-partial rect { fill: var(--part-fill); stroke: var(--partial); }
 .gl-source-issue rect { fill: var(--refuted-fill); stroke: var(--refuted); }

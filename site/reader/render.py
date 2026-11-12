@@ -426,6 +426,7 @@ class Site(InfoPages):
         ("index",       "Overview"),
         ("results",     "Results"),
         ("book",        "Paper"),
+        ("graph",       "Dependency graph"),
         ("status",      "Status", [("status", "Progress"), ("errata", "Source issues")]),
         ("methodology", "Methodology"),
         ("contribute",  "Contribute"),

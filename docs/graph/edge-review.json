@@ -1,0 +1,321 @@
+{
+ "_about": "Critic review of the candidate dependency edges read from TeX cross-references (site/reader/depgraph.py). decision: dependency = the result or its proof uses the cited result (drawn); context = notation, comparison, motivation or interpretation (listed, not drawn); drop = not a reference to that result. Reviewed by an AI critic (Claude) on 2026-11-12 against docs/source/SteinIntro_utf8.tex; not author-reviewed.",
+ "edges": {
+  "lem-2-2->lem-2-1": {
+   "decision": "dependency"
+  },
+  "lem-2-2->cor-2-3": {
+   "decision": "dependency"
+  },
+  "thm-3-2->lem-3-3": {
+   "decision": "context",
+   "why": "statement only borrows the notation of Theorem 3.2 (\"In the notation of Theorem 3.2\")"
+  },
+  "thm-3-2->lem-3-4": {
+   "decision": "context",
+   "why": "statement only borrows the notation of Theorem 3.2"
+  },
+  "lem-3-3->lem-3-4": {
+   "decision": "dependency"
+  },
+  "thm-3-1->thm-3-5": {
+   "decision": "dependency"
+  },
+  "thm-3-2->thm-3-5": {
+   "decision": "dependency"
+  },
+  "prop-3-6->thm-3-7": {
+   "decision": "dependency"
+  },
+  "thm-3-7->rem-3-3": {
+   "decision": "context",
+   "why": "remark describes the strategy for using Theorem 3.7; no claim derived from it"
+  },
+  "thm-3-7->rem-3-4": {
+   "decision": "context",
+   "why": "remark comments on the error bound of Theorem 3.7"
+  },
+  "thm-3-7->rem-3-5": {
+   "decision": "context",
+   "why": "heuristic explanation of the error terms of Theorem 3.7 (O-U process)"
+  },
+  "thm-3-7->ex-3-6": {
+   "decision": "dependency"
+  },
+  "thm-3-7->thm-3-8": {
+   "decision": "dependency"
+  },
+  "lem-3-9->thm-3-8": {
+   "decision": "dependency"
+  },
+  "thm-3-13->ex-3-8": {
+   "decision": "dependency"
+  },
+  "cor-3-15->ex-3-8": {
+   "decision": "dependency"
+  },
+  "thm-3-13->ex-3-9": {
+   "decision": "dependency"
+  },
+  "cor-3-16->ex-3-9": {
+   "decision": "dependency"
+  },
+  "thm-3-13->thm-3-17": {
+   "decision": "dependency"
+  },
+  "thm-3-18->thm-3-23": {
+   "decision": "dependency"
+  },
+  "thm-3-22->thm-3-23": {
+   "decision": "dependency"
+  },
+  "thm-3-24->lem-3-25": {
+   "decision": "dependency"
+  },
+  "lem-3-25->cor-3-26": {
+   "decision": "dependency"
+  },
+  "lem-3-25->thm-3-27": {
+   "decision": "dependency"
+  },
+  "cor-3-26->thm-3-27": {
+   "decision": "dependency"
+  },
+  "thm-3-7->thm-3-28": {
+   "decision": "dependency"
+  },
+  "thm-3-24->thm-3-28": {
+   "decision": "dependency"
+  },
+  "lem-3-25->thm-3-28": {
+   "decision": "dependency"
+  },
+  "lem-3-29->thm-3-28": {
+   "decision": "dependency"
+  },
+  "lem-4-4->lem-4-1": {
+   "decision": "dependency"
+  },
+  "lem-4-2->lem-4-4": {
+   "decision": "dependency"
+  },
+  "lem-4-4->thm-4-5": {
+   "decision": "dependency"
+  },
+  "lem-4-4->thm-4-6": {
+   "decision": "dependency"
+  },
+  "thm-4-5->thm-4-6": {
+   "decision": "dependency"
+  },
+  "lem-4-4->thm-4-7": {
+   "decision": "dependency"
+  },
+  "thm-4-6->thm-4-7": {
+   "decision": "dependency"
+  },
+  "thm-4-7->thm-4-8": {
+   "decision": "dependency"
+  },
+  "thm-4-8->rem-4-2": {
+   "decision": "dependency"
+  },
+  "cor-4-11->cor-4-12": {
+   "decision": "context",
+   "why": "shared proof paragraph: the mention records where Corollary 4.11 itself was proved"
+  },
+  "thm-4-10->ex-4-4": {
+   "decision": "dependency"
+  },
+  "cor-4-11->ex-4-4": {
+   "decision": "dependency"
+  },
+  "ex-3-9->ex-4-5": {
+   "decision": "dependency"
+  },
+  "thm-4-10->ex-4-5": {
+   "decision": "dependency"
+  },
+  "cor-4-11->ex-4-5": {
+   "decision": "dependency"
+  },
+  "cor-4-12->ex-4-5": {
+   "decision": "dependency"
+  },
+  "thm-4-10->ex-4-6": {
+   "decision": "dependency"
+  },
+  "cor-4-12->ex-4-6": {
+   "decision": "dependency"
+  },
+  "ex-4-5->ex-4-6": {
+   "decision": "context",
+   "why": "Example 4.6 generalizes Example 4.5; its argument does not use 4.5"
+  },
+  "thm-4-10->thm-4-14": {
+   "decision": "dependency"
+  },
+  "cor-4-11->thm-4-14": {
+   "decision": "dependency"
+  },
+  "cor-4-12->thm-4-15": {
+   "decision": "dependency"
+  },
+  "thm-4-14->thm-4-15": {
+   "decision": "dependency"
+  },
+  "cor-4-16->ex-4-7": {
+   "decision": "dependency"
+  },
+  "thm-4-14->thm-4-17": {
+   "decision": "dependency"
+  },
+  "lem-4-18->thm-4-17": {
+   "decision": "dependency"
+  },
+  "thm-4-17->ex-4-10": {
+   "decision": "dependency"
+  },
+  "thm-4-17->ex-4-11": {
+   "decision": "dependency"
+  },
+  "thm-4-17->ex-4-12": {
+   "decision": "dependency"
+  },
+  "thm-4-10->thm-4-19": {
+   "decision": "dependency"
+  },
+  "cor-4-11->thm-4-19": {
+   "decision": "dependency"
+  },
+  "cor-4-12->ex-4-13": {
+   "decision": "dependency"
+  },
+  "thm-4-19->ex-4-13": {
+   "decision": "dependency"
+  },
+  "thm-4-19->rem-4-14": {
+   "decision": "dependency"
+  },
+  "cor-4-12->ex-4-15": {
+   "decision": "dependency"
+  },
+  "thm-4-19->ex-4-15": {
+   "decision": "dependency"
+  },
+  "cor-4-11->ex-4-16": {
+   "decision": "dependency"
+  },
+  "thm-4-19->ex-4-16": {
+   "decision": "dependency"
+  },
+  "ex-4-15->ex-4-16": {
+   "decision": "dependency"
+  },
+  "thm-4-14->rem-4-17": {
+   "decision": "dependency"
+  },
+  "thm-4-19->rem-4-17": {
+   "decision": "dependency"
+  },
+  "thm-4-20->rem-4-19": {
+   "decision": "context",
+   "why": "remark interprets the error terms of Theorem 4.20 via a birth-death chain"
+  },
+  "thm-4-20->ex-4-20": {
+   "decision": "dependency"
+  },
+  "thm-4-20->ex-4-21": {
+   "decision": "dependency"
+  },
+  "thm-5-3->thm-5-4": {
+   "decision": "dependency"
+  },
+  "thm-5-4->ex-5-4": {
+   "decision": "dependency"
+  },
+  "prop-5-5->ex-5-4": {
+   "decision": "dependency"
+  },
+  "rem-5-3->ex-5-4": {
+   "decision": "context",
+   "why": "heuristic aside (\"see Remark 5.3\")"
+  },
+  "thm-5-4->thm-5-7": {
+   "decision": "dependency"
+  },
+  "ex-5-4->rem-5-5": {
+   "decision": "context",
+   "why": "comparison: M is a discrete analogue of the transform seen in Example 5.4"
+  },
+  "thm-5-7->rem-5-5": {
+   "decision": "context",
+   "why": "remark interprets the error terms of Theorem 5.7"
+  },
+  "thm-5-4->thm-5-9": {
+   "decision": "dependency"
+  },
+  "prop-5-5->thm-5-9": {
+   "decision": "dependency"
+  },
+  "rem-5-3->rem-6-2": {
+   "decision": "context",
+   "why": "pointer to renewal theory (\"see Remark 5.3\")"
+  },
+  "thm-6-3->thm-6-5": {
+   "decision": "dependency"
+  },
+  "thm-6-5->thm-6-6": {
+   "decision": "dependency"
+  },
+  "prop-7-1->ex-7-1": {
+   "decision": "dependency"
+  },
+  "prop-7-1->ex-7-2": {
+   "decision": "dependency"
+  },
+  "thm-3-7->thm-7-2": {
+   "decision": "dependency"
+  },
+  "prop-7-1->thm-7-2": {
+   "decision": "dependency"
+  },
+  "thm-7-2->rem-7-3": {
+   "decision": "context",
+   "why": "remark explains why the left tail bound of Theorem 7.2 is better"
+  },
+  "ex-7-1->ex-7-4": {
+   "decision": "context",
+   "why": "comparison of tail orders with Example 7.1"
+  },
+  "ex-7-2->ex-7-4": {
+   "decision": "context",
+   "why": "comparison of tail orders with Example 7.2"
+  },
+  "thm-7-2->ex-7-4": {
+   "decision": "dependency"
+  },
+  "thm-7-2->ex-7-5": {
+   "decision": "context",
+   "why": "motivating sentence (\"it may be possible to apply\"); the application is in Proposition 7.3"
+  },
+  "thm-7-2->prop-7-3": {
+   "decision": "dependency"
+  },
+  "thm-7-2->prop-7-4": {
+   "decision": "dependency"
+  },
+  "thm-7-5->prop-7-4": {
+   "decision": "dependency"
+  },
+  "prop-7-1->thm-7-6": {
+   "decision": "dependency"
+  },
+  "thm-7-2->thm-7-6": {
+   "decision": "dependency"
+  },
+  "thm-7-6->ex-7-6": {
+   "decision": "dependency"
+  }
+ }
+}

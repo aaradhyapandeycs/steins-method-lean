@@ -28,6 +28,8 @@ from reader.book import Book  # noqa: E402
 from reader.lean import REPO, Git, LeanIndex  # noqa: E402
 from reader.links import repo_link_problems  # noqa: E402
 from reader.render import Site  # noqa: E402
+from reader.depgraph import DepGraph, GraphPage, REVIEW_PATH  # noqa: E402
+import json  # noqa: E402
 
 
 def default_rev(repo: Path) -> str:
@@ -144,6 +146,14 @@ def main() -> int:
     html_pages["contribute"] = site.contribute_page()
     html_pages["about"] = site.about_page()
     html_pages["errata"] = site.errata_page()
+    # dependency graph: TeX cross-references between numbered results, filtered by the committed edge review
+    try:
+        review = json.loads(git.show(REVIEW_PATH)).get("edges", {})
+    except Exception:
+        review = {}
+    depgraph = GraphPage(site, DepGraph((book.tex_root / "SteinIntro_utf8.tex").read_text(encoding="utf-8"),
+                                        lean.numbered_items, review))
+    html_pages["graph"] = depgraph.page()
     html_pages["references"] = site.references_page()  # last: citations are collected above
     html_pages = site.resolve(html_pages)
 
@@ -223,6 +233,9 @@ def main() -> int:
     (assets / "mathjax-config.js").write_text(site.mathjax_config())
     (out / "results.json").write_text(site.search_data())
     (out / ".nojekyll").write_text("")
+    (out / "graph").mkdir(exist_ok=True)
+    (out / "graph" / "nodes.json").write_text(depgraph.nodes_json())
+    (out / "graph" / "graph.dot").write_text(depgraph.dot())
 
     old = final.with_name(final.name + ".old")
     if old.exists():
