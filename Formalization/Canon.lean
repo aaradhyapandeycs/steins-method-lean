@@ -9,6 +9,7 @@ import Formalization.Canon.MarkovAndEntropy
 import Formalization.Canon.GraphsAndPerms
 import Formalization.Canon.DefsUnification
 import Formalization.Canon.LibraryDuplicates
+import Formalization.Canon.Followups
 
 /-!
 # Stein's Method Formalization: Canonical Mathlib Bridges (`Formalization.Canon`)
@@ -28,5 +29,9 @@ Barrel module aggregating canonical bridges between project-specific definitions
 * `Formalization.Canon.DefsUnification`: monotonicity definitions as `Monotone`/`Antitone`,
   Stein operators expressed via Mathlib's `fwdDiff 1`, and Rademacher spin unifications;
 * `Formalization.Canon.LibraryDuplicates`: cross-module library duplicate bridges
-  (Clusters D2–D6).
+  (Clusters D2–D6);
+* `Formalization.Canon.Followups`: follow-up bridges including unconditioned Lipschitz-1
+  Wasserstein supremum, exchangeable pair and tuple pushforward characterizations,
+  size-bias Radon–Nikodym characterization, Poisson point probabilities, and branching /
+  subgraph identities.
 -/
