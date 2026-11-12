@@ -180,6 +180,7 @@ import Formalization.Statements.Sec4Proofs
 import Formalization.Statements.Sec5Proofs
 import Formalization.Statements.Sec6Proofs
 import Formalization.Statements.Sec7Proofs
+import Formalization.Canon
 
 /-!
 # Root Formalization Module (`Formalization`)
