@@ -11,6 +11,7 @@ import Formalization.Exponential.Equilibrium
 import Formalization.Exponential.GeometricExample
 import Formalization.Exponential.GeometricSums
 import Formalization.Exponential.GeometricSumsCounterexample
+import Formalization.Exponential.Rem56General
 import Formalization.Exponential.Renyi
 import Formalization.Exponential.Renewal
 import Formalization.Exponential.Sec5Extras
@@ -95,6 +96,13 @@ theorem Thm5_7_corrected_holds : Thm5_7_corrected :=
 
 theorem Rem5_5_holds : Rem5_5 :=
   fun hp₀ hp₁ ↦ rem5_5 hp₀ hp₁
+
+/-- Remark 5.6, generalization (unlabeled `remark`, `SteinIntro.tex:2948-2951`) holds. -/
+theorem Rem5_6_generalization_holds : Rem5_6_generalization :=
+  ⟨fun P _ P' _ ↦ rem5_6_part1 P P',
+    ⟨fun P _ ↦ rem5_6_part2a P, fun P _ ↦ rem5_6_part2b P,
+      fun P _ P' _ ↦ rem5_6_part2c P P'⟩,
+    rem5_6_part3⟩
 
 theorem Sec5_3_exists_isGaltonWatson_pos_var_holds :
     Sec5_3_exists_isGaltonWatson_pos_var :=

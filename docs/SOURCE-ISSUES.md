@@ -943,6 +943,17 @@ $\IE\abs{Y_n-Y_n^e}\leq C \log(n)$.  Once this is established, the result is pro
 
 ---
 
+### `ISSUE-3.5-OU` (Reading Note on `L1009-1024` — Small-Time Quadratic Moment Domination in Remark 3.5 Uniqueness)
+- **Source**: Remark 3.5 (unlabeled, `SteinIntro.tex:1009-1024`; cross-referencing `ISSUE-TYPO-3.5` in Part I)
+- **Printed text (verbatim, `L1018-1019`)**: *"These three properties determine the O-U diffusion process, and this process is reversible with the standard normal distribution as its stationary distribution."*
+- **Reading note**:
+  - `SteinMethod.Rem3_5` proves literally that the Ornstein–Uhlenbeck transition kernel `ouKernel a` ($x \mapsto \mathcal{N}(e^{-a} x, 1 - e^{-2a})$ for $a \gt 0$) satisfies all three printed infinitesimal properties (`1`–`3`), reversibility with respect to `stdNormalLaw`, stationarity of `stdNormalLaw`, and the $(1 - e^{-a})$-Stein-pair property (`SteinIntro.tex:1021-1023`).
+  - Because Remark 3.5 states uniqueness heuristically for *"the O-U diffusion process"* (`L1018-1019`) without specifying a generator domain or uniform-integrability hypothesis for differentiating $\mathbb{E}_x[G(D(t + a))]$ at $a = 0^+$, the project's regularity reading of `"diffusion process"` for the uniqueness direction is formalized in two `_restricted` entries:
+    1. `SteinMethod.Rem3_5_uniqueness_probTail_restricted` (`Formalization/Leftovers/OUProbTail.lean`) keeps Ross's literally printed Items `1`–`3` (including the probability tail $(K_a(x))(\{y : |y - x| \gt \varepsilon\}) = o(a)$) for Chapman–Kolmogorov Markov semigroups $(K_t)_{t \gt 0}$ under small-time quadratic moment domination ($\exists a_0, C \gt 0$ such that $\int (y - x)^2\,dK_a(x)(y) \le C a (1 + x^2)$ for $0 \lt a \le a_0$), proving $K_t = \mathrm{ouKernel}\,t$ for all $t \gt 0$ and uniqueness of the stationary distribution `stdNormalLaw`.
+    2. `SteinMethod.Rem3_5_uniqueness_restricted` (`Formalization/Leftovers/OUUniqueness.lean`) additionally records infinitesimal Stein-generator and stationary-law uniqueness for general Markov kernel families $(K_a)_{a \gt 0}$ (without assuming Chapman–Kolmogorov) when Item `3` is strengthened to the Lindeberg second-moment tail $\int_{|y - x| \gt \varepsilon} (y - x)^2\,dK_a(x)(y) = o(a)$ alongside small-time quadratic moment domination.
+
+---
+
 ### `ISSUE-3.14` (Reading Note on `L1289-1290` and `L1321-1322` — Unused Extra Independence Clauses in Proposition 3.14 and Corollary 3.15)
 - **Source**: Recipe Item 1 for Proposition 3.14 (`\label{prop71}`, `SteinIntro.tex:1289-1291`) and Corollary 3.15 (`\label{cor71}`, `SteinIntro.tex:1319-1325`)
 - **Printed text (verbatim)**:

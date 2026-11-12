@@ -1120,7 +1120,10 @@ class LeanIndex:
                      'declaration it depends on compile without <code>sorry</code>, and the transitive axiom audit '
                      'admits only <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code> '
                      '(CI run linked in the footer)')
-            fid = f'{self.FIDELITY[e.status]}; reviewed by an AI critic against the source, not by the author'
+            note = ((e.record or {}).get("note") or "").lower()
+            what = ("the project's precise reading of a claim the paper states only informally (no printed "
+                    "statement to match)") if "project reading" in note else self.FIDELITY[e.status]
+            fid = f'{what}; reviewed by an AI critic against the source, not by the author'
         elif e.status == "source-issue":
             proof = "the printed statement is refuted or ill-posed; see the source issue"
             fid = "not applicable"

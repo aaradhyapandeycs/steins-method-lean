@@ -515,6 +515,194 @@ def Rem5_5 : Prop :=
       P'.map Z = stdExpLaw →
       wassersteinDist (P.map (fun ω ↦ p * ∑ i ∈ Finset.Icc 1 (N ω), X i ω)) (P'.map Z) = 0)
 
+/-- Remark 5.6, generalization (unlabeled `remark`, `SteinIntro.tex:2948-2951`): the project's
+precise reading of the generalization of Theorem 5.7 noted in Remark 5.6 (cf. Peköz–Röllin
+`\cite{rope10}`), allowing the non-negative summands $(X_i)_{i \ge 1}$ to have arbitrary means
+$\mu_i = \mathbb{E}[X_i]$ (with positive normalizing total mean
+$S = \mathbb{E}[\sum_{i=1}^N \mu_i] > 0$ and $\mu_m$-weighted index
+$\mathbb{P}(M = m) = (\mu_m / S)\,\mathbb{P}(N \ge m)$) and dependence:
+1. (*Prefix increment-equilibrium coupling bound*): if $(N, M)$ is independent of $(X_i)_{i \ge 1}$
+   and $(S_{\mathrm{pre}}(m), X_m^e)_{m \ge 1}$ satisfies $M \perp (S_{\mathrm{pre}}(m), X_m^e)$ and
+   $\mathbb{E}[h(\sum_{i=1}^m X_i) - h(\sum_{i=1}^{m-1} X_i)] =
+   \mu_m\,\mathbb{E}[h'(S_{\mathrm{pre}}(m) + X_m^e)]$ for all Lipschitz $h$, then
+   $W = S^{-1} \sum_{i=1}^N X_i$ is integrable with $\mathbb{E}[W] = 1$,
+   $W^e = S^{-1} (S_{\mathrm{pre}}(M) + X_M^e)$ satisfies `IsEquilibrium P W P We`, and
+   $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))$ is bounded by $(2 / S)$ times the sum of the
+   prefix-dependence discrepancy, the summand equilibrium error, and the $\mu_i$-weighted index
+   mismatch;
+2. (*Dependent joint size-bias, local-dependence cancellation, and independent heterogeneous-mean
+   instantiations*): (a) joint $X_m$-size-biasing paired with an independent $\mathrm{Unif}(0, 1)$
+   variable satisfies the increment-equilibrium identity for arbitrarily dependent summands; (b)
+   under $d$-dependence, local size-biasing cancels the prefix discrepancy outside the
+   $d$-neighborhood; and (c) mutually independent $L^2$ summands with positive means $\mu_i > 0$
+   have zero prefix discrepancy and satisfy the explicit heterogeneous-mean second-moment bound
+   (specializing at $\mu_i \equiv 1$, $S = 1 / p$ to `Thm5_7_corrected`);
+3. (*Strict non-vacuity*): there exist a probability space and random variables satisfying all
+   hypotheses of Part 1 with $\mathbb{E}[X_1] \ne \mathbb{E}[X_2]$ and $X_1, X_2$ dependent.
+
+Reading note: Remark 5.6 cites `\cite{rope10}` without printing a theorem statement; this entry
+records the project's self-contained equilibrium-coupling formulation rather than a transcription of
+`\cite{rope10}`. -/
+def Rem5_6_generalization : Prop :=
+  (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+      (P : Measure Ω) [IsProbabilityMeasure P]
+      (P' : Measure Ω') [IsProbabilityMeasure P']
+      {X Spre Xe : ℕ → Ω → ℝ} {N M : Ω → ℕ} {Z : Ω' → ℝ},
+      (∀ i : ℕ, 1 ≤ i → AEMeasurable (X i) P) →
+      (∀ i : ℕ, 1 ≤ i → 0 ≤ᵐ[P] X i) →
+      (∀ i : ℕ, 1 ≤ i → Integrable (X i) P) →
+      AEMeasurable N P →
+      AEMeasurable M P →
+      (∀ᵐ ω ∂P, 1 ≤ N ω) →
+      (∀ᵐ ω ∂P, 1 ≤ M ω) →
+      Integrable (fun ω ↦ ∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) P →
+      0 < ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P →
+      (∀ m : ℕ, 1 ≤ m →
+        P.real {ω | M ω = m} =
+          ((∫ ω', X m ω' ∂P) /
+            ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P) *
+            P.real {ω | m ≤ N ω}) →
+      ProbabilityTheory.IndepFun (fun ω ↦ (N ω, M ω))
+        (fun ω (i : {i : ℕ // 1 ≤ i}) ↦ X i.1 ω) P →
+      (∀ m : ℕ, 1 ≤ m → AEMeasurable (Spre m) P) →
+      (∀ m : ℕ, 1 ≤ m → AEMeasurable (Xe m) P) →
+      (∀ m : ℕ, 1 ≤ m →
+        ProbabilityTheory.IndepFun M (fun ω ↦ (Spre m ω, Xe m ω)) P) →
+      (∀ m : ℕ, 1 ≤ m → ∀ h : ℝ → ℝ, (∃ K : ℝ≥0, LipschitzWith K h) →
+        ∫ ω, (h (∑ i ∈ Finset.Icc 1 m, X i ω) -
+            h (∑ i ∈ Finset.Ico 1 m, X i ω)) ∂P =
+          (∫ ω', X m ω' ∂P) * ∫ ω, deriv h (Spre m ω + Xe m ω) ∂P) →
+      AEMeasurable Z P' →
+      P'.map Z = stdExpLaw →
+      let μ : ℕ → ℝ := fun i ↦ ∫ ω', X i ω' ∂P
+      let S : ℝ := ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), μ i) ∂P
+      let W : Ω → ℝ := fun ω ↦ S⁻¹ * ∑ i ∈ Finset.Icc 1 (N ω), X i ω
+      let We : Ω → ℝ := fun ω ↦ S⁻¹ * (Spre (M ω) ω + Xe (M ω) ω)
+      let errDep : ℝ≥0∞ :=
+        ∫⁻ ω, ENNReal.ofReal
+          |(∑ i ∈ Finset.Ico 1 (M ω), X i ω) - Spre (M ω) ω| ∂P
+      let errEq : ℝ≥0∞ :=
+        ∫⁻ ω, ENNReal.ofReal |X (M ω) ω - Xe (M ω) ω| ∂P
+      let errIdx : ℝ≥0∞ :=
+        ∫⁻ ω, ENNReal.ofReal
+          (∑ i ∈ Finset.Ioc (min (N ω) (M ω)) (max (N ω) (M ω)), μ i) ∂P
+      Integrable W P ∧ (∫ ω, W ω ∂P = 1) ∧ IsEquilibrium P W P We ∧
+        wassersteinDist (P.map W) (P'.map Z) ≤
+          ENNReal.ofReal (2 / S) * (errDep + errEq + errIdx)) ∧
+    ((∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+        {X : ℕ → Ω → ℝ} {Spre Xs U : Ω → ℝ} {m : ℕ},
+        1 ≤ m →
+        (∀ i : ℕ, 1 ≤ i → Integrable (X i) P) →
+        0 ≤ᵐ[P] X m →
+        AEMeasurable Spre P →
+        AEMeasurable Xs P →
+        0 ≤ᵐ[P] Xs →
+        MeasureTheory.pdf.IsUniform U (Set.Ioo (0 : ℝ) 1) P →
+        ProbabilityTheory.IndepFun U (fun ω ↦ (Spre ω, Xs ω)) P →
+        (∀ Φ : ℝ × ℝ → ℝ, Measurable Φ → (∃ C : ℝ, ∀ q, |Φ q| ≤ C) →
+          ∫ ω, X m ω * Φ (∑ i ∈ Finset.Ico 1 m, X i ω, X m ω) ∂P =
+            (∫ ω', X m ω' ∂P) * ∫ ω, Φ (Spre ω, Xs ω) ∂P) →
+        ∀ h : ℝ → ℝ, (∃ K : ℝ≥0, LipschitzWith K h) →
+          ∫ ω, (h (∑ i ∈ Finset.Icc 1 m, X i ω) -
+              h (∑ i ∈ Finset.Ico 1 m, X i ω)) ∂P =
+            (∫ ω', X m ω' ∂P) *
+              ∫ ω, deriv h (Spre ω + U ω * Xs ω) ∂P) ∧
+      (∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+        {X : ℕ → Ω → ℝ} {Vs Xs : Ω → ℝ} {m d : ℕ},
+        1 ≤ m →
+        (∀ i : ℕ, 1 ≤ i → AEMeasurable (X i) P) →
+        Integrable (X m) P →
+        AEMeasurable Vs P →
+        AEMeasurable Xs P →
+        ProbabilityTheory.IndepFun
+          (fun ω ↦ ∑ i ∈ Finset.Ico 1 (m - d), X i ω)
+          (fun ω ↦ (∑ i ∈ Finset.Ico (max 1 (m - d)) m, X i ω, X m ω)) P →
+        ProbabilityTheory.IndepFun
+          (fun ω ↦ ∑ i ∈ Finset.Ico 1 (m - d), X i ω)
+          (fun ω ↦ (Vs ω, Xs ω)) P →
+        (∀ ψ : ℝ × ℝ → ℝ, Measurable ψ → (∃ C : ℝ, ∀ q, |ψ q| ≤ C) →
+          ∫ ω, X m ω * ψ (∑ i ∈ Finset.Ico (max 1 (m - d)) m, X i ω, X m ω) ∂P =
+            (∫ ω', X m ω' ∂P) * ∫ ω, ψ (Vs ω, Xs ω) ∂P) →
+        let Spre : Ω → ℝ := fun ω ↦ (∑ i ∈ Finset.Ico 1 (m - d), X i ω) + Vs ω
+        (∀ Φ : ℝ × ℝ → ℝ, Measurable Φ → (∃ C : ℝ, ∀ q, |Φ q| ≤ C) →
+          ∫ ω, X m ω * Φ (∑ i ∈ Finset.Ico 1 m, X i ω, X m ω) ∂P =
+            (∫ ω', X m ω' ∂P) * ∫ ω, Φ (Spre ω, Xs ω) ∂P) ∧
+          (∀ ω : Ω,
+            |(∑ i ∈ Finset.Ico 1 m, X i ω) - Spre ω| =
+              |(∑ i ∈ Finset.Ico (max 1 (m - d)) m, X i ω) - Vs ω|)) ∧
+      (∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+        (P : Measure Ω) [IsProbabilityMeasure P]
+        (P' : Measure Ω') [IsProbabilityMeasure P']
+        {X Xe : ℕ → Ω → ℝ} {N M : Ω → ℕ} {Z : Ω' → ℝ},
+        (∀ i : ℕ, 1 ≤ i → AEMeasurable (X i) P) →
+        (∀ i : ℕ, 1 ≤ i → 0 ≤ᵐ[P] X i) →
+        (∀ i : ℕ, 1 ≤ i → MemLp (X i) 2 P) →
+        (∀ i : ℕ, 1 ≤ i → 0 < ∫ ω, X i ω ∂P) →
+        ProbabilityTheory.iIndepFun (fun i : {i : ℕ // 1 ≤ i} ↦ X i.1) P →
+        AEMeasurable N P →
+        AEMeasurable M P →
+        (∀ᵐ ω ∂P, 1 ≤ N ω) →
+        (∀ᵐ ω ∂P, 1 ≤ M ω) →
+        Integrable (fun ω ↦ ∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) P →
+        0 < ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P →
+        (∀ m : ℕ, 1 ≤ m →
+          P.real {ω | M ω = m} =
+            ((∫ ω', X m ω' ∂P) /
+              ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P) *
+              P.real {ω | m ≤ N ω}) →
+        (∀ i : ℕ, 1 ≤ i → IsEquilibrium P (X i) P (Xe i)) →
+        (∀ i : {i : ℕ // 1 ≤ i},
+          ProbabilityTheory.IndepFun (Xe i.1)
+            (fun ω ↦ (N ω, M ω,
+              fun j : {j : {k : ℕ // 1 ≤ k} // j ≠ i} ↦ X j.1.1 ω)) P) →
+        ProbabilityTheory.IndepFun (fun ω ↦ (N ω, M ω))
+          (fun ω (i : {i : ℕ // 1 ≤ i}) ↦ X i.1 ω) P →
+        AEMeasurable Z P' →
+        P'.map Z = stdExpLaw →
+        let μ : ℕ → ℝ := fun i ↦ ∫ ω', X i ω' ∂P
+        let S : ℝ := ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), μ i) ∂P
+        let W : Ω → ℝ := fun ω ↦ S⁻¹ * ∑ i ∈ Finset.Icc 1 (N ω), X i ω
+        let errIdx : ℝ≥0∞ :=
+          ∫⁻ ω, ENNReal.ofReal
+            (∑ i ∈ Finset.Ioc (min (N ω) (M ω)) (max (N ω) (M ω)), μ i) ∂P
+        let err₁ : ℝ≥0∞ :=
+          ENNReal.ofReal (2 / S) *
+            ((∫⁻ ω, ENNReal.ofReal |X (M ω) ω - Xe (M ω) ω| ∂P) + errIdx)
+        let err₂ : ℝ≥0∞ :=
+          ENNReal.ofReal (2 / S) *
+            ((∑' k : ℕ, P {ω | M ω = k + 1} *
+                ENNReal.ofReal (μ (k + 1) +
+                  (∫ ω, X (k + 1) ω ^ 2 ∂P) / (2 * μ (k + 1)))) + errIdx)
+        wassersteinDist (P.map W) (P'.map Z) ≤ err₁ ∧ err₁ ≤ err₂)) ∧
+    (∃ (Ω : Type) (_ : MeasurableSpace Ω) (P : Measure Ω) (_ : IsProbabilityMeasure P)
+        (X Spre Xe : ℕ → Ω → ℝ) (N M : Ω → ℕ),
+      (∀ i : ℕ, 1 ≤ i → AEMeasurable (X i) P) ∧
+      (∀ i : ℕ, 1 ≤ i → 0 ≤ᵐ[P] X i) ∧
+      (∀ i : ℕ, 1 ≤ i → Integrable (X i) P) ∧
+      AEMeasurable N P ∧
+      AEMeasurable M P ∧
+      (∀ᵐ ω ∂P, 1 ≤ N ω) ∧
+      (∀ᵐ ω ∂P, 1 ≤ M ω) ∧
+      Integrable (fun ω ↦ ∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) P ∧
+      0 < ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P ∧
+      (∀ m : ℕ, 1 ≤ m →
+        P.real {ω | M ω = m} =
+          ((∫ ω', X m ω' ∂P) /
+            ∫ ω, (∑ i ∈ Finset.Icc 1 (N ω), ∫ ω', X i ω' ∂P) ∂P) *
+            P.real {ω | m ≤ N ω}) ∧
+      ProbabilityTheory.IndepFun (fun ω ↦ (N ω, M ω))
+        (fun ω (i : {i : ℕ // 1 ≤ i}) ↦ X i.1 ω) P ∧
+      (∀ m : ℕ, 1 ≤ m → AEMeasurable (Spre m) P) ∧
+      (∀ m : ℕ, 1 ≤ m → AEMeasurable (Xe m) P) ∧
+      (∀ m : ℕ, 1 ≤ m →
+        ProbabilityTheory.IndepFun M (fun ω ↦ (Spre m ω, Xe m ω)) P) ∧
+      (∀ m : ℕ, 1 ≤ m → ∀ h : ℝ → ℝ, (∃ K : ℝ≥0, LipschitzWith K h) →
+        ∫ ω, (h (∑ i ∈ Finset.Icc 1 m, X i ω) -
+            h (∑ i ∈ Finset.Ico 1 m, X i ω)) ∂P =
+          (∫ ω', X m ω' ∂P) * ∫ ω, deriv h (Spre m ω + Xe m ω) ∂P) ∧
+      ∫ ω, X 1 ω ∂P ≠ ∫ ω, X 2 ω ∂P ∧
+      ¬ ProbabilityTheory.IndepFun (X 1) (X 2) P)
+
 /-- Section 5.3 existence of a non-degenerate critical Galton–Watson process with $\sigma^2 > 0$
 (`I-2`, `SteinIntro.tex:2993-2997, 3007-3020`): there exists a probability space $(\Omega, P)$ and
 a critical Galton–Watson process $Z$ with offspring law $\frac{1}{2}\delta_0 + \frac{1}{2}\delta_2$

@@ -9,8 +9,10 @@ import Formalization.Defs
 # Section 1 Statements (`Formalization.Statements.Sec1`)
 
 Self-contained `Prop` statements for Section 1 of Nathan Ross, *"Fundamentals of Stein's method"*
-(`arXiv:1109.1880v1`, `SteinIntro.tex`), covering Theorem 1.1 (`\label{thm1}`,
-`SteinIntro.tex:351-357`) and Proposition 1.2 (`\label{prop22}`, `SteinIntro.tex:523-537`).
+(`arXiv:1109.1880v1`, `SteinIntro.tex:347-557`), covering Theorem 1.1 (`\label{thm1}`,
+`SteinIntro.tex:351-357`), Section 1.1.1 probability-metric properties (`\label{probmet}`, eq.
+`(1.1)` `\label{23}`, `SteinIntro.tex:502-522`), and Proposition 1.2 (`\label{prop22}`,
+`SteinIntro.tex:523-537`).
 -/
 
 open MeasureTheory
@@ -20,7 +22,7 @@ namespace SteinMethod
 
 /-- Theorem 1.1 (`\label{thm1}`, citing Berry 1941 `[ber41]`, `SteinIntro.tex:351-357`): let
 $X_1, X_2, \ldots$ be i.i.d. random variables with $\mathbb{E}|X_1|^3 < \infty$,
-$\mathbb{E}[X_1] = 0$, and $\operatorname{Var}(X_1) = 1$. If $\Phi$ denotes the c.d.f. of a
+$\mathbb{E}[X_1] = 0$, and $\mathrm{Var}(X_1) = 1$. If $\Phi$ denotes the c.d.f. of a
 standard normal distribution and $W_n = \sum_{i=1}^n X_i / \sqrt{n}$, then for all
 $x \in \mathbb{R}$,
 $|\mathbb{P}(W_n \le x) - \Phi(x)| \le 1.88 \, \frac{\mathbb{E}|X_1|^3}{\sqrt{n}}$. -/
@@ -38,11 +40,11 @@ def Thm1_1 : Prop :=
     |P.real {ω | W_n ω ≤ x} - stdNormalCDF x| ≤
       1.88 * (∫ ω, |X 0 ω| ^ 3 ∂P) / Real.sqrt n
 
-/-- Section 1.1.1 probability-metric axioms (`\label{probmet}`, `SteinIntro.tex:502-522`;
-`D1`–`D3`): `kolmogorovDist` and `wassersteinDist` satisfy symmetry, the triangle inequality, and
-separation (`d μ ν = 0 ↔ μ = ν`) on all Borel probability measures on `ℝ`, and `tvDist` satisfies
-symmetry, the triangle inequality, and separation on all probability measures on any measurable
-space `α`. -/
+/-- Section 1.1.1 probability-metric axioms (`\label{probmet}`, eq. `(1.1)` `\label{23}`,
+`SteinIntro.tex:502-522`; `D1`–`D3`, `ISSUE-TYPO-1.1` in `docs/SOURCE-ISSUES.md`):
+`kolmogorovDist` and `wassersteinDist` satisfy symmetry, the triangle inequality, and separation
+(`d μ ν = 0 ↔ μ = ν`) on all Borel probability measures on `ℝ`, and `tvDist` satisfies symmetry,
+the triangle inequality, and separation on all probability measures on any measurable space `α`. -/
 def Sec1_1_1_metrics_axioms : Prop :=
   (∀ (μ ν ρ : Measure ℝ) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
       [IsProbabilityMeasure ρ],
@@ -60,11 +62,10 @@ def Sec1_1_1_metrics_axioms : Prop :=
     tvDist μ ρ ≤ tvDist μ ν + tvDist ν ρ ∧
     (tvDist μ ν = 0 ↔ μ = ν))
 
-/-- Section 1.1.1 Item 1 (`\label{probmet}`, `SteinIntro.tex:502-515`, `SteinIntro.tex:708-709`):
-for Borel
-probability measures on `ℝ`, `kolmogorovDist μ ν` equals the supremum distance between cumulative
-distribution functions `ProbabilityTheory.cdf`, and convergence `kolmogorovDist (μ n) ν → 0`
-implies weak convergence in `ProbabilityMeasure ℝ`. -/
+/-- Section 1.1.1 Item 1 (`\label{probmet}`, unlabeled item 1, `SteinIntro.tex:502-515`,
+`SteinIntro.tex:708-709`): for Borel probability measures on `ℝ`, `kolmogorovDist μ ν` equals the
+supremum distance between cumulative distribution functions `ProbabilityTheory.cdf`, and
+convergence `kolmogorovDist (μ n) ν → 0` implies weak convergence in `ProbabilityMeasure ℝ`. -/
 def Sec1_1_1_kolmogorov_cdf_and_weakConv : Prop :=
   (∀ (μ ν : Measure ℝ) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν],
     kolmogorovDist μ ν =
@@ -75,9 +76,9 @@ def Sec1_1_1_kolmogorov_cdf_and_weakConv : Prop :=
     Filter.Tendsto (fun n : ℕ ↦ (μ n).toProbabilityMeasure)
       Filter.atTop (nhds ν.toProbabilityMeasure))
 
-/-- Proposition 1.2(1) (`\label{prop22}`, `SteinIntro.tex:523-526`): for real-valued random
-variables $W$ and $Z$, the Kolmogorov distance is bounded above by the total variation distance,
-$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+/-- Proposition 1.2(1) (`\label{prop22}`, unlabeled item 1, `SteinIntro.tex:523-526`): for
+real-valued random variables $W$ and $Z$, the Kolmogorov distance is bounded above by the total
+variation distance, $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 d_{\mathrm{TV}}(\mathcal{L}(W), \mathcal{L}(Z))$. -/
 def Prop1_2_1 : Prop :=
   ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
@@ -87,9 +88,9 @@ def Prop1_2_1 : Prop :=
     AEMeasurable W P → AEMeasurable Z P' →
     kolmogorovDist (P.map W) (P'.map Z) ≤ tvDist (P.map W) (P'.map Z)
 
-/-- Proposition 1.2(2) (`\label{prop22}`, `SteinIntro.tex:523-524`, `SteinIntro.tex:527-531`): if
-$Z$ has Lebesgue density
-bounded almost everywhere by $C$, then for any real-valued random variable $W$,
+/-- Proposition 1.2(2) (`\label{prop22}`, unlabeled item 2, `SteinIntro.tex:523-524`,
+`SteinIntro.tex:527-531`): if $Z$ has Lebesgue density bounded almost everywhere by $C$, then for
+any real-valued random variable $W$,
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \sqrt{2 C \, d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))}$. -/
 def Prop1_2_2 : Prop :=
@@ -103,10 +104,9 @@ def Prop1_2_2 : Prop :=
     kolmogorovDist (P.map W) (P'.map Z) ≤
       (2 * ENNReal.ofReal C * wassersteinDist (P.map W) (P'.map Z)) ^ (1 / 2 : ℝ)
 
-/-- Proposition 1.2(3) (`\label{prop22}`, `SteinIntro.tex:523-524`, `SteinIntro.tex:532-537`): if
-$W$ and $Z$ take values in
-a countable measurable-singleton space $S$, then
-$d_{\mathrm{TV}}(\mathcal{L}(W), \mathcal{L}(Z)) =
+/-- Proposition 1.2(3) (`\label{prop22}`, unlabeled item 3, `SteinIntro.tex:523-524`,
+`SteinIntro.tex:532-537`): if $W$ and $Z$ take values in a countable measurable-singleton space
+$S$, then $d_{\mathrm{TV}}(\mathcal{L}(W), \mathcal{L}(Z)) =
 \frac{1}{2} \sum_{s \in S} |\mathbb{P}(W = s) - \mathbb{P}(Z = s)|$. -/
 def Prop1_2_3 : Prop :=
   ∀ {Ω Ω' S : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
