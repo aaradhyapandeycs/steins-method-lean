@@ -38,6 +38,42 @@ def Thm1_1 : Prop :=
     |P.real {ω | W_n ω ≤ x} - stdNormalCDF x| ≤
       1.88 * (∫ ω, |X 0 ω| ^ 3 ∂P) / Real.sqrt n
 
+/-- Section 1.1.1 probability-metric axioms (`\label{probmet}`, `SteinIntro.tex:503-522`;
+`D1`–`D3`): `kolmogorovDist` and `wassersteinDist` satisfy symmetry, the triangle inequality, and
+separation (`d μ ν = 0 ↔ μ = ν`) on all Borel probability measures on `ℝ`, and `tvDist` satisfies
+symmetry, the triangle inequality, and separation on all probability measures on any measurable
+space `α`. -/
+def Sec1_1_1_metrics_axioms : Prop :=
+  (∀ (μ ν ρ : Measure ℝ) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+      [IsProbabilityMeasure ρ],
+    kolmogorovDist μ ν = kolmogorovDist ν μ ∧
+    kolmogorovDist μ ρ ≤ kolmogorovDist μ ν + kolmogorovDist ν ρ ∧
+    (kolmogorovDist μ ν = 0 ↔ μ = ν)) ∧
+  (∀ (μ ν ρ : Measure ℝ) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+      [IsProbabilityMeasure ρ],
+    wassersteinDist μ ν = wassersteinDist ν μ ∧
+    wassersteinDist μ ρ ≤ wassersteinDist μ ν + wassersteinDist ν ρ ∧
+    (wassersteinDist μ ν = 0 ↔ μ = ν)) ∧
+  (∀ {α : Type*} [MeasurableSpace α] (μ ν ρ : Measure α) [IsProbabilityMeasure μ]
+      [IsProbabilityMeasure ν] [IsProbabilityMeasure ρ],
+    tvDist μ ν = tvDist ν μ ∧
+    tvDist μ ρ ≤ tvDist μ ν + tvDist ν ρ ∧
+    (tvDist μ ν = 0 ↔ μ = ν))
+
+/-- Section 1.1.1 Item 1 (`\label{probmet}`, `SteinIntro.tex:513-515`, `708`): for Borel
+probability measures on `ℝ`, `kolmogorovDist μ ν` equals the supremum distance between cumulative
+distribution functions `ProbabilityTheory.cdf`, and convergence `kolmogorovDist (μ n) ν → 0`
+implies weak convergence in `ProbabilityMeasure ℝ`. -/
+def Sec1_1_1_kolmogorov_cdf_and_weakConv : Prop :=
+  (∀ (μ ν : Measure ℝ) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν],
+    kolmogorovDist μ ν =
+      ⨆ x : ℝ, ENNReal.ofReal |ProbabilityTheory.cdf μ x - ProbabilityTheory.cdf ν x|) ∧
+  (∀ (μ : ℕ → Measure ℝ) (ν : Measure ℝ)
+      [∀ n : ℕ, IsProbabilityMeasure (μ n)] [IsProbabilityMeasure ν],
+    Filter.Tendsto (fun n : ℕ ↦ kolmogorovDist (μ n) ν) Filter.atTop (nhds 0) →
+    Filter.Tendsto (fun n : ℕ ↦ (μ n).toProbabilityMeasure)
+      Filter.atTop (nhds ν.toProbabilityMeasure))
+
 /-- Proposition 1.2(1) (`\label{prop22}`, `SteinIntro.tex:523-526`): for real-valued random
 variables $W$ and $Z$, the Kolmogorov distance is bounded above by the total variation distance,
 $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le

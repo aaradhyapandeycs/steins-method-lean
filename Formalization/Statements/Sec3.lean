@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Aaradhya Pandey
 -/
 import Formalization.Defs
+import Formalization.Defs.OrnsteinUhlenbeck
 
 /-!
 # Section 3 Statements (`Formalization.Statements.Sec3`)
@@ -34,7 +35,28 @@ def Sec3_dK_le_dW : Prop :=
       ENNReal.ofReal ((2 / Real.pi) ^ (1 / 4 : ℝ)) *
         wassersteinDist (P.map W) (P'.map Z) ^ (1 / 2 : ℝ)
 
-/-- Theorem 3.1 (`\label{thm31}`, eq. `(3.2)` `\label{35}`, `SteinIntro.tex:719-724`; `D6` literal
+/-- Section 3 opening: Wasserstein Stein-solution regularity (`SteinIntro.tex:711-716`;
+`ISSUE-TYPO-SEC3-OPEN`): (1) for every $1$-Lipschitz $h : \mathbb{R} \to \mathbb{R}$,
+`normalSteinSol h` is differentiable everywhere with $|f_h| \le 2$, $|f_h'| \le \sqrt{2/\pi}$,
+and $2$-Lipschitz derivative $f_h'$, and belongs to the twice-differentiable class
+`normalWassersteinClass` iff $h$ is differentiable on $\mathbb{R}$;
+(2) for every $x \in \mathbb{R}$, the Kolmogorov solution `normalSteinSolKolm x` is neither
+differentiable on $\mathbb{R}$ nor has a differentiable derivative `deriv (normalSteinSolKolm x)`.
+Under the project's accepted reading of Lem2_5(2), `‖f_h″‖ ≤ 2L` is an a.e./Lipschitz bound;
+under that reading L712–713 holds. The `_strictReading` refutation applies only to the strict
+`deriv` reading where pointwise existence of `deriv (deriv ·)` is required everywhere. -/
+def Sec3_opening_steinSol_regularity : Prop :=
+  (∀ h : ℝ → ℝ, LipschitzWith 1 h →
+    Differentiable ℝ (normalSteinSol h) ∧
+    (∀ w : ℝ, |normalSteinSol h w| ≤ 2) ∧
+    (∀ w : ℝ, |deriv (normalSteinSol h) w| ≤ Real.sqrt (2 / Real.pi)) ∧
+    LipschitzWith 2 (deriv (normalSteinSol h)) ∧
+    (normalSteinSol h ∈ normalWassersteinClass ↔ Differentiable ℝ h)) ∧
+  (∀ x : ℝ,
+    ¬ Differentiable ℝ (normalSteinSolKolm x) ∧
+    ¬ Differentiable ℝ (deriv (normalSteinSolKolm x)))
+
+/-- Theorem 3.1 (`\label{thm31}`, eq. `(3.1)` `\label{35}`, `SteinIntro.tex:719-724`; `D6` literal
 class): for any real-valued random variable $W$ and standard normal $Z \sim \mathcal{N}(0, 1)$,
 $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
 \sup_{f \in \mathcal{F}} |\mathbb{E}[f'(W) - W f(W)]|$. -/
@@ -71,6 +93,62 @@ def Thm3_2 : Prop :=
         (1 / (n : ℝ) ^ (3 / 2 : ℝ) * (∑ i : Fin n, ∫ ω, |X i ω| ^ 3 ∂P) +
           Real.sqrt 2 / (Real.sqrt Real.pi * (n : ℝ)) *
             Real.sqrt (∑ i : Fin n, ∫ ω, X i ω ^ 4 ∂P))
+
+/-- Section 3.1 post-Theorem 3.2 i.i.d. rate and optimality remark (`SteinIntro.tex:743-744`):
+(1) for any i.i.d. sequence $(X_i)_{i \in \mathbb{N}}$ with $X_0 \in L^4(P)$, $\mathbb{E}[X_0] = 0$,
+and $\mathbb{E}[X_0^2] = 1$, $W_n = (\sum_{i < n} X_i)/\sqrt{n}$ satisfies
+$d_{\mathrm{W}}(\mathcal{L}(W_n), \mathcal{N}(0, 1)) \le C / \sqrt{n}$ for all $n \ge 1$ with
+$C = \mathbb{E}|X_0|^3 + \sqrt{2\,\mathbb{E}[X_0^4]/\pi}$;
+(2) this $n^{-1/2}$ rate is best possible over Theorem 3.2's i.i.d. class: there exist a probability
+space $(\Omega, P)$, an i.i.d. sequence $(X_i)_{i \in \mathbb{N}}$ on $(\Omega, P)$ satisfying all
+hypotheses of Theorem 3.2, and a constant $c > 0$ such that
+$d_{\mathrm{W}}(\mathcal{L}(W_n), \mathcal{N}(0, 1)) \ge c / \sqrt{n}$ for all $n \ge 1$. -/
+def Sec3_1_iid_wasserstein_rate : Prop :=
+  (∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+      {X : ℕ → Ω → ℝ},
+    (∀ i : ℕ, AEMeasurable (X i) P) →
+    ProbabilityTheory.iIndepFun X P →
+    (∀ i : ℕ, ProbabilityTheory.IdentDistrib (X i) (X 0) P P) →
+    MemLp (X 0) 4 P →
+    ∫ ω, X 0 ω ∂P = 0 →
+    ∫ ω, X 0 ω ^ 2 ∂P = 1 →
+    let C : ℝ := (∫ ω, |X 0 ω| ^ 3 ∂P) + Real.sqrt (2 / Real.pi * ∫ ω, X 0 ω ^ 4 ∂P)
+    ∀ n : ℕ, 0 < n →
+      let W_n : Ω → ℝ := fun ω ↦ (∑ i ∈ Finset.range n, X i ω) / Real.sqrt n
+      wassersteinDist (P.map W_n) stdNormalLaw ≤ ENNReal.ofReal (C / Real.sqrt n)) ∧
+  (∃ (Ω : Type) (_ : MeasurableSpace Ω) (P : Measure Ω) (_ : IsProbabilityMeasure P)
+      (X : ℕ → Ω → ℝ) (c : ℝ),
+    0 < c ∧
+    (∀ i : ℕ, AEMeasurable (X i) P) ∧
+    ProbabilityTheory.iIndepFun X P ∧
+    (∀ i : ℕ, ProbabilityTheory.IdentDistrib (X i) (X 0) P P) ∧
+    MemLp (X 0) 4 P ∧
+    ∫ ω, X 0 ω ∂P = 0 ∧
+    ∫ ω, X 0 ω ^ 2 ∂P = 1 ∧
+    ∀ n : ℕ, 0 < n →
+      let W_n : Ω → ℝ := fun ω ↦ (∑ i ∈ Finset.range n, X i ω) / Real.sqrt n
+      ENNReal.ofReal (c / Real.sqrt n) ≤ wassersteinDist (P.map W_n) stdNormalLaw)
+
+/-- Section 3.1 third-moment normal approximation bound for independent sums
+(`SteinIntro.tex:746-747`; `SA-8`): for independent mean-zero unit-variance random variables
+$X_1, \ldots, X_n \in L^3(P)$, the normalized sum $W = (\sum_i X_i)/\sqrt{n}$ satisfies
+$d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{N}(0, 1)) \le
+\frac{3}{n^{3/2}} \sum_{i=1}^n \mathbb{E}|X_i|^3$. -/
+def Sec3_1_indepSum_thirdMoment : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} (_hn : 0 < n) {X : Fin n → Ω → ℝ} {Z : Ω' → ℝ},
+    (∀ i : Fin n, AEMeasurable (X i) P) →
+    ProbabilityTheory.iIndepFun X P →
+    (∀ i : Fin n, MemLp (X i) 3 P) →
+    (∀ i : Fin n, ∫ ω, X i ω ∂P = 0) →
+    (∀ i : Fin n, ∫ ω, X i ω ^ 2 ∂P = 1) →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let W : Ω → ℝ := fun ω ↦ (∑ i : Fin n, X i ω) / Real.sqrt n
+    wassersteinDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal (3 / (n : ℝ) ^ (3 / 2 : ℝ) * ∑ i : Fin n, ∫ ω, |X i ω| ^ 3 ∂P)
 
 /-- Lemma 3.3 (`\label{lem33}`, eqs. `(3.3)`–`(3.4)` `\label{345}`–`\label{345a}`,
 `SteinIntro.tex:753-759`; `ISSUE-TYPO-3.3`, `ISSUE-3.3`): leave-one-out Stein expansion for
@@ -143,14 +221,99 @@ def Thm3_5_corrected : Prop :=
           Real.sqrt 26 * D ^ (3 / 2 : ℝ) / (Real.sqrt Real.pi * σ ^ 2) *
             Real.sqrt (∑ i : Fin n, ∫ ω, X i ω ^ 4 ∂P))
 
+/-- Section 3.2 independent-variables specialization (`SteinIntro.tex:827-828`): mutually
+independent random variables $(X_1, \ldots, X_n)$ satisfy both `HasDependencyNeighborhoods` and
+`IsDependencyGraph` with singleton neighborhoods $N_i = \{i\}$ (and maximum neighborhood size
+$D = 1$ when $n \ge 1$). -/
+def Sec3_2_indep_isDependencyGraph : Prop :=
+  ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+    {n : ℕ} {X : Fin n → Ω → ℝ},
+    (∀ i : Fin n, AEMeasurable (X i) P) →
+    ProbabilityTheory.iIndepFun X P →
+    HasDependencyNeighborhoods P X (fun i ↦ {i}) ∧
+    IsDependencyGraph P X (fun i ↦ {i}) ∧
+    (0 < n → (Finset.univ.sup fun i : Fin n ↦ ({i} : Finset (Fin n)).card) = 1)
+
+/-- Section 3.2 intermediate dependency-neighborhood bound (`SteinIntro.tex:908-911`, referencing
+eqs. `(3.11)` `\label{448}`, `(3.12)` `\label{49}`, and the unnumbered display at L865):
+under literal Definition 3.1 (`HasDependencyNeighborhoods P X N`, without needing
+`IsDependencyGraph`), if $X_1, \ldots, X_n \in L^4(P)$ have mean zero and
+$\sigma^2 = \operatorname{Var}(\sum_i X_i) > 0$, then
+$\sigma^2 = \mathbb{E}[\sum_i X_i \sum_{j \in N_i} X_j]$ and $W = (\sum_i X_i)/\sigma$ satisfies
+$d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+\frac{1}{\sigma^3}\sum_{i=1}^n \sum_{j \in N_i} \sum_{k \in N_i} \mathbb{E}|X_i X_j X_k| +
+\frac{\sqrt{2}}{\sqrt{\pi}\,\sigma^2}
+\sqrt{\operatorname{Var}(\sum_{i=1}^n \sum_{j \in N_i} X_i X_j)}$. -/
+def Sec3_2_depNeighborhoods_intermediate_bound : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} {X : Fin n → Ω → ℝ} {N : Fin n → Finset (Fin n)} {Z : Ω' → ℝ},
+    (∀ i : Fin n, AEMeasurable (X i) P) →
+    (∀ i : Fin n, MemLp (X i) 4 P) →
+    (∀ i : Fin n, ∫ ω, X i ω ∂P = 0) →
+    HasDependencyNeighborhoods P X N →
+    0 < ProbabilityTheory.variance (fun ω ↦ ∑ i : Fin n, X i ω) P →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let σ2 : ℝ := ProbabilityTheory.variance (fun ω ↦ ∑ i : Fin n, X i ω) P
+    let σ : ℝ := Real.sqrt σ2
+    let W : Ω → ℝ := fun ω ↦ (∑ i : Fin n, X i ω) / σ
+    σ2 = (∫ ω, ∑ i : Fin n, X i ω * ∑ j ∈ N i, X j ω ∂P) ∧
+      wassersteinDist (P.map W) (P'.map Z) ≤
+        ENNReal.ofReal
+          (1 / σ ^ 3 *
+              (∑ i : Fin n, ∑ j ∈ N i, ∑ k ∈ N i, ∫ ω, |X i ω * X j ω * X k ω| ∂P) +
+            Real.sqrt 2 / (Real.sqrt Real.pi * σ ^ 2) *
+              Real.sqrt
+                (ProbabilityTheory.variance
+                  (fun ω ↦ ∑ i : Fin n, ∑ j ∈ N i, X i ω * X j ω) P))
+
+/-- Section 3.2.1 triangle-indicator setup, pairwise-independence criterion, dependency-graph
+degree, and central moments (`SteinIntro.tex:919-928`; `ISSUE-3.2.1`): for $n \ge 3$ and any fixed
+enumeration `enum : Fin (n.choose 3) ≃ {s : Finset (Fin n) // s.card = 3}` of the $\binom{n}{3}$
+three-vertex subsets:
+(1) the triangle count $T(G)$ is $\sum_i Y_i(G)$;
+(2) for $0 \le p \le 1$, defining $N_i = \{i\} \cup \{j : |V_i \cap V_j| = 2\}$ and
+    $X_i = Y_i - p^3$ gives $|N_i| = 3(n - 3) + 1 = 3n - 8$,
+    `IsDependencyGraph (erdosRenyi n p) X N`, and
+    $\mathbb{E}|X_i|^k = p^3(1 - p^3)[(1 - p^3)^{k-1} + p^{3(k-1)}]$ for all $k \ge 1$;
+(3) for $0 < p < 1$ and $i \ne j$, $Y_i$ and $Y_j$ are independent under $G(n, p)$ iff the edge
+    sets on $V_i$ and $V_j$ are disjoint (equivalently $|V_i \cap V_j| \le 1$; the `"only if"`
+    direction fails at $p \in \{0, 1\}$ for $n \ge 4$, where $Y_i$ is a.s. constant). -/
+def Sec3_2_1_triangles_setup_and_moments : Prop :=
+  ∀ {n : ℕ}, 3 ≤ n →
+    Nonempty (Fin (n.choose 3) ≃ {s : Finset (Fin n) // s.card = 3}) ∧
+    ∀ (enum : Fin (n.choose 3) ≃ {s : Finset (Fin n) // s.card = 3}),
+      let Y : Fin (n.choose 3) → SimpleGraph (Fin n) → ℝ :=
+        fun i ↦ {G : SimpleGraph (Fin n) | (enum i).1 ∈ G.cliqueSet 3}.indicator 1
+      let N_nbhd : Fin (n.choose 3) → Finset (Fin (n.choose 3)) :=
+        fun i ↦ Finset.univ.filter (fun j ↦ j = i ∨ ((enum i).1 ∩ (enum j).1).card = 2)
+      (∀ G : SimpleGraph (Fin n), ((G.cliqueSet 3).ncard : ℝ) = ∑ i : Fin (n.choose 3), Y i G) ∧
+      (∀ i : Fin (n.choose 3),
+        (N_nbhd i).card = 3 * (n - 3) + 1 ∧
+        ((N_nbhd i).card : ℝ) = 3 * (n : ℝ) - 8) ∧
+      (∀ {p : ℝ}, 0 ≤ p → p ≤ 1 →
+        let X : Fin (n.choose 3) → SimpleGraph (Fin n) → ℝ := fun i G ↦ Y i G - p ^ 3
+        IsDependencyGraph (erdosRenyi n p) X N_nbhd ∧
+        ∀ (i : Fin (n.choose 3)) (k : ℕ), 1 ≤ k →
+          ∫ G, |X i G| ^ k ∂erdosRenyi n p =
+            p ^ 3 * (1 - p ^ 3) * ((1 - p ^ 3) ^ (k - 1) + p ^ (3 * (k - 1)))) ∧
+      (∀ {p : ℝ}, 0 < p → p < 1 →
+        ∀ i j : Fin (n.choose 3), i ≠ j →
+          (ProbabilityTheory.IndepFun (Y i) (Y j) (erdosRenyi n p) ↔
+            Disjoint {e : EdgePair n | ∀ v ∈ e.1, v ∈ (enum i).1}
+              {e : EdgePair n | ∀ v ∈ e.1, v ∈ (enum j).1}))
+
 /-- Section 3.2.1 application, restricted (`SteinIntro.tex:918-949`; `ISSUE-TYPO-3.2.1`,
 `ISSUE-3.2.1`): for triangle counts $T$ in $G(n, p)$ with $n \ge 3$ and $0 < p < 1$,
 $\mathbb{E}[T] = \binom{n}{3} p^3$, $\sigma^2 = \operatorname{Var}(T) = \binom{n}{3} p^3
 [1 - p^3 + 3(n - 3)p^2(1 - p)]$, and $W = (T - \mathbb{E}[T])/\sigma$ satisfies the Theorem 3.5
 Wasserstein bound (printed with $\dk$ by typo at `SteinIntro.tex:936`, `ISSUE-TYPO-3.2.1`, and
 restricted from $0 \le p \le 1$ at `SteinIntro.tex:941` because $\sigma = 0$ at $p \in \{0, 1\}$,
-`ISSUE-3.2.1`). The printed inequality for $d_{\mathrm{K}}$ is not established here; this entry
-proves the bound for $d_{\mathrm{W}}$, which is what Theorem 3.5 yields. -/
+`ISSUE-3.2.1`). Theorem 3.5 yields the bound for $d_{\mathrm{W}}$ proved here; the literal printed
+inequality with $d_{\mathrm{K}}$ on the left-hand side also holds for $3 \le n$ and
+$0 < p < 1$ (`Sec3_2_1_triangles_kolmogorov_restricted`). -/
 def Sec3_2_1_triangles_restricted : Prop :=
   ∀ {Ω' : Type*} [MeasurableSpace Ω'] (P' : Measure Ω') [IsProbabilityMeasure P']
     {n : ℕ} {p : ℝ} {Z : Ω' → ℝ},
@@ -174,6 +337,76 @@ def Sec3_2_1_triangles_restricted : Prop :=
               (Real.sqrt Real.pi * σ ^ 2) *
               Real.sqrt
                 ((n.choose 3 : ℝ) * p ^ 3 * (1 - p ^ 3) * ((1 - p ^ 3) ^ 3 + p ^ 9)))
+
+/-- Section 3.2.1 literal $d_{\mathrm{K}}$ inequality, restricted to $0 < p < 1$
+(`SteinIntro.tex:935-939`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`): although Theorem 3.5 bounds
+$d_{\mathrm{W}}(W, Z)$ (`Sec3_2_1_triangles_restricted`), the literal printed bound with
+$d_{\mathrm{K}}(W, Z)$ on the left-hand side also holds unconditionally for all $n \ge 3$ and
+$0 < p < 1$. -/
+def Sec3_2_1_triangles_kolmogorov_restricted : Prop :=
+  ∀ {Ω' : Type*} [MeasurableSpace Ω'] (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} {p : ℝ} {Z : Ω' → ℝ},
+    3 ≤ n →
+    0 < p →
+    p < 1 →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let T : SimpleGraph (Fin n) → ℝ := fun G ↦ ((G.cliqueSet 3).ncard : ℝ)
+    let μ : ℝ := ∫ G, T G ∂erdosRenyi n p
+    let σ : ℝ := Real.sqrt (ProbabilityTheory.variance T (erdosRenyi n p))
+    let W : SimpleGraph (Fin n) → ℝ := fun G ↦ (T G - μ) / σ
+    μ = (n.choose 3 : ℝ) * p ^ 3 ∧
+      ProbabilityTheory.variance T (erdosRenyi n p) =
+        (n.choose 3 : ℝ) * p ^ 3 * (1 - p ^ 3 + 3 * ((n : ℝ) - 3) * p ^ 2 * (1 - p)) ∧
+      kolmogorovDist ((erdosRenyi n p).map W) (P'.map Z) ≤
+        ENNReal.ofReal
+          ((3 * (n : ℝ) - 8) ^ 2 / σ ^ 3 *
+              ((n.choose 3 : ℝ) * p ^ 3 * (1 - p ^ 3) * ((1 - p ^ 3) ^ 2 + p ^ 6)) +
+            Real.sqrt 26 * (3 * (n : ℝ) - 8) ^ ((3 : ℝ) / 2) /
+              (Real.sqrt Real.pi * σ ^ 2) *
+              Real.sqrt
+                ((n.choose 3 : ℝ) * p ^ 3 * (1 - p ^ 3) * ((1 - p ^ 3) ^ 3 + p ^ 9)))
+
+/-- Section 3.2.1 triangle-count variance divergence and CLT regime, restricted
+(`SteinIntro.tex:941-944`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`): if $0 \le p_n \le 1$ satisfies
+$\lim_{n \to \infty} n^\alpha p_n = c > 0$ for some $\alpha \ge 0$, with $c < 1$ when $\alpha = 0$
+(excluding the degenerate $p_n \to 1$ boundary where $p_n \equiv 1$ has
+$\mathrm{Var}(T_n) = 0$, `ISSUE-3.2.1`), then:
+1. for all $0 \le \alpha < 1$, $\mathrm{Var}(T_n) \to \infty$ (`L942-943`), and
+2. for all $0 \le \alpha < 2/9$, the Section 3.2.1 Stein upper bound tends to $0$, and the
+   standardized triangle count $W_n = (T_n - \mathbb{E}[T_n])/\sigma_n$ converges to
+   $\mathcal{N}(0, 1)$ in both Wasserstein and Kolmogorov distance (hence in distribution).
+Note: the cited `[ruc88]` normal-convergence characterization at `L944` is formalized in
+`Sec3_2_1_triangles_rucinski`. -/
+def Sec3_2_1_triangles_clt_regime_restricted : Prop :=
+  ∀ {p : ℕ → ℝ} {α c : ℝ},
+    (∀ n : ℕ, 0 ≤ p n ∧ p n ≤ 1) →
+    0 ≤ α →
+    0 < c →
+    (α = 0 → c < 1) →
+    Filter.Tendsto (fun n : ℕ ↦ (n : ℝ) ^ α * p n) Filter.atTop (nhds c) →
+    let T : (n : ℕ) → SimpleGraph (Fin n) → ℝ := fun _ G ↦ ((G.cliqueSet 3).ncard : ℝ)
+    let μ : ℕ → ℝ := fun n ↦ ∫ G, T n G ∂erdosRenyi n (p n)
+    let σ : ℕ → ℝ := fun n ↦ Real.sqrt (ProbabilityTheory.variance (T n) (erdosRenyi n (p n)))
+    let W : (n : ℕ) → SimpleGraph (Fin n) → ℝ := fun n G ↦ (T n G - μ n) / σ n
+    let rhs : ℕ → ℝ := fun n ↦
+      (3 * (n : ℝ) - 8) ^ 2 / σ n ^ 3 *
+          ((n.choose 3 : ℝ) * p n ^ 3 * (1 - p n ^ 3) * ((1 - p n ^ 3) ^ 2 + p n ^ 6)) +
+        Real.sqrt 26 * (3 * (n : ℝ) - 8) ^ ((3 : ℝ) / 2) /
+          (Real.sqrt Real.pi * σ n ^ 2) *
+          Real.sqrt
+            ((n.choose 3 : ℝ) * p n ^ 3 * (1 - p n ^ 3) * ((1 - p n ^ 3) ^ 3 + p n ^ 9))
+    (α < 1 →
+      Filter.Tendsto (fun n : ℕ ↦ ProbabilityTheory.variance (T n) (erdosRenyi n (p n)))
+        Filter.atTop Filter.atTop) ∧
+    (α < 2 / 9 →
+      Filter.Tendsto rhs Filter.atTop (nhds 0) ∧
+        Filter.Tendsto
+          (fun n : ℕ ↦ wassersteinDist ((erdosRenyi n (p n)).map (W n)) stdNormalLaw)
+          Filter.atTop (nhds 0) ∧
+        Filter.Tendsto
+          (fun n : ℕ ↦ kolmogorovDist ((erdosRenyi n (p n)).map (W n)) stdNormalLaw)
+          Filter.atTop (nhds 0))
 
 /-- Section 3.2.1 Ruciński triangle-count CLT criterion (`SteinIntro.tex:943-944`, citing
 Ruciński 1988 `\cite{ruc88}`, Theorem 2 specialized to $H = K_3$ with
@@ -329,6 +562,152 @@ def Rem3_4 : Prop :=
     Integrable Y P →
     ProbabilityTheory.evariance (P[Y | m₁]) P ≤
       ProbabilityTheory.evariance (P[Y | m₂]) P
+
+/-- Remark 3.5 (`SteinIntro.tex:1009-1024`; `ISSUE-TYPO-3.5`): the Ornstein–Uhlenbeck transition
+kernel `ouKernel a` (`x ↦ 𝒩(e^{-a} x, 1 - e^{-2a})` for `a > 0`) satisfies the three infinitesimal
+diffusion properties as `a → 0⁺`:
+1. $\mathbb{E}[D(t + a) - D(t) \mid D(t) = x] = -a x + o(a)$,
+2. $\mathbb{E}[(D(t + a) - D(t))^2 \mid D(t) = x] = 2a + o(a)$,
+3. $\mathbb{P}(|D(t + a) - D(t)| > \varepsilon \mid D(t) = x) = o(a)$ for all $\varepsilon > 0$,
+and for every $a > 0$, `ouKernel a` is a Markov kernel reversible with respect to `stdNormalLaw`,
+has stationary distribution `stdNormalLaw`, and realizes a $(1 - e^{-a})$-Stein pair under
+`stdNormalLaw ⊗ₘ ouKernel a` (`L1021-1022`).
+Note: uniqueness from the infinitesimal properties (`L1018`) is formalized separately in
+`Rem3_5_uniqueness_restricted` (`BL8`). -/
+def Rem3_5 : Prop :=
+  (∀ x : ℝ,
+    Filter.Tendsto
+      (fun a : ℝ ↦ ((∫ y, (y - x) ∂ouKernel a x) - (-a * x)) / a)
+      (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+  (∀ x : ℝ,
+    Filter.Tendsto
+      (fun a : ℝ ↦ ((∫ y, (y - x) ^ 2 ∂ouKernel a x) - 2 * a) / a)
+      (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+  (∀ x : ℝ, ∀ ε : ℝ, 0 < ε →
+    Filter.Tendsto
+      (fun a : ℝ ↦ (ouKernel a x).real {y : ℝ | ε < |y - x|} / a)
+      (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+  (∀ a : ℝ, 0 < a →
+    ProbabilityTheory.IsMarkovKernel (ouKernel a) ∧
+      (stdNormalLaw ⊗ₘ ouKernel a).map Prod.swap = stdNormalLaw ⊗ₘ ouKernel a ∧
+      stdNormalLaw.bind (ouKernel a) = stdNormalLaw ∧
+      IsSteinPair (stdNormalLaw ⊗ₘ ouKernel a) (1 - Real.exp (-a)) Prod.fst Prod.snd)
+
+/-- Remark 3.5, uniqueness, restricted (`SteinIntro.tex:1009-1024`):
+1. (*Non-vacuity*): `ouKernel` forms a Chapman–Kolmogorov Markov semigroup on `(0, ∞)` satisfying
+   the Lindeberg second-moment tail condition and small-time quadratic moment domination;
+2. (*Stein generator & stationary-law uniqueness*): for any Markov kernel family `(K a)_{a > 0}`
+   satisfying Remark 3.5 Items 1–2 and the Lindeberg second-moment tail condition, local
+   second-moment integrability yields the infinitesimal Stein generator
+   `normalSteinOp f x = f'(x) - x f(x)` on primitives `G x = ∫ u in 0..x, f u` of `C_b^1`
+   functions, and under small-time quadratic moment domination every square-integrable probability
+   measure `μ` with `μ.bind (K a) = μ` for small `a > 0` equals `stdNormalLaw`;
+3. (*Semigroup uniqueness*): if `(K t)_{t > 0}` also satisfies Chapman–Kolmogorov
+   `K (s + t) = K t ∘ₖ K s` under small-time quadratic moment domination, then `K t = ouKernel t`
+   for all `t > 0`, and any probability measure `μ` with `μ.bind (K t₀) = μ` for some `t₀ > 0`
+   equals `stdNormalLaw`.
+Reading note: this `_restricted` statement adds two regularity hypotheses not literally printed in
+Remark 3.5: (i) the Lindeberg second-moment tail in place of Item 3's probability tail, and
+(ii) small-time quadratic moment domination (as a regularity reading of "diffusion process" for
+the expectation-interchange steps). Whether the printed probability-tail form already suffices for
+Chapman–Kolmogorov Markov semigroups is left open. Reversibility of `ouKernel` and stationarity of
+`stdNormalLaw` are proved in `Rem3_5`; Parts 2–3 supply the uniqueness of the process and of its
+stationary law. -/
+def Rem3_5_uniqueness_restricted : Prop :=
+  ((∀ s : ℝ, 0 < s → ∀ t : ℝ, 0 < t →
+      ouKernel (s + t) = ProbabilityTheory.Kernel.comp (ouKernel t) (ouKernel s)) ∧
+    (∀ x : ℝ, ∀ ε : ℝ, 0 < ε →
+      Filter.Tendsto
+        (fun a : ℝ ↦ (∫ y in {y : ℝ | ε < |y - x|}, (y - x) ^ 2 ∂ouKernel a x) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) ∧
+    (∃ a₀ : ℝ, 0 < a₀ ∧ ∃ C : ℝ, 0 ≤ C ∧
+      ∀ a ∈ Set.Ioo 0 a₀, ∀ x : ℝ,
+        Integrable (fun y : ℝ ↦ (y - x) ^ 2) (ouKernel a x) ∧
+          |∫ y, (y - x) ∂ouKernel a x| ≤ C * a * (1 + |x|) ∧
+          (∫ y, (y - x) ^ 2 ∂ouKernel a x) ≤ C * a * (1 + x ^ 2))) ∧
+  (∀ K : ℝ → ProbabilityTheory.Kernel ℝ ℝ,
+    (∀ a : ℝ, 0 < a → ProbabilityTheory.IsMarkovKernel (K a)) →
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ∂K a x) - (-a * x)) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (∀ x : ℝ,
+      Filter.Tendsto
+        (fun a : ℝ ↦ ((∫ y, (y - x) ^ 2 ∂K a x) - 2 * a) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (∀ x : ℝ, ∀ ε : ℝ, 0 < ε →
+      Filter.Tendsto
+        (fun a : ℝ ↦ (∫ y in {y : ℝ | ε < |y - x|}, (y - x) ^ 2 ∂K a x) / a)
+        (nhdsWithin 0 (Set.Ioi 0)) (nhds 0)) →
+    (((∀ x : ℝ, ∀ᶠ a in nhdsWithin 0 (Set.Ioi 0),
+          Integrable (fun y : ℝ ↦ (y - x) ^ 2) (K a x)) →
+        ∀ f : ℝ → ℝ, ContDiff ℝ 1 f →
+          (∃ B : ℝ, (∀ u : ℝ, |f u| ≤ B) ∧ (∀ u : ℝ, |deriv f u| ≤ B)) →
+          ∀ x : ℝ,
+            Filter.Tendsto
+              (fun a : ℝ ↦
+                (∫ y, ((∫ u in (0 : ℝ)..y, f u) - (∫ u in (0 : ℝ)..x, f u)) ∂K a x) / a)
+              (nhdsWithin 0 (Set.Ioi 0)) (nhds (normalSteinOp f x))) ∧
+      ((∃ a₀ : ℝ, 0 < a₀ ∧ ∃ C : ℝ, 0 ≤ C ∧
+          ∀ a ∈ Set.Ioo 0 a₀, ∀ x : ℝ,
+            Integrable (fun y : ℝ ↦ (y - x) ^ 2) (K a x) ∧
+              |∫ y, (y - x) ∂K a x| ≤ C * a * (1 + |x|) ∧
+              (∫ y, (y - x) ^ 2 ∂K a x) ≤ C * a * (1 + x ^ 2)) →
+        (∀ μ : Measure ℝ, IsProbabilityMeasure μ →
+          Integrable (fun x : ℝ ↦ x ^ 2) μ →
+          (∀ᶠ a in nhdsWithin 0 (Set.Ioi 0), μ.bind (K a) = μ) →
+          μ = stdNormalLaw) ∧
+        ((∀ s : ℝ, 0 < s → ∀ t : ℝ, 0 < t →
+            K (s + t) = ProbabilityTheory.Kernel.comp (K t) (K s)) →
+          (∀ t : ℝ, 0 < t → K t = ouKernel t) ∧
+            (∀ μ : Measure ℝ, IsProbabilityMeasure μ →
+              (∃ t₀ : ℝ, 0 < t₀ ∧ μ.bind (K t₀) = μ) →
+              μ = stdNormalLaw)))))
+
+/-- Display `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1046`): for an $a$-Stein pair $(W, W')$
+and a twice-differentiable function $f : \mathbb{R} \to \mathbb{R}$ with $|f| \le B_0$,
+$|f'| \le B_1$, and $|f''| \le B_2$,
+$|\mathbb{E}[f'(W) - W f(W)]| \le B_1\,\mathbb{E}|1 - \mathbb{E}[(W' - W)^2 \mid W]/(2a)| +
+(B_2 / (6a))\,\mathbb{E}|W' - W|^3$, stated with `ℝ≥0∞` `lintegral`s on the right-hand side per
+`D1` so non-$L^3$ increments evaluate to `⊤` rather than junk `0`. -/
+def Sec3_3_eq3_18 : Prop :=
+  ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+    {a B₀ B₁ B₂ : ℝ} {W W' : Ω → ℝ} {f : ℝ → ℝ},
+    IsSteinPair P a W W' →
+    Differentiable ℝ f →
+    Differentiable ℝ (deriv f) →
+    (∀ w : ℝ, |f w| ≤ B₀) →
+    (∀ w : ℝ, |deriv f w| ≤ B₁) →
+    (∀ w : ℝ, |deriv (deriv f) w| ≤ B₂) →
+    ENNReal.ofReal |∫ ω, normalSteinOp f (W ω) ∂P| ≤
+      ENNReal.ofReal B₁ *
+          (∫⁻ ω,
+            ENNReal.ofReal
+              |1 - (P[fun ω' ↦ (W' ω' - W ω') ^ 2 |
+                  MeasurableSpace.comap W inferInstance] ω) / (2 * a)| ∂P) +
+        ENNReal.ofReal (B₂ / (6 * a)) *
+          ∫⁻ ω, ENNReal.ofReal (|W' ω - W ω| ^ 3) ∂P
+
+/-- Wasserstein corollary of `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1048`): taking the
+supremum of `Sec3_3_eq3_18` over `normalWassersteinClass` ($B_1 = \sqrt{2/\pi}$, $B_2 = 2$) via
+Theorem 3.1 bounds $d_{\mathrm{W}}(\mathcal{L}(W), \mathcal{L}(Z))$ without requiring fourth
+moments, with cubic coefficient $2 / (6a) = 1 / (3a)$. -/
+def Sec3_3_eq3_18_wasserstein : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {a : ℝ} {W W' : Ω → ℝ} {Z : Ω' → ℝ},
+    IsSteinPair P a W W' →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    wassersteinDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal (Real.sqrt (2 / Real.pi)) *
+          (∫⁻ ω,
+            ENNReal.ofReal
+              |1 - (P[fun ω' ↦ (W' ω' - W ω') ^ 2 |
+                  MeasurableSpace.comap W inferInstance] ω) / (2 * a)| ∂P) +
+        ENNReal.ofReal (1 / (3 * a)) *
+          ∫⁻ ω, ENNReal.ofReal (|W' ω - W ω| ^ 3) ∂P
 
 /-- Example 3.6, Stein-pair verification (`SteinIntro.tex:1053-1069`): for independent centered
 unit-variance random variables $X_1, \dots, X_n$ with $\mathbb{E}[X_i^4] < \infty$, an independent
@@ -515,6 +894,27 @@ def Thm3_8 : Prop :=
           (4 * n / (3 * σ ^ 3) +
             Real.sqrt (ProbabilityTheory.variance Q P) /
               ((r : ℝ) * σ ^ 2 * Real.sqrt (2 * Real.pi)))
+
+/-- Section 3.3.1 non-reversibility of the anti-voter Markov chain (`SteinIntro.tex:1130-1131`):
+there exists a finite connected $r$-regular simple graph $G$ satisfying the Section 3.3.1
+hypotheses (non-bipartite, not isomorphic to `cycleGraph |V|`, witnessed by the $3$-regular prism
+$K_3 \square K_2$ on `Fin 6`; `G.Connected` strengthens the existential witness beyond the printed
+hypotheses) such that the anti-voter chain has a stationary probability distribution, and **every**
+stationary probability distribution $\mu$ violates detailed balance at some pair of configurations
+$(x, y)$. -/
+def Sec3_3_1_antiVoter_not_reversible : Prop :=
+  ∃ (V : Type) (_ : Fintype V) (_ : DecidableEq V)
+    (G : SimpleGraph V) (_ : DecidableRel G.Adj) (r : ℕ),
+    G.IsRegularOfDegree r ∧
+    G.Connected ∧
+    ¬ G.IsBipartite ∧
+    IsEmpty (G ≃g SimpleGraph.cycleGraph (Fintype.card V)) ∧
+    (∃ μ : Measure (V → Bool), IsProbabilityMeasure μ ∧ IsAntiVoterStationary G μ) ∧
+    (∀ μ : Measure (V → Bool),
+      IsProbabilityMeasure μ →
+      IsAntiVoterStationary G μ →
+      ∃ x y : V → Bool,
+        μ {x} * antiVoterStep G x y ≠ μ {y} * antiVoterStep G y x)
 
 /-- Lemma 3.9 (`\label{lem51}`, `SteinIntro.tex:1133-1136`): if $W$ and $W'$ are identically
 distributed integer-valued random variables defined on the same probability space such that
@@ -725,16 +1125,16 @@ def Ex3_8 : Prop :=
             ∑ i : Fin n, ((∫ ω, X i ω ^ 3 ∂P) - (∫ ω, X i ω ∂P) * ∫ ω, X i ω ^ 2 ∂P))
 
 /-- Example 3.9, size-bias realization and increment identity (`\label{ex72}`,
-`SteinIntro.tex:1354-1367, 1380-1383`): for $G \sim G(n, p)$ ($n \ge 1$, $0 \le p < 1$) and an
+`SteinIntro.tex:1354-1367, 1380-1383`): for $G \sim G(n, p)$ ($n \ge 1$, $0 \le p \le 1$) and an
 independent uniform vertex $I \in \{1, \dots, n\}$, erasing all edges incident to $I$
 (`SimpleGraph.deleteIncidenceSet`) yields a size-bias version $X^s$ of the isolated-vertex count
-$X = \sum_{i=1}^n X_i$ (via Corollary 3.16), with increment $X^s - X = D_I + \mathbf{1}_{d_I > 0}$,
-where $d_i$ is the degree of $i$ in $G$ and $D_i$ is the number of degree-one neighbors of $i$. -/
+$X = \sum_{i=1}^n X_i$, with increment $X^s - X = D_I + \mathbf{1}_{d_I > 0}$, where $d_i$ is the
+degree of $i$ in $G$ and $D_i$ is the number of degree-one neighbors of $i$. -/
 def Ex3_9_sizeBias : Prop :=
   ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     {n : ℕ} (hn : 0 < n) {p : ℝ} {G : Ω → SimpleGraph (Fin n)} {I : Ω → Fin n},
     0 ≤ p →
-    p < 1 →
+    p ≤ 1 →
     Measurable G →
     P.map G = erdosRenyi n p →
     Measurable I →
@@ -854,6 +1254,25 @@ def Prop3_19_corrected : Prop :=
           volume.withDensity (fun w ↦ ENNReal.ofReal (zeroBiasDensity P W w))
        IsProbabilityMeasure ν ∧ IsZeroBias P W ν id)
 
+/-- Section 3.5 distributional uniqueness from derivatives of compactly supported $C^1$ functions
+(`SteinIntro.tex:1512-1513`, inside the proof of Proposition 3.19): if two real-valued random
+variables $X$ and $Y$ satisfy $\mathbb{E}[f'(X)] = \mathbb{E}[f'(Y)]$ for every continuously
+differentiable function $f : \mathbb{R} \to \mathbb{R}$ with compact support, then
+$X \stackrel{d}{=} Y$ (`ProbabilityTheory.IdentDistrib X Y P P'`). -/
+def Sec3_5_identDistrib_of_integral_deriv_compactSupport : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {X : Ω → ℝ} {Y : Ω' → ℝ},
+    AEMeasurable X P →
+    AEMeasurable Y P' →
+    (∀ f : ℝ → ℝ,
+        Differentiable ℝ f →
+        Continuous (deriv f) →
+        (∃ R : ℝ, ∀ x : ℝ, R ≤ |x| → f x = 0) →
+        ∫ ω, deriv f (X ω) ∂P = ∫ ω', deriv f (Y ω') ∂P') →
+    ProbabilityTheory.IdentDistrib X Y P P'
+
 /-- Proposition 3.20 (`SteinIntro.tex:1519-1521`, existence reading): if $W$ has mean zero and
 finite variance and $W^z$ has the zero-bias distribution of $W$, then for every $a \in \mathbb{R}$
 (with no positivity requirement on $\operatorname{Var}(W)$ or $a$), $a W^z$ has the zero-bias
@@ -884,6 +1303,41 @@ def Prop3_20_restricted : Prop :=
     IsZeroBias P (fun ω ↦ a * W ω) P' (fun ω' ↦ a * Wz ω') ∧
       (IsZeroBias P (fun ω ↦ a * W ω) P'' Y →
         P''.map Y = P'.map (fun ω' ↦ a * Wz ω'))
+
+/-- Section 3.5.1 zero-bias construction from a Stein pair (`SteinIntro.tex:1527-1528`,
+`%XXXX Exercise 3`, citing Goldstein–Reinert 1997 `\cite{gore97}` Lemma 2.1, proved from scratch):
+if $(W, W')$ is an $a$-Stein pair in $L^2(P)$ with $\sigma^2 = \mathrm{Var}(W) > 0$, then:
+(1) the square-increment-biased measure $dQ = \frac{(W' - W)^2}{2 a \sigma^2}\,dP$ is a
+probability measure on $\Omega$, and on $Q \otimes \mathrm{Unif}(0, 1)$ the interpolation
+$(\omega, u) \mapsto u W(\omega) + (1 - u) W'(\omega)$ has the zero-bias distribution of $W$;
+(2) for any probability space $(\Omega', P')$ carrying $(W^\dagger, W'^\dagger)$ with joint law
+$Q.\mathrm{map}(W, W')$ and an independent $U \sim \mathrm{Unif}(0, 1)$,
+$W^z = U W^\dagger + (1 - U) W'^\dagger$ satisfies `IsZeroBias P W P' Wz`. (Reading notes:
+(1) Ross gives only the pointer to `\cite{gore97}` (`%XXXX Exercise 3`), so this entry states
+Goldstein–Reinert's canonical square-increment-biased interpolation explicitly; (2) `MemLp W 2 P`
+supplies finite second moment and `0 < variance W P` guards the $2 a \sigma^2$ denominator,
+`ISSUE-3.19`.) -/
+def Sec3_5_1_zeroBias_of_steinPair : Prop :=
+  ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+    {a : ℝ} {W W' : Ω → ℝ},
+    IsSteinPair P a W W' →
+    MemLp W 2 P →
+    0 < ProbabilityTheory.variance W P →
+    let Q : Measure Ω :=
+      P.withDensity fun ω ↦
+        ENNReal.ofReal ((W' ω - W ω) ^ 2 / (2 * a * ProbabilityTheory.variance W P))
+    (IsProbabilityMeasure Q ∧
+      IsZeroBias P W (Q.prod (volume.restrict (Set.Ioo (0 : ℝ) 1)))
+        (fun p ↦ p.2 * W p.1 + (1 - p.2) * W' p.1)) ∧
+    ∀ {Ω' : Type*} [MeasurableSpace Ω'] (P' : Measure Ω') [IsProbabilityMeasure P']
+      {Wd W'd U : Ω' → ℝ},
+      AEMeasurable Wd P' →
+      AEMeasurable W'd P' →
+      AEMeasurable U P' →
+      P'.map (fun ω' ↦ (Wd ω', W'd ω')) = Q.map (fun ω ↦ (W ω, W' ω)) →
+      MeasureTheory.pdf.IsUniform U (Set.Ioo (0 : ℝ) 1) P' →
+      ProbabilityTheory.IndepFun U (fun ω' ↦ (Wd ω', W'd ω')) P' →
+      IsZeroBias P W P' (fun ω' ↦ U ω' * Wd ω' + (1 - U ω') * W'd ω')
 
 /-- Proposition 3.21 (`\label{prop81}`, `SteinIntro.tex:1530-1551`; `ISSUE-TYPO-3.21`): if
 $X_1, \dots, X_n$ are independent mean-zero $L^2$ random variables with
@@ -1183,6 +1637,67 @@ def Sec3_6_zeroBias_bdd_exists : Prop :=
     (∀ᵐ ω ∂P, |W ω| ≤ M) →
     ∃ ν : Measure ℝ, IsProbabilityMeasure ν ∧ IsZeroBias P W ν id ∧ ∀ᵐ x : ℝ ∂ν, |x| ≤ M
 
+/-- Section 3.6.1 bounded independent-sum Kolmogorov bound (`SteinIntro.tex:1741-1742`,
+`%%XXXX Exercise 3`; `ISSUE-TYPO-3.27`): if $X_1, \dots, X_n$ are independent mean-zero random
+variables satisfying $|X_i| \le C$ almost surely with
+$\sigma^2 = \mathrm{Var}(\sum_{i=1}^n X_i) > 0$, $W = (\sum_{i=1}^n X_i) / \sigma$, and
+$Z \sim \mathcal{N}(0, 1)$, then $d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+(1 + 1/\sqrt{2\pi} + \sqrt{2\pi}/4)\,(2 C / \sigma)$. (Reading notes: (1) centering
+(`∫ X_i = 0`) comes from Proposition 3.21's zero-bias sum recipe (`L1530`); (2) Ross prints no
+explicit formula and leaves the application as an exercise, so this bound is the project's explicit
+solution combining Proposition 3.21, `Sec3_6_zeroBias_bdd_exists`, and Theorem 3.27
+(`\delta = 2 C / \sigma`); (3) $\sigma^2 > 0$ is typing for $W = S / \sigma$.) -/
+def Sec3_6_1_indepSum_kolmogorov : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} {X : Fin n → Ω → ℝ} {Z : Ω' → ℝ} {C : ℝ},
+    (∀ i : Fin n, AEMeasurable (X i) P) →
+    ProbabilityTheory.iIndepFun X P →
+    (∀ i : Fin n, ∫ ω, X i ω ∂P = 0) →
+    (∀ i : Fin n, ∀ᵐ ω ∂P, |X i ω| ≤ C) →
+    0 < ProbabilityTheory.variance (fun ω ↦ ∑ i : Fin n, X i ω) P →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let S : Ω → ℝ := fun ω ↦ ∑ i : Fin n, X i ω
+    let σ : ℝ := Real.sqrt (ProbabilityTheory.variance S P)
+    let W : Ω → ℝ := fun ω ↦ S ω / σ
+    kolmogorovDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal
+        ((1 + 1 / Real.sqrt (2 * Real.pi) + Real.sqrt (2 * Real.pi) / 4) * (2 * C / σ))
+
+/-- Section 3.6.1 Kolmogorov bound in Hoeffding's combinatorial CLT (`SteinIntro.tex:1742-1743`,
+`%%XXXX Exercise 3`, referencing Example 7.5 `SteinIntro.tex:3597-3610`; `ISSUE-TYPO-3.27`): for a
+real array $(a_{ij})_{i, j \in \mathrm{Fin}\,n}$ with $|a_{ij}| \le C$, a uniform random
+permutation $\pi$ of `Fin n` with $\sigma^2 = \mathrm{Var}(\sum_{i=1}^n a_{i, \pi(i)}) > 0$,
+$\mu = \frac{1}{n}\sum_{i, j} a_{ij}$, $W = (\sum_{i=1}^n a_{i, \pi(i)} - \mu) / \sigma$,
+and $Z \sim \mathcal{N}(0, 1)$,
+$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+(1 + 1/\sqrt{2\pi} + \sqrt{2\pi}/4)\,(8 C / \sigma)$. (Reading notes: (1) `"under some
+boundedness assumption"` (`L1743`) is read as the entrywise bound `|a i j| ≤ C`; (2) Ross prints no
+explicit formula and leaves the derivation as an exercise, so the right-hand side is the project's
+explicit solution combining the two-swap square-increment-biased zero-bias coupling
+(`|W^z - W| ≤ 8 C / σ`) with Theorem 3.27; (3) $\sigma^2 > 0$ is typing for $W = (S - \mu)/\sigma$
+and forces $n \ge 2$, holding for $n = 2$ as well as $n \ge 3$.) -/
+def Sec3_6_1_combinatorial_kolmogorov : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} {a : Fin n → Fin n → ℝ} {π : Ω → Equiv.Perm (Fin n)} {Z : Ω' → ℝ} {C : ℝ},
+    (∀ i j : Fin n, |a i j| ≤ C) →
+    AEMeasurable π P →
+    P.map π = (PMF.uniformOfFintype (Equiv.Perm (Fin n))).toMeasure →
+    0 < ProbabilityTheory.variance (fun ω ↦ ∑ i : Fin n, a i (π ω i)) P →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let S : Ω → ℝ := fun ω ↦ ∑ i : Fin n, a i (π ω i)
+    let μ : ℝ := (1 / (n : ℝ)) * ∑ i : Fin n, ∑ j : Fin n, a i j
+    let σ : ℝ := Real.sqrt (ProbabilityTheory.variance S P)
+    let W : Ω → ℝ := fun ω ↦ (S ω - μ) / σ
+    kolmogorovDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal
+        ((1 + 1 / Real.sqrt (2 * Real.pi) + Real.sqrt (2 * Real.pi) / 4) * (8 * C / σ))
+
 /-- Theorem 3.28 (`\label{thm92}`, `SteinIntro.tex:1750-1755`; `ISSUE-3.25` proof note, `D7`): if
 $(W, W')$ is an $a$-Stein pair with $\operatorname{Var}(W) = 1$ and $|W' - W| \le \delta$ almost
 surely, and $Z \sim \mathcal{N}(0, 1)$, then
@@ -1219,5 +1734,83 @@ def Lem3_29 : Prop :=
     ProbabilityTheory.variance W P = 1 →
     (∀ᵐ ω ∂P, |W' ω - W ω| ≤ δ) →
     ∫ ω, (W' ω - W ω) ^ 2 * (Set.Ioc x (x + δ)).indicator 1 (W ω) ∂P ≤ 3 * δ * a
+
+/-- Section 3.6.2 bounded independent-sum Kolmogorov bound via exchangeable pairs
+(`SteinIntro.tex:1810`, applying Theorem 3.28 `\label{thm92}` with Example 3.6's Stein pair): if
+$X_1, \dots, X_n$ are independent mean-zero random variables satisfying $|X_i| \le C$ almost
+surely with $\sigma^2 = \mathrm{Var}(\sum_{i=1}^n X_i) > 0$, $W = (\sum_{i=1}^n X_i) / \sigma$,
+and $Z \sim \mathcal{N}(0, 1)$, then
+$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+\frac{\sqrt{\sum_{i=1}^n \mathrm{Var}(X_i^2)}}{2 \sigma^2} + \frac{4 n C^3}{\sigma^3} +
+\frac{3 C}{\sigma}$. (Reading notes: (1) centering (`∫ X_i = 0`) and the $(1/n)$-Stein pair
+$W' = W - X_I/\sigma + X_I'/\sigma$ follow Example 3.6 (`L1054-1059`); (2) Ross prints no explicit
+formula at `L1810`, so this bound is obtained from Theorem 3.28 (`a = 1/n`, `δ = 2 C / σ`) after
+upper-bounding $\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid W]) \le
+\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid X])$ via conditional Jensen / Remark 3.4 (`Rem3_4`) and
+computing $\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid X])$; (3) $\sigma^2 > 0$ is typing for
+$W = S / \sigma$.) -/
+def Sec3_6_2_indepSum_kolmogorov : Prop :=
+  ∀ {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {n : ℕ} {X : Fin n → Ω → ℝ} {Z : Ω' → ℝ} {C : ℝ},
+    (∀ i : Fin n, AEMeasurable (X i) P) →
+    ProbabilityTheory.iIndepFun X P →
+    (∀ i : Fin n, ∫ ω, X i ω ∂P = 0) →
+    (∀ i : Fin n, ∀ᵐ ω ∂P, |X i ω| ≤ C) →
+    0 < ProbabilityTheory.variance (fun ω ↦ ∑ i : Fin n, X i ω) P →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let S : Ω → ℝ := fun ω ↦ ∑ i : Fin n, X i ω
+    let σ : ℝ := Real.sqrt (ProbabilityTheory.variance S P)
+    let W : Ω → ℝ := fun ω ↦ S ω / σ
+    kolmogorovDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal
+        (Real.sqrt (∑ i : Fin n, ProbabilityTheory.variance (fun ω ↦ X i ω ^ 2) P) /
+            (2 * σ ^ 2) +
+          4 * (n : ℝ) * C ^ 3 / σ ^ 3 +
+          3 * C / σ)
+
+/-- Section 3.6.2 anti-voter Kolmogorov bound (`SteinIntro.tex:1810-1812`, applying Theorem 3.28
+`\label{thm92}` to the anti-voter model of Section 3.3.1 `\label{secav}`): for any stationary
+distribution of the anti-voter Markov chain on a finite $r$-regular simple graph $G$ on $n = |V|$
+vertices that is neither bipartite nor isomorphic to `cycleGraph |V|`, with total spin
+$S = \sum_{v \in V} \mathrm{spin}(X_v)$, $\sigma = \sqrt{\mathrm{Var}(S)}$, $W = S / \sigma$,
+$Q = \sum_{i \in V} \sum_{j \in N_i} \mathrm{spin}(X_i) \mathrm{spin}(X_j)$, and
+$Z \sim \mathcal{N}(0, 1)$,
+$d_{\mathrm{K}}(\mathcal{L}(W), \mathcal{L}(Z)) \le
+\frac{\sqrt{\mathrm{Var}(Q)}}{2 r \sigma^2} + \frac{2 n}{\sigma^3} + \frac{3}{\sigma}$.
+(Reading notes: (1) hypotheses match Theorem 3.8 (`Thm3_8`), without requiring the next Markov step
+$X'$ on $\Omega$ since it is constructed internally via `antiVoterStep G`; (2) Ross states
+qualitatively that Theorem 3.28 yields Kolmogorov rates comparable to Section 3.3.1's Wasserstein
+bound, and this bound follows from Theorem 3.28 (`a = 2/n`, `δ = 2/σ`) after upper-bounding
+$\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid W]) \le
+\mathrm{Var}(\mathbb{E}[(W' - W)^2 \mid X])$ via conditional Jensen / Remark 3.4 (`Rem3_4`),
+with $\sigma^2 \le n$ from Lemma 3.10 giving
+$\frac{2n}{\sigma^3} + \frac{3}{\sigma} \le \frac{5n}{\sigma^3}$; (3) $n \ge 4$, $r > 0$,
+and $\sigma > 0$ are derived from the hypotheses, not assumed.) -/
+def Sec3_6_2_antiVoter_kolmogorov : Prop :=
+  ∀ {V : Type*} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] {r : ℕ}
+    {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    {X : Ω → V → Bool} {Z : Ω' → ℝ},
+    G.IsRegularOfDegree r →
+    ¬ G.IsBipartite →
+    IsEmpty (G ≃g SimpleGraph.cycleGraph (Fintype.card V)) →
+    Measurable X →
+    IsAntiVoterStationary G (P.map X) →
+    AEMeasurable Z P' →
+    P'.map Z = stdNormalLaw →
+    let n : ℝ := Fintype.card V
+    let S : Ω → ℝ := fun ω ↦ ∑ v : V, spin (X ω v)
+    let σ : ℝ := Real.sqrt (ProbabilityTheory.variance S P)
+    let W : Ω → ℝ := fun ω ↦ S ω / σ
+    let Q : Ω → ℝ := fun ω ↦ ∑ i : V, ∑ j ∈ G.neighborFinset i, spin (X ω i) * spin (X ω j)
+    kolmogorovDist (P.map W) (P'.map Z) ≤
+      ENNReal.ofReal
+        (Real.sqrt (ProbabilityTheory.variance Q P) / (2 * (r : ℝ) * σ ^ 2) +
+          2 * n / σ ^ 3 +
+          3 / σ)
 
 end SteinMethod

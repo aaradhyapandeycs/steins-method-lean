@@ -7,6 +7,7 @@ import Formalization.Normal.KolmogorovSolution
 import Formalization.Normal.SolutionBounds
 import Formalization.Normal.SteinLemma
 import Formalization.Statements.Sec2
+import Formalization.Sweep.SweepASec2
 
 /-!
 # Section 2 Proof Wrappers (`Formalization.Statements.Sec2Proofs`)
@@ -41,6 +42,14 @@ theorem Lem2_2_corrected_holds : Lem2_2_corrected :=
 theorem Cor2_3_corrected_holds : Cor2_3_corrected := by
   intro _ _ P _ _ x hW
   exact abs_measureReal_Iic_sub_stdNormalCDF_eq P hW x
+
+/-- Claim A4 (`SteinIntro.tex:597-600`): all-x characterization of stdNormal. -/
+theorem Sec2_cor2_3_iff_stdNormal_holds : Sec2_cor2_3_iff_stdNormal :=
+  sec2_cor2_3_iff_stdNormal_proof
+
+/-- Claim A5 (`SteinIntro.tex:612-615`): Gaussian tail bound. -/
+theorem Sec2_stdNormalCDF_tail_le_holds : Sec2_stdNormalCDF_tail_le :=
+  sec2_stdNormalCDF_tail_le_proof
 
 /-- Proposition 2.4 (`\label{prop31}`, `SteinIntro.tex:665-670`; `D4` literal, `D1` guard) holds. -/
 theorem Prop2_4_holds : Prop2_4 := by

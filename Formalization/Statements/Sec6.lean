@@ -11,18 +11,40 @@ import Formalization.Defs
 Self-contained statements from Section 6 (*Geometric approximation*, `SteinIntro.tex:3190-3388`) of
 Nathan Ross, *"Fundamentals of Stein's method"* (`arXiv:1109.1880v1`), importing core definitions
 only (`AGENTS.md` Rule 5).
-
-Note (`E4`): The opening Wasserstein triangle-inequality display (`SteinIntro.tex:3193-3198`;
-`ISSUE-6.0`) depends on Example 5.4 (`SteinIntro.tex:2898`, Track D); its Section 6 reduction
-`opening_wasserstein_of_ex5_4` and refutation `not_opening_wasserstein_printed` are proved in
-`Formalization.Geometric.OpeningBound` (re-exported as `not_Sec6_opening_wasserstein_printed` in
-`Sec6Proofs.lean`), and `Sec6_opening_wasserstein_corrected` will be wired here once Track D lands.
 -/
 
 open MeasureTheory Filter
 open scoped ENNReal Topology
 
 namespace SteinMethod
+
+/-- Section 6 opening Wasserstein triangle-inequality bound, corrected
+(`SteinIntro.tex:3193-3198`; `ISSUE-6.0`): for $0 < p \le 1$, a positive integer-valued random
+variable $W$ with $\mathbb{E}[W] = 1/p$, $X \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$, and
+$Z \sim \mathrm{Exp}(1)$, all Wasserstein distances are finite and
+$|d_{\mathrm{W}}(pW, Z) - p\,d_{\mathrm{W}}(X, W)| \le p$. The printed display omits the scaling
+factor $p$ on $d_{\mathrm{W}}(X, W)$ (`not_Sec6_opening_wasserstein_printed`, `ISSUE-6.0`). -/
+def Sec6_opening_wasserstein_corrected : Prop :=
+  ∀ {Ω Ω' Ω'' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω'] [MeasurableSpace Ω'']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    (P'' : Measure Ω'') [IsProbabilityMeasure P'']
+    {p : ℝ} {W : Ω → ℕ} {X : Ω' → ℕ} {Z : Ω'' → ℝ},
+    0 < p →
+    p ≤ 1 →
+    AEMeasurable W P →
+    (∀ᵐ ω ∂P, 0 < W ω) →
+    Integrable (fun ω ↦ (W ω : ℝ)) P →
+    ∫ ω, (W ω : ℝ) ∂P = 1 / p →
+    AEMeasurable X P' →
+    P'.map X = posGeomLaw p →
+    AEMeasurable Z P'' →
+    P''.map Z = ProbabilityTheory.expMeasure 1 →
+    wassersteinDist (P.map (fun ω ↦ p * (W ω : ℝ))) (P''.map Z) < ⊤ ∧
+      wassersteinDist (P'.map (fun ω' ↦ (X ω' : ℝ))) (P.map (fun ω ↦ (W ω : ℝ))) < ⊤ ∧
+      |(wassersteinDist (P.map (fun ω ↦ p * (W ω : ℝ))) (P''.map Z)).toReal -
+          p * (wassersteinDist (P'.map (fun ω' ↦ (X ω' : ℝ)))
+            (P.map (fun ω ↦ (W ω : ℝ)))).toReal| ≤ p
 
 /-- Section 6 opening support-mismatch total variation formula and small-$p$ limit
 (`SteinIntro.tex:3199-3200`): for $X \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$ ($0 < p \le 1$) and
@@ -45,6 +67,27 @@ def Sec6_supportMismatch : Prop :=
   (∀ {k : ℕ}, 1 ≤ k →
     Tendsto (fun p : ℝ ↦ 1 - p * (1 - p) ^ (k - 1) / (1 - (1 - p) ^ k))
       (nhdsWithin 0 (Set.Ioi 0)) (nhds (((k : ℝ) - 1) / (k : ℝ))))
+
+/-- Section 6 opening & 6.3 failure of exponential approximation (`SteinIntro.tex:3211-3212`):
+for $n \ge 2$, the in-degree $W_n$ of an independent uniformly chosen vertex in
+`uniformAttachment n` satisfies $\mathbb{P}(W_n = 0) = \frac{n - 1}{2n}$ and
+$d_{\mathrm{K}}(\mathcal{L}(W_n), \mathrm{Exp}(1)) \ge \frac{n - 1}{2n}$. -/
+def Sec6_3_not_exponential : Prop :=
+  ∀ {Ω : Type*} [MeasurableSpace Ω]
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    {n : ℕ} (hn : 2 ≤ n)
+    {G : Ω → Digraph (Fin n)} {I : Ω → Fin n},
+    AEMeasurable G P →
+    P.map G = uniformAttachment n →
+    AEMeasurable I P →
+    ProbabilityTheory.IndepFun I G P →
+    P.map I = (@PMF.uniformOfFintype (Fin n) inferInstance ⟨⟨0, by omega⟩⟩).toMeasure →
+    let W : Ω → ℕ := fun ω ↦ digraphInDegree (G ω) (I ω)
+    P.real {ω | W ω = 0} = ((n : ℝ) - 1) / (2 * (n : ℝ)) ∧
+    ENNReal.ofReal (((n : ℝ) - 1) / (2 * (n : ℝ))) ≤
+      kolmogorovDist
+        (P.map (fun ω ↦ (W ω : ℝ)))
+        ((ProbabilityTheory.expMeasure 1).map id)
 
 /-- Lemma 6.1(1) (`\label{lem173}`, `SteinIntro.tex:3229-3236`): for $0 < p \le 1$, if
 $Z \sim \mathrm{Ge}^0(p)$, then $\mathbb{E}[\mathcal{A}f(Z)] = 0$ for all bounded functions
@@ -182,6 +225,25 @@ def Thm6_5 : Prop :=
     P'.map N = geomLaw p →
     tvDist (P.map W) (P'.map N) ≤
       ENNReal.ofReal (2 * (1 - p)) * ∫⁻ ω, ENNReal.ofReal |(We ω : ℝ) - (W ω : ℝ)| ∂P
+
+/-- Section 6.3 asymptotic geometric convergence without rate (`SteinIntro.tex:3342-3343`, citing
+`[brst01]`): as $n \to \infty$, the in-degree $W_{n + 1}$ of an independent uniformly chosen vertex
+in `uniformAttachment (n + 1)` converges in total variation to $\mathrm{Ge}^0(1/2)$. -/
+def Sec6_3_uniformAttachment_convergence : Prop :=
+  ∀ {Ω : ℕ → Type*} [∀ n, MeasurableSpace (Ω n)]
+    (P : ∀ n, Measure (Ω n)) [∀ n, IsProbabilityMeasure (P n)]
+    {G : ∀ n, Ω n → Digraph (Fin (n + 1))} {I : ∀ n, Ω n → Fin (n + 1)},
+    (∀ n : ℕ,
+      AEMeasurable (G n) (P n) ∧
+      (P n).map (G n) = uniformAttachment (n + 1) ∧
+      AEMeasurable (I n) (P n) ∧
+      ProbabilityTheory.IndepFun (I n) (G n) (P n) ∧
+      (P n).map (I n) =
+        (@PMF.uniformOfFintype (Fin (n + 1)) inferInstance
+          ⟨⟨0, Nat.succ_pos n⟩⟩).toMeasure) →
+    let W : ∀ n, Ω n → ℕ := fun n ω ↦ digraphInDegree (G n ω) (I n ω)
+    Tendsto (fun n : ℕ ↦ tvDist ((P n).map (W n)) (geomLaw (1 / 2)))
+      atTop (nhds 0)
 
 /-- Theorem 6.6 (`\label{thm1716}`, `SteinIntro.tex:3345-3350`; `ISSUE-TYPO-6.6`, `ISSUE-6.6`):
 if $G_n$ ($n \ge 1$) is generated according to the uniform attachment directed graph model, $I$ is

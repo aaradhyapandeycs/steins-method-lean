@@ -299,6 +299,27 @@ This document specifies the core mathematical objects of Nathan Ross, *"Fundamen
     {H : SimpleGraph (Fin n) | e.1 ∈ H.edgeSet}.indicator 1 G
   ```
 
+### 4.7 Ornstein–Uhlenbeck Transition Kernel (`Formalization/Defs/OrnsteinUhlenbeck.lean`)
+- **Source lines**:
+  - Remark 3.5 (`SteinIntro.tex:1009-1024`): stationary Ornstein–Uhlenbeck diffusion $(D(t))_{t \ge 0}$ with conditional drift $-a x + o(a)$, conditional squared-increment $2a + o(a)$, conditional jump probability $o(a)$, reversibility with respect to $\mathcal{N}(0, 1)$, and connection to $a$-Stein pairs (`Theorem 3.7`, `\label{thm51}`).
+- **Verified Mathlib objects (`v4.34.0`)**:
+  - `ProbabilityTheory.Kernel`, `ProbabilityTheory.Kernel.id`, `ProbabilityTheory.IsMarkovKernel` (`Mathlib.Probability.Kernel.Basic`)
+  - `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.measurable_gaussianReal` (`Mathlib.Probability.Distributions.Gaussian.Real`)
+- **Representation and totality conventions**:
+  - For forward time increments `0 < a`, `ouKernel a` maps `x : ℝ` to `ProbabilityTheory.gaussianReal (Real.exp (-a) * x) (Real.toNNReal (1 - Real.exp (-2 * a)))`, i.e. $\mathcal{N}(e^{-a} x, 1 - e^{-2a})$.
+  - For `a ≤ 0`, `ouKernel a` defaults to `ProbabilityTheory.Kernel.id` (`x ↦ Measure.dirac x`) as a totality fallback so `ouKernel` takes `(a : ℝ)` without proof arguments and satisfies `IsMarkovKernel (ouKernel a)` for every `a : ℝ`. Under `Rem3_5`, all limits filter over `nhdsWithin 0 (Set.Ioi 0)` (`a → 0⁺`) and the reversibility/stationarity/Stein-pair clauses assume `0 < a`, so the `a ≤ 0` branch is never invoked.
+- **Lean definition (`Formalization/Defs/OrnsteinUhlenbeck.lean`)**:
+  ```lean
+  noncomputable def ouKernel (a : ℝ) : ProbabilityTheory.Kernel ℝ ℝ :=
+    if 0 < a then
+      { toFun := fun x ↦
+          ProbabilityTheory.gaussianReal (Real.exp (-a) * x)
+            (Real.toNNReal (1 - Real.exp (-2 * a)))
+        measurable' := ProbabilityTheory.measurable_gaussianReal.comp (by fun_prop) }
+    else
+      ProbabilityTheory.Kernel.id
+  ```
+
 ---
 
 ## 5. Formalization Notes
@@ -318,7 +339,7 @@ This document specifies the core mathematical objects of Nathan Ross, *"Fundamen
      so both sides of `(2.5)` range over the exact same test functions without Bochner-integral junk zeros.
 
 3. **Theorem 5.7 (`\label{thm1710}`, `SteinIntro.tex:2915-2929`, bounds `(5.4)`–`(5.5)` at `L2924-2928`) Lean encoding note (`review-01.md` `L1`)**:
-   - Lean's totalized real division (`0 / 0 = 0`), `sSup` fallback `0` on unbounded sets in `ℝ`, and Bochner integral fallback `0` on non-integrable functions (such as `∫ ω, |(N ω : ℝ) - M ω| ∂P` when $\mathbb{E}[N] = 1/p < \infty$ but $\mathbb{E}|N - M| = \infty$, where the mathematical extended-real upper bound in $[0, \infty]$ is trivially $+\infty$) are Lean encoding conventions rather than mathematical defects in the source, and require either `ℝ≥0∞` `lintegral`/`iSup` or explicit positivity/integrability hypotheses (`0 < p`, `Integrable`; similarly `0 < r` for $\lambda > 0$ in Section 4 where `0 / 0 = 0` would otherwise mask division by $\lambda = 0$). [`docs/SOURCE-ISSUES.md`](SOURCE-ISSUES.md) (`ISSUE-5.7`) records only the genuine mathematical issues in Theorem 5.7 (omitted $m \ge 1$ support in `L2920` and omitted joint independence of $(N, M)$ from $(X_i)_{i \ge 1}$).
+   - Lean's totalized real division (`0 / 0 = 0`), `sSup` fallback `0` on unbounded sets in `ℝ`, and Bochner integral fallback `0` on non-integrable functions (such as `∫ ω, |(N ω : ℝ) - M ω| ∂P` when $\mathbb{E}[N] = 1/p < \infty$ but $\mathbb{E}|N - M| = \infty$, where the mathematical extended-real upper bound in $[0, \infty]$ is trivially $+\infty$) are Lean encoding conventions rather than mathematical defects in the source, and require either `ℝ≥0∞` `lintegral`/`iSup` or explicit positivity/integrability hypotheses (`0 < p`, `Integrable`; similarly `0 < r` for $\lambda > 0$ in Section 4 where `0 / 0 = 0` would otherwise mask division by $\lambda = 0$). [`docs/SOURCE-ISSUES.md`](SOURCE-ISSUES.md) (`ISSUE-5.7`) records only the genuine mathematical issues in Theorem 5.7 (omitted $m \ge 1$ support in `L2920` and the minimal omitted joint independence of $(N, M)$ from $(X_i)_{i \ge 1}$, alongside the printed joint independence of each $X_i^e$ from $(N, M, (X_j)_{j \ne i})$, proved as `thm5_7_corrected_minimal` / `Thm5_7_corrected`).
 
 4. **Statement & Proof Wrapper Module Layout (`AGENTS.md` Rule 5, `review-01.md` `L2`)**:
    - Every proved survey result is stated as a self-contained `def <Name> : Prop` in `Formalization/Statements/SecN.lean` (which imports `Formalization.Defs` only) and proved as `theorem <Name>_holds : <Name>` in `Formalization/Statements/SecNProofs.lean`.
@@ -335,8 +356,8 @@ This document specifies the core mathematical objects of Nathan Ross, *"Fundamen
 8. **Positive Total Mean (`0 < μ`) in Size-Bias Mixture Couplings (`Prop3_14`, `Cor3_15`, `Cor3_16`)**:
    - Where the source chooses a random summand index $I \in \{1, \ldots, n\}$ with $\mathbb{P}(I = i) = \mu_i / \mu$ (`SteinIntro.tex:1292-1293, 1322-1323, 1330-1331`), formalized as `∀ i, P.real (I ⁻¹' {i}) = (∫ ω, X i ω ∂P) / μ` (or `p i / μ` in `Cor3_16`), the source divides by $\mu = \sum_i \mu_i$ (and for $\mu = 0$ no index distribution can have weights $\mu_i / \mu$ summing to $1$). `0 < μ` is therefore included as a well-definedness condition.
 
-9. **Isolated-Vertex Size-Bias Realization Well-Definedness (`0 < n`, `p < 1`) in `Ex3_9_sizeBias` (`SteinIntro.tex:1360-1367`)**:
-   - Example 3.9 draws a uniform random vertex $I \in \{1, \ldots, n\}$ (`0 < n` non-empty index typing, §5.5) and applies Corollary 3.16 (`\label{cor72}`) to $X = \sum_{i=1}^n X_i$, which requires $\mu = n(1 - p)^{n - 1} > 0$ (§5.8), i.e., $p < 1$ when $n \ge 2$ (and at $p = 1, n \ge 2$, $G(n, 1) = K_n$ has $X \equiv 0$, whereas erasing edges at $v_I$ produces $X^s \ge 1$). `Ex3_9_sizeBias` therefore assumes `0 < n`, `0 ≤ p`, and `p < 1`.
+9. **Isolated-Vertex Size-Bias Realization Typing (`0 < n`, `0 ≤ p ≤ 1`) in `Ex3_9_sizeBias` (`SteinIntro.tex:1360-1367`)**:
+   - Example 3.9 draws a uniform random vertex $I \in \{1, \ldots, n\}$ (`0 < n` non-empty index typing, §5.5). For $0 \le p \lt 1$, Corollary 3.16 (`\label{cor72}`) applies directly since $\mu = n(1 - p)^{n - 1} \gt 0$. At $p = 1$, `Ex3_9_sizeBias` also holds: for $n = 1$, $G(1, 1) = G(1, 0)$ has no potential edges (`EdgePair 1` is empty); for $n \ge 2$, $G(n, 1) = K_n$ a.s. has $X = 0$ a.s. and $\mu = 0$, so `IsSizeBias P X P Xs` holds under `D8`, while the deterministic graph identity $X^s - X = D_I + \mathbf{1}_{d_I \gt 0}$ holds pointwise for every graph.
 
 ---
 
@@ -367,3 +388,70 @@ This document specifies the core mathematical objects of Nathan Ross, *"Fundamen
 3. **`SteinMethod.longestQualityRun` and `SteinMethod.klDivBernoulli`** (`SteinIntro.tex:2055, 2066-2078`, Theorem 4.9):
    - `longestQualityRun {n : ℕ} (a : ℝ) (y : Fin n → ℕ) : ℕ` returns the greatest $j \in \{0, \dots, n\}$ such that $\sum_{r < j} y_{i + r} \ge a j$ for some $i$ with $i + j \le n$.
    - `klDivBernoulli (a p : ℝ) : ℝ := if a = 1 then Real.log (1 / p) else a * Real.log (a / p) + (1 - a) * Real.log ((1 - a) / (1 - p))` encodes the binary relative entropy $H(a, p)$ in Erdős–Rényi's Law.
+
+---
+
+## 8. Concentration & Curie–Weiss Gibbs Measure (`Formalization/Defs/Concentration.lean`)
+
+1. **`SteinMethod.curieWeissWeight`, `SteinMethod.curieWeissPartition`, and `SteinMethod.curieWeissMeasure`** (eq. `(7.6)` `\label{2199}`, `SteinIntro.tex:3631-3637`):
+   - `curieWeissWeight (n : ℕ) (β h : ℝ) (x : Fin n → Bool) : ℝ` is the unnormalized Boltzmann weight $\exp\bigl(\frac{\beta}{n}\sum_{i \lt j} \sigma_i \sigma_j + \beta h \sum_i \sigma_i\bigr)$ reading `Bool` into $\{-1, 1\} \subset \mathbb{R}$ via `spin`.
+   - `curieWeissPartition (n : ℕ) (β h : ℝ) : ℝ := ∑ x : Fin n → Bool, curieWeissWeight n β h x`.
+   - `curieWeissMeasure (n : ℕ) (β h : ℝ) : Measure (Fin n → Bool)` is the Curie–Weiss Gibbs probability measure $Z^{-1} \sum_x w(x) \delta_x$ (`instIsProbabilityMeasureCurieWeiss` and `curieWeissMeasure_real_singleton` in `Formalization/Concentration/Basic.lean`).
+2. **`SteinMethod.instMeasurableSpacePermFin`, `SteinMethod.instMeasurableSingletonClassPermFin`, and `SteinMethod.instFintypeIsSwapPermFin`** (`SteinIntro.tex:3599-3605`):
+   - Discrete measurable space (`⊤`) on `Equiv.Perm (Fin n)` and classical `Fintype` instance on transpositions `{π : Equiv.Perm (Fin n) // π.IsSwap}` used in Example 7.5 and Proposition 7.3.
+
+---
+
+## 9. Poisson Exchangeable Pairs & Random Permutation Cycle Counts (`Formalization/Defs/PoissonExch.lean`)
+
+1. **`SteinMethod.condExpAt`** (`SteinIntro.tex:2618-2660`, Theorem 4.20):
+   - `noncomputable abbrev condExpAt {Ω : Type*} (m m₀ : MeasurableSpace Ω) (P : @Measure Ω m₀) (f : Ω → ℝ) : Ω → ℝ := @condExp Ω ℝ m m₀ _ _ P f`, explicitly specifying both the conditioning sub-$\sigma$-algebra `m` and ambient $\sigma$-algebra `m₀` (`condExpAt_const` in `Formalization/PoissonExch/Basic.lean`).
+2. **`SteinMethod.numFixedPoints` and `SteinMethod.numTwoCycles`** (`SteinIntro.tex:2682-2685`, Example 4.21):
+   - `numFixedPoints {n : ℕ} (π : Equiv.Perm (Fin n)) : ℕ := (Finset.univ.filter fun i : Fin n ↦ π i = i).card` (`numFixedPoints_one_fin3`, `numFixedPoints_swap_fin3` in `Formalization/PoissonExch/Basic.lean`).
+   - `numTwoCycles {n : ℕ} (π : Equiv.Perm (Fin n)) : ℕ := (π.cycleFactorsFinset.filter fun c ↦ c.support.card = 2).card` (`numTwoCycles_one_fin3`, `numTwoCycles_swap_fin3` in `Formalization/PoissonExch/Basic.lean`).
+   - Re-exports `Equiv.Perm (Fin n)` and `{π : Equiv.Perm (Fin n) // π.IsSwap}` instances from `Formalization.Defs.Concentration` so §4.4 and §7.1 share a single canonical instance.
+
+---
+
+## 10. Exponential Approximation & Equilibrium Coupling (`Formalization/Defs/Exponential.lean`)
+
+1. **`SteinMethod.expLaw`, `SteinMethod.stdExpLaw`, and `SteinMethod.stdExpExpect`** (Definition 5.1, `SteinIntro.tex:2721-2724`, and Lemma 5.2, `SteinIntro.tex:2741-2745`):
+   - `noncomputable abbrev expLaw (r : ℝ) : Measure ℝ := ProbabilityTheory.expMeasure r` and `noncomputable abbrev stdExpLaw : Measure ℝ := ProbabilityTheory.expMeasure 1`.
+   - `noncomputable def stdExpExpect (h : ℝ → ℝ) : ℝ := ∫ x, h x ∂stdExpLaw`.
+2. **`SteinMethod.expSteinOp`, `SteinMethod.expSteinSol`, `SteinMethod.expWassersteinClass`, and `SteinMethod.expKolmogorovClass`** (Lemma 5.1 `\label{lem171}`, Lemma 5.2 `\label{lem172}` eqs. `(5.1)`–`(5.2)`, and Theorem 5.3 `\label{thm171}`, `SteinIntro.tex:2726-2779`; ruling `D6`):
+   - `noncomputable def expSteinOp (f : ℝ → ℝ) (x : ℝ) : ℝ := deriv f x - f x + f 0`.
+   - `noncomputable def expSteinSol (h : ℝ → ℝ) (x : ℝ) : ℝ := -Real.exp x * ∫ t in Set.Ioi x, (h t - stdExpExpect h) * Real.exp (-t)`.
+   - `expWassersteinClass : Set (ℝ → ℝ)` consists of twice-differentiable $f$ with $|f'(x)| \le 1$, $|f''(x)| \le 2$, and $f(0) = 0$; `expKolmogorovClass : Set (ℝ → ℝ)` consists of differentiable $f$ with $|f(x)| \le 1$, $|f'(x)| \le 2$, and $f(0) = 0$.
+3. **`SteinMethod.IsEquilibrium`** (Definition 5.2, eq. `(5.3)` `\label{173}`, `SteinIntro.tex:2836-2843`; `stmts-review-05D.md` `D1`):
+   - `def IsEquilibrium {Ω Ω' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω'] (P : Measure Ω) (W : Ω → ℝ) (P' : Measure Ω') (We : Ω' → ℝ) : Prop := (0 ≤ᵐ[P] W) ∧ Integrable W P ∧ AEMeasurable We P' ∧ ∀ f : ℝ → ℝ, (∃ K : ℝ≥0, LipschitzWith K f) → (∫ ω, f (W ω) ∂P) - f 0 = (∫ ω, W ω ∂P) * ∫ ω', deriv f (We ω') ∂P'` (allowing $\mu = \mathbb{E}[W] = 0$, matching `IsSizeBias` under `D8` and `IsDiscreteEquilibrium`; non-vacuity witness `isEquilibrium_stdExpLaw` in `Formalization/Exponential/Basic.lean`).
+4. **`SteinMethod.shiftedGeomLaw`** (Example 5.4 `\label{ex171}`, `SteinIntro.tex:2884`):
+   - `noncomputable def shiftedGeomLaw (p : ℝ) : Measure ℕ := (ProbabilityTheory.geometricMeasure (Set.projIcc 0 1 zero_le_one p)).map (· + 1)` on $\{1, 2, \dots\}$, definitionally equal (`rfl`) to `posGeomLaw p`.
+
+---
+
+## 11. Poisson Size-Bias Couplings, Subgraph Counts, and Coordinatewise Monotonicity (`Formalization/Defs/PoissonSizeBias*.lean`)
+
+1. **`SteinMethod.IsExchangeableTuple` and `SteinMethod.degreeDCouplingPMF`** (`Formalization/Defs/PoissonSizeBias.lean`, `SteinIntro.tex:2148-2154, 2227-2234`):
+   - `def IsExchangeableTuple {Ω ι α : Type*} [MeasurableSpace Ω] [MeasurableSpace α] (P : Measure Ω) (X : ι → Ω → α) : Prop := ∀ σ : Equiv.Perm ι, ProbabilityTheory.IdentDistrib (fun ω i ↦ X (σ i) ω) (fun ω i ↦ X i ω) P P` (Corollary 4.12; non-vacuity witnesses `isExchangeableTuple_const` and `isExchangeableTuple_fin_two_iff` in `Formalization/PoissonSizeBias/Core/Exchangeable.lean`).
+   - `noncomputable def degreeDCouplingPMF {n : ℕ} (d : ℕ) (v : Fin n) (G : SimpleGraph (Fin n)) : PMF (SimpleGraph (Fin n))` implements Example 4.6's uniform edge-deletion ($d_1 \ge d$) / uniform non-neighbor edge-addition ($d_1 \lt d \lt n$) transition forcing $\deg(v) = d$.
+2. **`SteinMethod.embedGraph`, `SteinMethod.subgraphCopies`, `SteinMethod.subgraphCopyIndicator`, `SteinMethod.subgraphCount`, and `SteinMethod.subgraphCopiesWithDiffEdges`** (`Formalization/Defs/PoissonSizeBiasSubgraph.lean`, `SteinIntro.tex:2280-2287, 2315-2316`):
+   - `embedGraph H f : SimpleGraph (Fin n)` pushes a simple graph $H$ on $V$ forward along an embedding $f : V \hookrightarrow \mathrm{Fin}\,n$; `subgraphCopies H n : Finset (SimpleGraph (Fin n))` is the set $\Gamma$ of all copies of $H$ in $K_n$; `subgraphCopyIndicator α G : ℕ` is $\mathbb{I}[\alpha \subseteq G]$; `subgraphCount H n G : ℕ := ∑ α ∈ subgraphCopies H n, subgraphCopyIndicator α G`; and `subgraphCopiesWithDiffEdges H n α t` is $\Gamma_\alpha^t = \{\beta \in \Gamma \mid |E(\beta) \setminus E(\alpha)| = t\}$ (non-vacuity witnesses in `Formalization/PoissonSizeBias/Subgraph/Defs.lean`).
+3. **`SteinMethod.IsIncreasing`, `SteinMethod.IsDecreasing`, and Edge-Indicator Helpers** (`Formalization/Defs/PoissonSizeBiasMonotone.lean` and `Formalization/Defs/PoissonSizeBias.lean`, Definition 4.9 `SteinIntro.tex:2377-2381` and Examples 4.10–4.12 `L2424-2449`):
+   - `def IsIncreasing {n : ℕ} (f : (Fin n → ℝ) → ℝ) : Prop := ∀ x y : Fin n → ℝ, (∀ i : Fin n, x i ≤ y i) → f x ≤ f y` and `def IsDecreasing {n : ℕ} (f : (Fin n → ℝ) → ℝ) : Prop := ∀ x y : Fin n → ℝ, (∀ i : Fin n, x i ≤ y i) → f y ≤ f x` (bridged to Mathlib's `Monotone` and `Antitone` via `isIncreasing_iff_monotone` and `isDecreasing_iff_antitone` in `Formalization/PoissonSizeBias/Monotone/Basic.lean`).
+   - `edgeIndNat`, `graphOfNatEdgeVec`, `subgraphEdgeFn`, `largeDegEdgeFn`, and `smallDegEdgeFn` express subgraph copy indicators and degree threshold indicators $\mathbb{I}[\deg(v) \ge d]$, $\mathbb{I}[\deg(v) \le d]$ as coordinatewise monotone/antitone functions of the $\binom{n}{2}$ edge indicators on $\mathrm{Fin}\,n$.
+
+4. **Canonical Decreasing Size-Bias Model Measures** (`Formalization/PoissonSizeBias/Negative/`):
+   - `hypergeomVecMeasure` (`Negative/Defs.lean`, Example 4.13 `SteinIntro.tex:2480-2505`): uniform probability measure on `Fin N → Bool` supported on `hypergeomVecSet N m` (`{v | (boolSupport v).card = m}` for `m ≤ N`), equipped with `IsProbabilityMeasure`, permutation invariance (`hypergeomVecMeasure_perm_invariant`), pushforward characterization (`map_setToBoolVec_eq_hypergeomVecMeasure`), and concrete witness `hypergeomVecMeasure_witness_N4_m2`.
+   - `ballBoxMeasure` (`Negative/Occupancy.lean`, Examples 4.15–4.16 & Remark 4.17 `SteinIntro.tex:2512-2601`): product categorical probability measure on `Fin k → Fin n` for simplex weights `p : Fin n → ℝ` (`∀ i, 0 ≤ p i`, `∑ i, p i = 1`), equipped with `IsProbabilityMeasure`, joint pushforward characterization (`map_pi_eq_ballBoxMeasure`), and exact empty-box moment formulas (`ballBox_empty_mean`, `ballBox_empty_variance`).
+---
+
+## 12. Critical Galton–Watson Branching Process & Size-Bias Spine (`Formalization/Defs/Branching.lean`)
+
+1. **`SteinMethod.IsGaltonWatson`** (`SteinIntro.tex:2993-2997`):
+   - `def IsGaltonWatson {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) (Z : ℕ → Ω → ℕ) : Prop` asserts `Integrable (fun ω ↦ (Z 1 ω : ℝ)) P` together with existence of an i.i.d. array `ξ : ℕ × ℕ → Ω → ℕ` of copies of `Z 1` such that `Z 0 = 1` a.s. and `Z (n + 1) = ∑ i ∈ Finset.range (Z n ω), ξ (n, i) ω` a.s. for every `n : ℕ` (non-vacuity witnesses `isGaltonWatson_const_one` and `sec5_3_exists_isGaltonWatson_pos_var` with $\sigma^2 = 1 \gt 0$ in `Formalization/Branching/Basic.lean`).
+2. **Planar Rooted Trees and Tree Probabilities (`GWTree`, `GWVertex`, `gwTreeGenSize`, `gwLeftCount`, `gwRightCount`, `gwProb`, `gwSizeBiasProbV`, `gwSizeBiasProb`)** (`SteinIntro.tex:3030-3056, 3070-3079, 3085-3098`; `stmts-review-05I.md` `I-1`):
+   - `GWTree n` encodes depth-$n$ finite planar rooted trees (`Unit` at $n = 0$, `List (GWTree n)` at $n + 1$), `gwTreeGenSize t` is the generation-$n$ size $t_n$, `GWVertex t` is the `Fintype` of individuals in generation $n$ of $t$, and `gwLeftCount t v` / `gwRightCount t v` count generation-$n$ individuals strictly to the left / to the right (inclusive) of $v$.
+   - `gwProb p t` ($G_n(t)$) and `gwSizeBiasProbV p t v` ($G_n^s(t, v)$) are defined by the explicit planar-tree formula and recursion (`SteinIntro.tex:3047-3052, 3091-3098`), with `gwSizeBiasProb p t := ∑ v : GWVertex t, gwSizeBiasProbV p t v` ($G_n^s(t)$); equations `(5.7)` (`Sec5_3_eq_1710`) and `(5.8)` (`Sec5_3_eq_1711`) are identities on those recursive definitions, linked to the Galton–Watson generation-size law $\mathbb{P}(Z_n = k)$ and spine joint law $\mathbb{P}(S_n = k \wedge L_n = m)$ by `Sec5_3_gwProb_sum_genSize` and `Sec5_3_gwSizeBiasProbV_sum_spine`.
+3. **Law-Level Spine Decomposition and Lyons–Pemantle–Peres Coupling (`IsSizeBiasSpine`, `IsSizeBiasSpineCoupling`)** (`SteinIntro.tex:3034-3044, 3065-3067, 3117-3139`; `I-1`, `I-2`):
+   - `IsSizeBiasSpine P Z P' n X L R` encodes the independent spine levels $j \in \{1, \dots, n\}$ where $X_j + 1$ has the size-bias distribution of $Z_1$, $A_j \mid X_j = k \sim \mathrm{Unif}\{0, \dots, k\}$ counts siblings of $v_j$ strictly to the left, independent subtrees $(\xi_{j, r})_{r \ge 0}$ have marginal law $\mathcal{L}(Z_{n-j})$, $L_{n,j} = \sum_{r \lt A_j} \xi_{j,r}$, and $R_{n,j} = \sum_{A_j \le r \lt X_j} \xi_{j,r}$.
+   - `IsSizeBiasSpineCoupling P Z P' n X L R R' U` adjoins independent variables $R_{n,j}' \sim \mathcal{L}(R_{n,j} \mid L_{n,j} = 0)$ ($1 \le j \le n$) and $U \sim \mathrm{Unif}(0, 1)$ independent of all spine variables (constructed for every critical Galton–Watson process with finite variance in `Sec5_3_exists_isSizeBiasSpineCoupling`).

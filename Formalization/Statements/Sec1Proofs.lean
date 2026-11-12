@@ -6,6 +6,7 @@ Authors: Aaradhya Pandey
 import Formalization.BerryEsseen.BerryEsseen
 import Formalization.Metrics.Basic
 import Formalization.Statements.Sec1
+import Formalization.Sweep.SweepASec1
 
 /-!
 # Section 1 Proofs (`Formalization.Statements.Sec1Proofs`)
@@ -20,6 +21,14 @@ namespace SteinMethod
 theorem Thm1_1_holds : Thm1_1 := by
   intro _ _ P _ _ _ x hn hXm hindep hident hX3 hmean hvar
   exact BerryEsseen.berry_esseen_iid P x hn hXm hindep hident hX3 hmean hvar
+
+/-- Claim A1 (`SteinIntro.tex:503-522`): probability metric axioms. -/
+theorem Sec1_1_1_metrics_axioms_holds : Sec1_1_1_metrics_axioms :=
+  sec1_1_1_metrics_axioms_proof
+
+/-- Claim A2 (`SteinIntro.tex:513-515, 708`): Kolmogorov CDF supremum and weak convergence. -/
+theorem Sec1_1_1_kolmogorov_cdf_and_weakConv_holds : Sec1_1_1_kolmogorov_cdf_and_weakConv :=
+  sec1_1_1_kolmogorov_cdf_and_weakConv_proof
 
 /-- Proof of Proposition 1.2(1) (`\label{prop22}`, `SteinIntro.tex:523-526`). -/
 theorem Prop1_2_1_holds : Prop1_2_1 := by

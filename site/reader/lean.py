@@ -72,6 +72,30 @@ def span(a: int, b: int) -> str:
     return str(a) if a == b else f"{a}–{b}"
 
 
+_ROMAN_SMALL = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"]
+_SHORTHAND_RANGE_RE = re.compile(
+    r"`([A-Za-z_][A-Za-z0-9_']*?)_([0-9]+|[ivx]+)`\s*[–-]\s*`_([0-9]+|[ivx]+)`"
+)
+
+
+def expand_lean_shorthands(cell: str) -> str:
+    """Expand backticked suffix ranges like `` `Sec5_3_item_1`–`_4` `` or `` `Sec5_3_step_i`–`_iii` ``."""
+
+    def repl(m: re.Match[str]) -> str:
+        prefix, start_tok, end_tok = m.group(1), m.group(2), m.group(3)
+        if start_tok.isdigit() and end_tok.isdigit():
+            a, b = int(start_tok), int(end_tok)
+            if a <= b and b - a <= 50:
+                return ", ".join(f"`{prefix}_{k}`" for k in range(a, b + 1))
+        if start_tok in _ROMAN_SMALL and end_tok in _ROMAN_SMALL:
+            ia, ib = _ROMAN_SMALL.index(start_tok), _ROMAN_SMALL.index(end_tok)
+            if ia <= ib:
+                return ", ".join(f"`{prefix}_{_ROMAN_SMALL[k]}`" for k in range(ia, ib + 1))
+        return m.group(0)
+
+    return _SHORTHAND_RANGE_RE.sub(repl, cell)
+
+
 def split_md_row(line: str) -> list[str]:
     """Split a Markdown table row on unescaped `|` outside backticks."""
     s = line.strip()
@@ -475,7 +499,8 @@ class LeanIndex:
             acc_clean = accepted.strip()
             is_accepted = bool(acc_clean and acc_clean not in ("—", "-"))
             labels = [l.strip("`") for l in re.findall(r"`([^`]+)`", label_cell)]
-            lean_names = [n.strip("`").replace("SteinMethod.", "") for n in re.findall(r"`([^`]+)`", lean_cell)]
+            expanded_lean_cell = expand_lean_shorthands(lean_cell)
+            lean_names = [n.strip("`").replace("SteinMethod.", "") for n in re.findall(r"`([^`]+)`", expanded_lean_cell)]
             issues = list(dict.fromkeys(ISSUE_RE.findall(raw_status + " " + lean_cell)))
 
             # Parse TeX line ranges from column 3

@@ -78,6 +78,28 @@ def Cor2_3_corrected : Prop :=
     |P.real {ω | W ω ≤ x} - stdNormalCDF x| =
       |∫ ω, normalSteinOpLeft (normalSteinSolKolm x) (W ω) ∂P|
 
+/-- Post-Corollary 2.3 characterization remark (eq. `(2.2)` `\label{1}`,
+`SteinIntro.tex:597-600`; `ISSUE-2.2`): for any real-valued random variable $W$, the left-hand side
+$|\mathbb{P}(W \le x) - \Phi(x)|$ of `(2.2)` vanishes for all $x \in \mathbb{R}$ if and only if
+$W \sim \mathcal{N}(0, 1)$, and the right-hand side of `(2.2)` likewise vanishes for all
+$x \in \mathbb{R}$ if and only if $W \sim \mathcal{N}(0, 1)$ (both for the left-derivative operator
+`normalSteinOpLeft` and for the two-sided operator `normalSteinOp`). -/
+def Sec2_cor2_3_iff_stdNormal : Prop :=
+  ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P] {W : Ω → ℝ},
+    AEMeasurable W P →
+    ((∀ x : ℝ, |P.real {ω | W ω ≤ x} - stdNormalCDF x| = 0) ↔ P.map W = stdNormalLaw) ∧
+    ((∀ x : ℝ, |∫ ω, normalSteinOpLeft (normalSteinSolKolm x) (W ω) ∂P| = 0) ↔
+      P.map W = stdNormalLaw) ∧
+    ((∀ x : ℝ, |∫ ω, normalSteinOp (normalSteinSolKolm x) (W ω) ∂P| = 0) ↔
+      P.map W = stdNormalLaw)
+
+/-- Gaussian upper-tail bound in the proof of Lemma 2.2 (`\label{lem2}`,
+`SteinIntro.tex:612-615`): for all $w > 0$,
+$1 - \Phi(w) \le \min\bigl\{\frac{1}{2}, \frac{1}{w\sqrt{2\pi}}\bigr\} e^{-w^2/2}$. -/
+def Sec2_stdNormalCDF_tail_le : Prop :=
+  ∀ w : ℝ, 0 < w →
+    1 - stdNormalCDF w ≤ min (1 / 2) (1 / (w * Real.sqrt (2 * Real.pi))) * Real.exp (-w ^ 2 / 2)
+
 /-- Proposition 2.4 (`\label{prop31}`, eq. `(2.5)` `\label{31}`, `SteinIntro.tex:665-670`;
 `D4` literal, `D1` integrability guard): if $W$ is a real-valued random variable, $Z$ has the
 standard normal distribution $\mathcal{N}(0, 1)$, and $f_h$ solves

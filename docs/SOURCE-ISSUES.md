@@ -12,22 +12,86 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 - **Issue**: `\mathbb{I}[A\in\mathbb{R}]` is a typo for the indicator function `\mathbb{I}[\cdot \in A]` (`A.indicator 1`), and `L521` contains a stray Latin-1 ligature byte (`0x8C`, `Œ`) before `discrete`.
 - **Resolution**: `SteinMethod.tvDist` is defined via `{h : α → ℝ | ∃ A, MeasurableSet A ∧ h = A.indicator 1}` (`D1`, `D3`).
 
+### `ISSUE-TYPO-2.1-PROOF` — Missing Leading Minus Sign on Second Integral in Proof of Lemma 2.1 (`SteinIntro.tex:632`)
+- **Source**: Proof of Lemma 2.1 (`\label{lem1}`, `SteinIntro.tex:631-634`)
+- **Printed text (verbatim, `L631-634`)**:
+  ```tex
+\IE f'(Z) &=\frac{1}{\sqrt{2\pi}} \int_\IR e^{-t^2/2} f'(t) dt \\
+	&=\frac{1}{\sqrt{2\pi}} \int_0^\infty f'(t)\int_t^\infty w e^{-w^2/2} dw dt +\frac{1}{\sqrt{2\pi}}  \int_{-\infty}^0 f'(t)\int_{-\infty}^t w e^{-w^2/2} dw dt \\
+	&=\frac{1}{\sqrt{2\pi}} \int_0^\infty w e^{-w^2/2} \left[ \int_0^w f'(t) dt \right]dw +\frac{1}{\sqrt{2\pi}}  \int_{-\infty}^0 w e^{-w^2/2} \left[ \int_w^0 f'(t) dt \right]dw \\
+	&=\IE[Zf(Z)].
+  ```
+- **Issue**: For $t \lt 0$, $\int_{-\infty}^t w e^{-w^2/2}\,dw = -e^{-t^2/2}$, so the second integral on `L632` requires a leading minus sign (which propagates through `L633` to give `L634`; at $f(w) = w$, `L631` and `L634` equal $1$, whereas the printed `L632` and `L633` evaluate to $0$). Lemma 2.1 (`Lem2_1_1`, `Lem2_1_2`) is unaffected.
+
+### `ISSUE-TYPO-2.0-PRIME` — Missing Derivative Prime `'` on `f_x(W)` in Section 2 Transition Prose (`SteinIntro.tex:648`)
+- **Source**: Section 2 transition prose (`SteinIntro.tex:646-651`)
+- **Printed text (verbatim, `L646-651`)**:
+  ```tex
+Our strategy for bounding the maximum distance between the distribution function of a random variable $W$ and that
+of the standard normal is now fairly obvious: we want to bound
+$\IE[f_x(W)-Wf_x(W)]$ for $f_x$ solving \eqref{1a}.  This setup can work, but it turns out that it is easier to work in
+the Wasserstein metric.  Since the critical property of the Kolmogorov metric that we use in the discussion above is
+the representation \eq{23}, which the Wasserstein metric shares, extending in this direction comes without great effort.
+  ```
+- **Issue**: Line 648 prints `\IE[f_x(W)-Wf_x(W)]` in place of `\IE[f'_x(W)-Wf_x(W)]`.
+
+### `ISSUE-TYPO-SEC3-OPEN` — `"Proposition \ref{lem31}"` for Lemma 2.5 in Section 3 Opening (`SteinIntro.tex:713, 715`)
+- **Source**: Section 3 opening paragraph (`SteinIntro.tex:711-716`)
+- **Printed text (verbatim, `L711-716`)**:
+  ```tex
+The reason for using the Wasserstein metric is that it has the form \eqref{32} for $\%H$ the set of functions with Lipschitz constant equal to one.
+In particular, if $h$ is a test function for the Wasserstein metric, then $\norm{h'}\leq1$ so that we know the solution $f_h$ of equation
+\eqref{33} is bounded with two bounded derivatives by Item \ref{i32} of Proposition \ref{lem31}.  Contrast this to the set of test functions for the Kolmogorov metric where the solution $f_h$ of equation
+\eqref{33} is bounded with
+one bounded derivative (by Item \ref{i31} of Proposition \ref{lem31}) but is not twice differentiable.   
+  ```
+- **Issue**: Lines 713 and 715 refer to `\ref{lem31}` as `"Proposition 2.5"` rather than `"Lemma 2.5"`. Under the project's accepted a.e./Lipschitz reading of Lemma 2.5(2) (`Lem2_5_2`), `Sec3_opening_steinSol_regularity` proves the $2$-Lipschitz first-derivative regularity of $f_h$ for $1$-Lipschitz $h$ (while `not_sec3_normalSteinSol_mem_wassersteinClass_strictReading_proof` in `Formalization/Sweep/SweepASec3a.lean` records that $f_h'$ need not be everywhere differentiable at corners of $h$).
+
+### `ISSUE-TYPO-3.5-PROOF` — Missing `1/\sigma` Normalization in Definition of `W_i` in Proof of Theorem 3.5 (`SteinIntro.tex:832`)
+- **Source**: Proof of Theorem 3.5 (`\label{thm41}`, `SteinIntro.tex:832-833`)
+- **Printed text (verbatim, `L832-833`)**:
+  ```tex
+$\norm{f}, \norm{f''}\leq 2$ and $\norm{f'}\leq \sqrt{2/\pi}$.  Define $W_i=\sum_{j\not\in N_i} X_j$ and note that $X_i$ is independent
+of $W_i$.  As in the proof of Theorem \ref{thm32}, %%%XXXXX
+  ```
+- **Issue**: `L832` omits the $1/\sigma$ normalization in $W_i = \frac{1}{\sigma}\sum_{j \notin N_i} X_j$, which is used throughout `L836-860` ($W - W_i = \frac{1}{\sigma}\sum_{j \in N_i} X_j$).
+
 ### `ISSUE-TYPO-3.3` — Summand Index Typo in Lemma 3.3
 - **Source**: Lemma 3.3 (`\label{lem33}`, `SteinIntro.tex:754`)
 - **Printed text**: `"In the notation of Theorem \ref{thm32}, if W_i = (\sum_{j\not=i} X_i)/\sqrt{n} then..."`
 - **Issue**: Summing $X_i$ over $j \ne i$ yields $(n-1)X_i/\sqrt{n}$, which is neither independent of $X_i$ (`L766`) nor satisfies $W - W_i = X_i/\sqrt{n}$ (`L788`). The intended summand is $X_j$: $W_i = (\sum_{j \ne i} X_j)/\sqrt{n}$.
 - **Resolution**: Formalize Lemma 3.3 with $W_i = (\sum_{j \ne i} X_j)/\sqrt{n}$ (equivalently $W - X_i/\sqrt{n}$).
 
-### `ISSUE-TYPO-3.2.1` — Metric Symbol Typo in Section 3.2.1
+### `ISSUE-TYPO-3.2.1` — Metric Symbol Typo in Section 3.2.1 (Literal $d_{\mathrm{K}}$ Bound Also Proved for $0 \lt p \lt 1$)
 - **Source**: Section 3.2.1 (`SteinIntro.tex:936`)
 - **Printed text**: `"\dk(W, Z) \le ..."` when applying Theorem 3.5 (`\label{thm41}`) to triangle counts in $G(n, p)$.
-- **Issue**: Theorem 3.5 bounds the Wasserstein distance $\dw(W, Z)$, not $\dk(W, Z)$.
+- **Issue**: Theorem 3.5 bounds the Wasserstein distance $d_{\mathrm{W}}(W, Z)$, not $d_{\mathrm{K}}(W, Z)$.
+- **Resolution**: `Sec3_2_1_triangles_restricted` formalizes the Theorem 3.5 Wasserstein bound (`wassersteinDist`), while `Sec3_2_1_triangles_kolmogorov_restricted` (`SteinMethod.erdosRenyi_triangles_kolmogorovDist_le` in `Formalization/Leftovers/TrianglesKolm.lean`) independently proves via monotone coordinate-replacement Stein's method, Boolean Efron–Stein, and rational sum-of-squares dominance that the literal printed Kolmogorov-distance bound (`kolmogorovDist`) **also holds unconditionally** for all $n \ge 3$ and $0 \lt p \lt 1$.
+
+### `ISSUE-TYPO-3.5` — Cross-Reference `Theorem \ref{51}` Instead of `Theorem \ref{thm51}` in Remark 3.5 and Example 3.6
+- **Source**: Remark 3.5 (`SteinIntro.tex:1020`) and Example 3.6 (`SteinIntro.tex:1096`)
+- **Printed text (verbatim)**:
+  - `L1020`: `"What does this have to do with Theorem \ref{51}?"`
+  - `L1096`: `"Finally, we could probably get away with only assuming three moments for the $X_i$ if we use the intermediate term \eqref{511} in the proof of Theorem \ref{51}."`
+- **Issue**: `\label{51}` is the equation label of display `(3.16)` (`SteinIntro.tex:1032`, inside the proof of Theorem 3.7), so LaTeX prints `"Theorem 3.16"` at both `L1020` and `L1096` instead of `"Theorem 3.7"` (`\ref{thm51}`, which is used on `L1010`, `L1022`, and `L1070`).
 
 ### `ISSUE-TYPO-3.4a` — Missing Expectation Operator in Display `(3.23)`
 - **Source**: Section 3.4, display `(3.23)` (`\label{71}`, `SteinIntro.tex:1232-1236`)
 - **Printed text**: `\mathbb{E}[W f(W)] = \frac{\mu}{\sigma}\left[f\left(\frac{X^s-\mu}{\sigma}\right) - f\left(\frac{X-\mu}{\sigma}\right)\right]`.
 - **Issue**: The right-hand side is a random variable whereas the left-hand side is deterministic; `\mathbb{E}` is omitted before the bracket on the right-hand side.
 - **Resolution**: Formalize `Sec3_4_sizeBias_identity` with expectation on the right-hand side (together with `Integrable (fun ω ↦ f ((Xs ω - μ) / σ)) P`).
+
+### `ISSUE-TYPO-3.14` — Proof of Proposition 3.14 Writes Undefined `W` for the Sum `X` (`SteinIntro.tex:1304, 1306`)
+- **Source**: Proof of Proposition 3.14 (`\label{prop71}`, `SteinIntro.tex:1296-1308`)
+- **Printed text (verbatim, `L1303-1307`)**:
+  ```tex
+  \ban
+  \IE[Wf(\textbf{X})]=\mu\IE[f(\textbf{X}^I)], \label{77aa}
+  \ee
+  for $f:\IR^n\rightarrow \IR$ such that $\IE|Wf(\textbf{X})|< \infty$.  Equation \eq{77aa} follows easily after we show that for all $i=1, \ldots, n$,
+  \ban
+  ```
+- **Issue**: On `L1304` (`\IE[Wf(\textbf{X})]=\mu\IE[f(\textbf{X}^I)], \label{77aa}`) and `L1306` (`\IE|Wf(\textbf{X})|< \infty`), `W` is undefined in §3.4: Proposition 3.14 (`L1297`) defines `X=\sum_{i=1}^n X_i`, and summing `\IE[X_i f(\textbf{X})]=\mu_i\IE[f(\textbf{X}^i)]` (`L1308`) over $i = 1, \dots, n$ shows both occurrences of `W` should be the sum `X` (`SteinMethod.Prop3_14` is unaffected). (Separately, `L1159` inside the proof of Theorem 3.8 has the minor spelling typo `"different labal"` for `"different label"`.)
 
 ### `ISSUE-TYPO-3.15` — Cross-Reference `\ref{71}` Instead of `\ref{cor71}` in Proof of Corollary 3.15
 - **Source**: Proof of Corollary 3.15 (`\label{cor71}`, `SteinIntro.tex:1341`)
@@ -69,6 +133,157 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 - **Issue**: Because `\label{thm102}` is placed outside `\begin{theorem}...\end{theorem}`, LaTeX binds `thm102` to the enclosing subsection counter (`4.1`) rather than Theorem 4.6.
 - **Resolution**: `docs/source-inventory.md` records `thm102` on Theorem 4.6 (`L1942-1949`), its intended target.
 
+### `ISSUE-TYPO-THM4.8` — Outer Sum Upper Limit `n` Instead of `n - k + 1` in Proof of Theorem 4.8
+- **Source**: Proof of Theorem 4.8 (`\label{thm104}`, `SteinIntro.tex:2046-2048`)
+- **Printed text (verbatim, `L2046-2048`)**:
+  ```tex
+  \ba
+  \dtv(W, Z)\leq \sum_{i=1}^n\sum_{j\in N_i} \IE[X_i]\IE[X_j].
+  \ee
+  ```
+- **Issue**: Because the de-clumped head-run indicators $X_i$ and dependency neighborhoods $N_i$ are indexed for $1 \le i \le n - k + 1$ (`L2015-2023`), the outer sum's upper limit `n` is a cosmetic typo for $n - k + 1$ (under $X_i \equiv 0$ for $i \gt n - k + 1$, the printed sum evaluates identically; dropping Theorem 4.7's factor $\min\{1, \lambda^{-1}\}\le 1$ is a valid weakening). Theorem 4.8 (`Thm4_8`) is unaffected.
+
+### `ISSUE-TYPO-4.11` — Unbound Variable `X` in Conclusion of Corollary 4.11
+- **Source**: Corollary 4.11 (`\label{cor121}`, `SteinIntro.tex:2142-2147`)
+- **Printed text (verbatim, `L2145-2146`)**:
+  ```tex
+  $I$ is a random variable independent of all else such that $\IP(I=i)=p_i/\lambda$, then $W^s=\sum_{j\not=I} X_j^{(I)} +1$
+  has the size-bias distribution of $X$.
+  ```
+- **Issue**: Line 2143 defines $W = \sum_{i=1}^n X_i$ (not $X$, which was the notation of Corollary 3.16 at `L1326-1332`); `"of $X$"` at `L2146` is a copy-paste typo for `"of $W$"`. Formalized with $W = \sum_{i=1}^n X_i$ in `SteinMethod.Cor4_11`.
+
+### `ISSUE-TYPO-4.12` — Unbound `X`, `X^s` and Doubled `"and"` in Corollary 4.12
+- **Source**: Corollary 4.12 and its proof (`\label{cor122}`, `SteinIntro.tex:2148-2159`)
+- **Printed text (verbatim, `L2152-2157`)**:
+  ```tex
+  If $W=\sum_{i=1}^n X_i$, then the size-bias distribution of $X$ can be represented
+  by $X^s=\sum_{j\not=1}X_j^{(1)} + 1$.
+  \end{corollary}
+  \begin{proof}
+  Corollary \ref{cor121} was proved in Section \ref{sbc} and 
+  and Corollary \ref{cor122} follows from the fact that exchangeability
+  ```
+- **Issue**: Lines 2152–2153 print `X` and `X^s` instead of `W` and `W^s` (`W = \sum_{i=1}^n X_i`), and lines 2156–2157 repeat `"and"`. Formalized for $W = \sum_{i=1}^n X_i$ in `SteinMethod.Cor4_12` (requiring $n \ge 1$ so index $1$ exists).
+
+### `ISSUE-TYPO-EX4.6` — Copy-Paste `"isolated vertices"` in Example 4.6 (*Degree $d$ vertices*)
+- **Source**: Example 4.6 (`SteinIntro.tex:2220-2246`)
+- **Printed text (verbatim, `L2239-2240`)**:
+  ```tex
+  so that by Corollary \ref{cor122}, we can take $W^s=\sum_{j\not=1}X_j^{(1)} + 1$ and of course we take $W$
+  to be the number of isolated vertices in $G$. 
+  ```
+- **Issue**: Copy-pasted from Example 4.5 (`L2194-2195`); as defined at `L2221-2224`, in Example 4.6 $W = \sum_{i=1}^n X_i$ is the number of degree-$d$ vertices in $G$. Formalized for degree-$d$ vertices in `SteinMethod.Ex4_6` (under $0 \lt n$ and $d \lt n$, since `L2231-2233` chooses $d - d_1$ non-neighbors from $n - d_1 - 1$ vertices).
+
+### `ISSUE-TYPO-4.8` — Extraneous Factor $p^k$ in Display for $|\Gamma|$ in Example 4.8
+- **Source**: Example 4.8 (*$k$-cycles*, `SteinIntro.tex:2358-2362`)
+- **Printed text (verbatim, `L2358-2362`)**:
+  ```tex
+  To interpret this bound asymptotically, we note that
+  $\lambda=\abs{\Gamma}p^k$ and 
+  \ba
+  \abs{\Gamma}=\binom{n}{k}\frac{(k-1)!}{2}p^k,
+  \ee
+  ```
+- **Issue**: $\Gamma$ (`L2286`) is the deterministic set of all copies of a $k$-cycle in $K_n$, whose cardinality is $|\Gamma| = \binom{n}{k}\frac{(k-1)!}{2}$, whereas $\lambda = |\Gamma| p^k = \binom{n}{k}\frac{(k-1)!}{2} p^k$. Display `L2361` mistakenly repeats the factor $p^k$ on the right-hand side of $|\Gamma|$ (refuted at $k = 3, n = 3, p = 1/2$, where $|\Gamma| = 1 \ne 1/8$, as `SteinMethod.not_Ex4_8_L2361_printed` in `Formalization/PoissonSizeBias/Subgraph/Cycles.lean`). Formalized with $|\Gamma| = \binom{n}{k}\frac{(k-1)!}{2}$ in `SteinMethod.Ex4_8`.
+
+### `ISSUE-TYPO-4.8-PROSE` — `"equality"` for `"inequality"` and `"non-isomorphic"` for `"distinct"` in Example 4.8
+- **Source**: Example 4.8 (*$k$-cycles*, `SteinIntro.tex:2348-2352, 2363-2364`)
+- **Printed text (verbatim)**:
+  - `L2348-2352`: `\abs{\Gamma_\alpha^t}\leq \binom{k}{k-t}c_t n^{t-1}\leq C_k n^{t-1},` ... `"The second equality follows by maximizing $\binom{k}{k-t}c_t$ over the possible values of $t$."`
+  - `L2363-2364`: `"since the number of non-isomorphic $k$-cycles on $K_k$ is $k!/(2k)$ (since $k!$ is the number of permutations of the vertices, which over counts by a factor of $2k$ due to reflections and rotations)."`
+- **Issue**: At `L2352`, `"second equality"` means `"second inequality"` (referring to $\le C_k n^{t - 1}$ in `L2348`); at `L2363`, `"non-isomorphic $k$-cycles"` means `"distinct (unlabeled) $k$-cycles"` (all $k$-cycles are isomorphic as graphs).
+
+### `ISSUE-TYPO-4.17` — Subscript Typo `\textbf{Y}=(Y_i)_{j=1}^N` in Theorem 4.17
+- **Source**: Theorem 4.17 (`\label{thm124}`, `SteinIntro.tex:2383`)
+- **Printed text (verbatim, `L2383`)**: `Let $\textbf{Y}=(Y_i)_{j=1}^N$ be a finite collection of independent indicators`
+- **Issue**: Mismatched index `Y_i` vs `j=1..N`; intended `(Y_j)_{j=1}^N`.
+
+### `ISSUE-TYPO-4.13` — Misprinted Factor `(n - m)` for `(N - m)` in Hypergeometric Variance (`SteinIntro_utf8.tex:2500`)
+- **Location**: Example 4.13 (`[Hypergeometric distribution]`), `SteinIntro_utf8.tex` line 2500:
+  `\IE[W]=\frac{nm}{N} \mbox{\, and \,} \var(W) = \frac{nm (N-n) (n-m)}{N^2 (N-1)},`
+- **Issue**: The third numerator factor `(n - m)` is a typo for `(N - m)`. At $N = 4, n = 1, m = 2$,
+  $W \sim \mathrm{Bernoulli}(1/2)$ has $\mathrm{Var}(W) = 1/4$, whereas the printed formula
+  gives $-1/8 \lt 0$. Note that line 2504 already uses the corrected variance
+  $\frac{nm(N - n)(N - m)}{N^2(N - 1)}$ when simplifying $1 - \mathrm{Var}(W)/\lambda$.
+- **Formalization**: Refuted as printed by `not_Ex4_13_var_printed` (`not_ex4_13_var_printed`) and
+  corrected in `Ex4_13_moments_corrected` (`ex4_13_moments_corrected`).
+
+### `ISSUE-TYPO-REM4.17` — Missing Subject `"we"` in Remark 4.17 (`SteinIntro_utf8.tex:2600`)
+- **Location**: Remark 4.17, `SteinIntro_utf8.tex` line 2600:
+  `Finally, could also consider the number of boxes containing exactly $m\geq0$ balls and containing at least $m\geq1$ balls, Theorem \ref{thm122} applies to the latter problem.  See Chapter 6 of \cite{bhj92}.`
+- **Issue**: Grammatical omission of `"we"` (`"Finally, we could also consider..."`); see also
+  `ISSUE-REM-4.17` for the substantive cross-reference error (`\ref{thm122}` vs `\ref{thm125}`) in
+  the same sentence.
+
+### `ISSUE-TYPO-4.20` — Missing `\min` in Proof of Theorem 4.20
+- **Source**: Proof of Theorem 4.20 (`SteinIntro.tex:2645`)
+- **Printed text (verbatim, `L2645`)**:
+  ```tex
+  $\norm{f}\leq \min\{1, \lambda^{-1/2}\}$ and $\norm{\Delta f}\leq \{1, \lambda^{-1}\}$.  Now, the
+  ```
+- **Issue**: Missing `\min` before `\{1, \lambda^{-1}\}` in the proof prose (cf. Lemma 4.4, `SteinIntro.tex:1879-1886`).
+- **Resolution**: Proof prose typo only; Theorem 4.20 (`SteinIntro.tex:2618-2626`) is unaffected, and `tvDist_poissonLaw_exchangeable_le` proves the exact printed Theorem 4.20 bound with $\min\{1, \lambda^{-1/2}\}$.
+
+### `ISSUE-TYPO-EX4.21` — `"final inequality"` for `"final equality"` in Example 4.21 (`SteinIntro.tex:2701`)
+- **Source**: Example 4.21 (`SteinIntro.tex:2695-2701`)
+- **Printed text (verbatim, `L2695-2701`)**:
+```tex
+\ba
+\dtv(W, Z)&\leq \IE\left|1-\frac{n-W-2W_2}{n}\right|
++\IE\left|W-\frac{W(n-W)}{n}\right| \\
+&=\frac{1}{n}\IE\left[W+2W_2\right]+\frac{1}{n}\IE[W^2]\\
+&=4/n,
+\ee
+where the final inequality follows by considering $W$ and $W_2$ as a sum of indicators which leads
+```
+- **Issue**: Line 2701 writes `"where the final inequality follows by considering $W$ and $W_2$ as a sum of indicators"`, referring to `&=4/n,` on `L2699`, which is an **equality** (`=`), not an inequality. Example 4.21 (`Ex4_21`) is unaffected.
+
+### `ISSUE-TYPO-5.4` — `"no greater than"` Slip for `"no less than"` in Example 5.4
+- **Source**: Example 5.4 (`\label{ex171}`, `SteinIntro.tex:2885-2886`)
+- **Printed text (verbatim, `L2885-2886`)**:
+  ```tex
+  It is well known that as $p\to0$, $pN$ converges weakly to an exponential distribution; this fact is not surprising as a simple
+  calculation shows that if $Z\sim\Exp(\lambda)$, then the smallest integer no greater than $Z$ is geometrically distributed.  We can use
+  ```
+- **Issue**: Because the set of integers $\le Z$ has no minimum, *"the smallest integer no greater than $Z$"* does not exist. Matching the positive-support geometric distribution $\mathrm{Ge}(p)$ on $\{1, 2, \dots\}$ defined on the preceding line (`L2884`), the intended random variable is $\lceil Z \rceil$ (*"the smallest integer no less than $Z$"*), which satisfies $\lceil Z \rceil \sim \mathrm{Ge}(1 - e^{-\lambda})$ for $Z \sim \mathrm{Exp}(\lambda)$ ($\lambda \gt 0$).
+- **Resolution**: Formalize `Ex5_4_ceil_corrected` (`ex5_4_ceil_corrected` in `Formalization/Exponential/Basic.lean`).
+
+### `ISSUE-TYPO-5.3a` — Misplaced Closing Parenthesis `\IP(Z_1=1<1)` in Section 5.3 Extinction Dichotomy
+- **Source**: Section 5.3 opening (`SteinIntro.tex:3003-3004`)
+- **Printed text (verbatim, `L3003-3004`)**:
+  ```tex
+It is a basic fact \cite{atne72} that if $\IE[Z_1]\leq 1$ and $\IP(Z_1=1<1)$ then the population almost surely dies out, whereas 
+if $\IE[Z_1]>1$, then the probability the population lives forever is strictly positive.
+  ```
+- **Issue**: `\IP(Z_1=1<1)` is a LaTeX parenthesis typo for `\IP(Z_1=1)<1` (excluding the deterministic critical case $Z_1 = 1$ a.s. where $Z_n = 1$ for all $n$). Formalized as `P.real {ω | Z 1 ω = 1} < 1` in `Sec5_3_extinction`.
+
+### `ISSUE-TYPO-5.3b` — Missing Superscript `s` in `G_n(t_i, v)` in Recursion for Equation (5.7)
+- **Source**: Proof of Equation `(5.7)` (`\label{1710}`, `SteinIntro.tex:3091-3093`)
+- **Printed text (verbatim, `L3091-3093`)**:
+  ```tex
+\ba
+G_{n+1}^s(t,v)=G_n(t_i, v)\prod_{j\not=i} G_n(t_j)[k\IP(Z_1=k)]\frac{1}{k}.
+\ee 
+  ```
+- **Issue**: The two-argument tree probability with a distinguished generation-$n$ vertex is $G_n^s(t_i, v)$ (`L3050-3052`), not $G_n(t_i, v)$, as confirmed by `L3094-3095`. Formalized with `gwSizeBiasProbV` in `Formalization/Defs/Branching.lean` (`Sec5_3_eq_1710`).
+
+### `ISSUE-TYPO-5.3c` — `1 - U` Instead of `U` in Coupling Difference `|Y_n - Y_n^e|`
+- **Source**: Proof of Theorem 5.9 (`SteinIntro.tex:3142-3145`)
+- **Printed text (verbatim, `L3142-3145`)**:
+  ```tex
+\ba
+\abs{Y_n-Y_n^e}&=\left|1-U+\sum_{j=1}^n(R_{n,j}' - R_{n,j}) \I[L_{n,j}>0]\right| \\
+	&\leq \abs{1-U}+\sum_{j=1}^nR_{n,j}'\I[L_{n,j}>0]+\sum_{j=1}^nR_{n,j}\I[L_{n,j}>0].
+\ee
+  ```
+- **Issue**: Since $Y_n = R_n^* = 1 + \sum_{j=1}^n \bigl(R_{n,j} + (R_{n,j}' - R_{n,j})\mathbf{1}_{L_{n,j} \gt 0}\bigr)$ (`L3134-3138`) and $Y_n^e = R_n - U = 1 + \sum_{j=1}^n R_{n,j} - U$ (`L3066`, `L3124`), the leading constants $1$ cancel and $-(-U) = +U$, giving $Y_n - Y_n^e = U + \sum_{j=1}^n (R_{n,j}' - R_{n,j})\mathbf{1}_{L_{n,j} \gt 0}$ rather than $1 - U + \dots$ (harmless in expectation since $U$ and $1 - U$ both have expectation $1/2$). Formalized with $U$ in `Sec5_3_eq_3143_corrected`.
+
+### `ISSUE-TYPO-5.3d` — Minor Editorial Typos in Section 5.3 (`L2998`, `L3182`)
+- **Source**: Section 5.3 (`SteinIntro.tex:2998` and `SteinIntro.tex:3182`)
+- **Printed text (verbatim)**:
+  - `L2998`: `We think of of $Z_n$ as the generation size of a population that initially has one individual and where` (duplicated word `"of of"`).
+  - `L3182`: `&\leq \IE\left[X_j\IP(Z_{n-j}>0\right] \\` (missing closing parenthesis `)` in `\IP(Z_{n-j}>0`).
+
 ### `ISSUE-TYPO-6.2` — Missing Subscript `A` in `\Delta f(k)` in Lemma 6.2
 - **Source**: Lemma 6.2 (`\label{lem174}`, `SteinIntro.tex:3243-3249`)
 - **Printed text (verbatim)**:
@@ -98,6 +313,29 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 - **Printed text**: `W = \sum_{i=1}^n a_{i \sigma_j} - \frac{1}{n}\sum_{i,j} a_{i j}` (`L3602`) and `W' = \sum_{i=1}^n a_{i \sigma'_j} - \frac{1}{n}\sum_{i,j} a_{i j}` (`L3607`), with $j$ unbound in the first sum.
 - **Issue**: Confirmed by `L3621` (`a_{i \sigma_i}`), the intended definitions are $W = \sum_{i=1}^n a_{i, \sigma(i)} - \frac{1}{n}\sum_{i,j} a_{i j}$ and $W' = \sum_{i=1}^n a_{i, \sigma'(i)} - \frac{1}{n}\sum_{i,j} a_{i j}$.
 
+
+### `ISSUE-TYPO-7.4` — Missing `k \neq i` in Interaction Sum (`L3713, L3717`), `\s'_i` on LHS (`L3712, L3716`), and Missing Subscript `i` in `m'` (`L3777`) in Proof of Proposition 7.4
+- **Source**: Proof of Proposition 7.4 (`\label{prop2112y}`, `SteinIntro.tex:3711-3721, 3765, 3777`)
+- **Printed text (verbatim, `L3711-3721` and `L3777`)**:
+```tex
+\begin{split}
+\IP(\s'_i = 1 , (\s_j)_{j \neq i} ) & =  Z^{-1} \exp \left\{
+  \frac{\beta}{n} \left( \sum_{k < j, j \neq i} \sigma_j \sigma_k
+    + \sum_{j \neq i} \s_j \right) + \beta h \sum_{j \neq i} \sigma_j
+  + \beta h \right\}    ,\\
+\IP(\s'_i = -1 , (\s_j)_{j \neq i} ) & =  Z^{-1} \exp \left\{
+  \frac{\beta}{n} \left( \sum_{k < j, j \neq i} \sigma_j \sigma_k
+    - \sum_{j \neq i} \s_j \right) + \beta h \sum_{j \neq i} \sigma_j
+  - \beta h \right\}   . \\
+\end{split}
+\]
+```
+```tex
+Also, if we denote $m' := \frac{1}{n} \sum_{i=1}^n \s'$, then
+```
+- **Issues & Numerical Verification**:
+  1. *Omitted `k \neq i` in `\sum_{k < j, j \neq i} \sigma_j \sigma_k` (`L3713, L3717`) and `\s'_i` on LHS (`L3712, L3716`)*: Splitting $\sum_{k \lt j} \sigma_k \sigma_j$ in `(7.6)` (`L3634`) around site $i$ leaves pairs $\{k \lt j : j \ne i, k \ne i\}$. Without $k \ne i$, at $n = 3, i = 1, \sigma = (+1, +1, +1), h = 0, \beta = 1$, every pair $(k, j)$ with $1 \le k \lt j \le 3$ satisfies $j \ge 2 \ne 1$, so the printed exponent evaluates to $\frac{1}{3}(3 + 2) = \frac{5}{3} \ne 1 = \frac{1}{3}(1 + 2)$ (and for general $\sigma$, $k = i$ leaves $\sigma_i$ unbound inside the sum). Also `L3712, L3716` write `\s'_i` on the LHS instead of `\s_i` (cf. `L3701, L3703, L3708`). Because the $(k, j)$-sum cancels in the ratio `L3725-3735`, `(7.7)` and Proposition 7.4 (`Prop7_4`) are unaffected.
+  2. *Missing subscript `i` on `\s'` (`L3777`) and `B, C > 0` before `B = 0` (`L3765, L3786`)*: `m' := \frac{1}{n} \sum_{i=1}^n \s'` omits subscript `i` (intended `\s'_i`, cf. `L3643, L3693`), and `L3765` asks for `B, C > 0` before choosing `B = 0` at `L3786` (Theorem 7.5 at `L3667` allows `B, C \geq 0`).
 ---
 
 ## Part II — Mathematical Source Issues, Underspecifications, and Counterexamples
@@ -153,7 +391,12 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   - `L941`: `"This bound holds for all n\geq 3 and 0\leq p \leq 1,"`
 - **Counterexample / Boundary Defect**:
   - At $p = 0$ ($G(n, 0)$ empty, $T \equiv 0$) and at $p = 1$ ($G(n, 1) = K_n$, $T \equiv \binom{n}{3}$), $\sigma^2 = \mathrm{Var}(T) = 0$. Consequently, $W = (T - \mathbb{E}[T])/\sigma$ and both denominators $\sigma^3$ and $\sigma^2$ in `L937-938` divide by zero (and in Lean, `0 / 0 = 0` would collapse $W$ to the constant $0$, where $d_{\mathrm{W}}(\delta_0, \mathcal{N}(0, 1)) = \sqrt{2/\pi} > 0$, while evaluating the right-hand side of `L937-938` to `0`, making the Lean transcription literally false at $p \in \{0, 1\}$).
-- **Resolution**: Formalize `Sec3_2_1_triangles_restricted` under `3 ≤ n`, `0 < p`, and `p < 1` (for which $\sigma > 0$), using `wassersteinDist` per `ISSUE-TYPO-3.2.1`.
+- **Resolution**: Formalize both `Sec3_2_1_triangles_restricted` (`wassersteinDist`, from Theorem 3.5 per `ISSUE-TYPO-3.2.1`) and `Sec3_2_1_triangles_kolmogorov_restricted` (`kolmogorovDist`, proving the literal printed inequality at `L936-939` unconditionally on the interior domain) under `3 ≤ n`, `0 < p`, and `p < 1` (for which $\sigma \gt 0$). At $p \in \{0, 1\}$, $\sigma = 0$ makes $W = (T - \mathbb{E}[T])/\sigma$ and both RHS denominators ill-posed (class D). Likewise, in `Sec3_2_1_triangles_setup_and_moments` (`SteinIntro.tex:919-928`), `IsDependencyGraph` and the $k$-th central moment formula hold for all $0 \le p \le 1$, whereas the `L921-922` pairwise-independence `"if and only if"` criterion requires $0 \lt p \lt 1$ (at $p \in \{0, 1\}$ and $n \ge 4$, $Y_i$ is constant hence independent of $Y_j$ even when $|V_i \cap V_j| = 2$).
+- **Addendum on the asymptotic CLT prose claim (`SteinIntro.tex:942-944`)**:
+  - Printed text (`L942-944`): *"but some asymptotic analysis shows that if, for example, $p\sim n^{-\alpha}$ for some $0\leq \alpha \lt 1$ (so that $\mathrm{Var}(T)\rightarrow\infty$), then the number of triangles satisfies a CLT for $0\leq \alpha \lt 2/9$,"*
+  - At $\alpha = 0$, the literal asymptotic relation $p_n \sim n^{-0} = 1$ ($\lim_{n \to \infty} n^0 p_n = 1$) allows both $p_n \equiv 1$ (where $\mathrm{Var}(T_n) = 0$ for all $n$, machine-checked as `SteinMethod.triangles_clt_counterexample_p_eq_one`) and strictly interior sequences such as $p_n = 1 - n^{-5} \in (0, 1)$ (where $\sigma_n \gt 0$ for $n \ge 3$ yet $\mathrm{Var}(T_n) = O(n^{-1}) \to 0 \not\to \infty$ and $\mathbb{P}(T_n = \binom{n}{3}) \to 1$).
+  - Under $\lim_{n \to \infty} n^\alpha p_n = c \gt 0$, `Sec3_2_1_triangles_clt_regime_restricted` excludes only $c \ge 1$ at $\alpha = 0$ (`α = 0 → c < 1`), proving $\mathrm{Var}(T_n) \to \infty$ for all $0 \le \alpha \lt 1$ and $d_{\mathrm{W}}(W_n, Z) \to 0$, $d_{\mathrm{K}}(W_n, Z) \to 0$ for all $0 \le \alpha \lt 2/9$. At the threshold $\alpha = 2/9$ with $p_n = n^{-2/9}$, the printed Stein upper bound converges to $3\sqrt{2} \gt 0$ (`SteinMethod.triangles_bound_tendsto_at_two_ninths`), confirming that $2/9$ is the sharp threshold of `L937-938`.
+
 
 ---
 
@@ -166,7 +409,8 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 - **Counterexample**: Let $A_1, \dots, A_m, S$ be i.i.d. Rademacher($\pm 1$) random variables. Set $n = 2m$, $X_{2r-1} = A_r$, $X_{2r} = S A_r$, and $N_{2r-1} = N_{2r} = \{2r-1, 2r\}$ ($D = 2$, with $i \in N_i$ for every $i$) for $r = 1, \dots, m$.
   - *Check hypotheses*: $\mathbb{E}[X_i] = 0$, $\mathbb{E}[X_{2r-1} X_{2r}] = \mathbb{E}[S A_r^2] = 0$, and for $r \ne s$, $(A_r, S A_r)$ and $(A_s, S A_s)$ are uncorrelated ($\mathbb{E}[S A_r S A_s] = \mathbb{E}[A_r]\mathbb{E}[A_s] = 0$), so $\sigma^2 = 2m$. Moreover, for each fixed $r$, $X_{2r-1} = A_r$ is independent of $\{A_s, S A_s : s \ne r\}$, and $X_{2r} = S A_r$ is also independent of $\{A_s, S A_s : s \ne r\}$ because $(S A_r, (A_s, S A_s)_{s \ne r})$ has the exact product distribution of $2m - 1$ Rademachers (inverting $A_s \mapsto S A_s$ for $s \ne r$ preserves the i.i.d. Rademacher law conditional on $S$ and $A_r$). Thus Definition 3.1 holds with $D = 2$.
   - *Failure of conclusion*: The right-hand side of `(3.8)` (`L820`) is $\frac{4}{(2m)^{3/2}}(2m) + \frac{\sqrt{26}\cdot 2^{3/2}}{\sqrt{\pi}(2m)}\sqrt{2m} = O(m^{-1/2}) \to 0$ as $m \to \infty$. Yet $\sum_{i=1}^{2m} X_i = (1 + S)\sum_{r=1}^m A_r$ equals $0$ whenever $S = -1$ (probability $1/2$), so $W \stackrel{d}{\to} \frac{1}{2}\delta_0 + \frac{1}{2}\mathcal{N}(0, 2)$ and $d_{\mathrm{W}}(W, Z) \not\to 0$.
-  - *Failing proof step*: In `(3.15)` (`\label{43}`, `SteinIntro.tex:882-894`), Ross splits $\sum_{i \ne j}\sum_{k \in N_i}\sum_{l \in N_j}\mathbb{E}[X_i X_j X_k X_l]$ into a first sum over index tuples where $\{X_i, X_k\}$ is independent of $\{X_j, X_l\}$ and a second sum over the remaining tuples, then bounds the second sum by $6 D^3 \sum_{i=1}^n \mathbb{E}[X_i^4]$ via index-tuple counting (`L890-891`: *"since the number of 'connected components' with at most four vertices of the dependency graph induced by the neighborhoods, is no more than $D \times 2D \times 3D$"*). Definition 3.1 alone neither requires $i \in N_i$ nor implies that $\{X_i, X_k\}$ is independent of $\{X_j, X_l\}$ outside the counted neighborhood tuples: in the $n = 2m$ construction above, $X_{2r-1} X_{2r} = S = X_{2s-1} X_{2s}$ for all $m(m-1)$ pairs $r \ne s$, so $\Theta(m^2)$ four-tuples fail independence rather than $O(D^3 m)$.
+  - *First failing proof step (`L855`)*: The step $\sum_{i=1}^n \sum_{j, k \in N_i} \mathbb{E}|X_j|^3 \le D^2 \sum_{j=1}^n \mathbb{E}|X_j|^3$ requires each index $j$ to belong to at most $D$ neighborhoods $N_i$ (which holds when $j \in N_i \iff i \in N_j$, i.e. symmetric neighborhoods, but fails under Definition 3.1 alone: for $N_1 = \{1\}$ and $N_i = \{1, i\}$ for $2 \le i \le n$, $D = 2$ while $\mathbb{E}|X_1|^3$ has coefficient $2n - 1 \gt 4 = D^2$ for $n \ge 3$).
+  - *Second failing proof step (`(3.15)`)*: In `(3.15)` (`\label{43}`, `SteinIntro.tex:882-894`), Ross splits $\sum_{i \ne j}\sum_{k \in N_i}\sum_{l \in N_j}\mathbb{E}[X_i X_j X_k X_l]$ into a first sum over index tuples where $\{X_i, X_k\}$ is independent of $\{X_j, X_l\}$ and a second sum over the remaining tuples, then bounds the second sum by $6 D^3 \sum_{i=1}^n \mathbb{E}[X_i^4]$ via index-tuple counting (`L890-891`: *"since the number of 'connected components' with at most four vertices of the dependency graph induced by the neighborhoods, is no more than $D \times 2D \times 3D$"*). Definition 3.1 alone neither requires $i \in N_i$ nor implies that $\{X_i, X_k\}$ is independent of $\{X_j, X_l\}$ outside the counted neighborhood tuples: in the $n = 2m$ construction above, $X_{2r-1} X_{2r} = S = X_{2s-1} X_{2s}$ for all $m(m-1)$ pairs $r \ne s$, so $\Theta(m^2)$ four-tuples fail independence rather than $O(D^3 m)$.
 - **Resolution**: Formalize `Thm3_5_corrected` using the dependency-graph hypothesis `IsDependencyGraph P X N` (`(∀ i, i ∈ N i) ∧ (∀ i j, j ∈ N i → i ∈ N j) ∧ ∀ A B : Finset (Fin n), (∀ a ∈ A, ∀ b ∈ B, b ∉ N a) → ProbabilityTheory.IndepFun (fun ω (a : A) ↦ X a ω) (fun ω (b : B) ↦ X b ω) P`, matching `SteinIntro.tex:810-812`) together with `0 < ProbabilityTheory.variance (fun ω ↦ ∑ i, X i ω) P` (`0 < σ`, which is well-definedness because the source divides by $\sigma$ in $W = \sum_i X_i / \sigma$ and in `(3.8)`), while keeping the printed constant $\sqrt{26}$. `IsDependencyGraph.hasDependencyNeighborhoods` verifies that `IsDependencyGraph` strictly strengthens `HasDependencyNeighborhoods` (Definition 3.1), and `Thm3_5_counterexample` machine-checks the failure of the printed Theorem 3.5 under `HasDependencyNeighborhoods` at $m = 10^4$ ($n = 2 \times 10^4$, $D = 2$).
 
 ---
@@ -323,6 +567,21 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 
 ---
 
+### `ISSUE-4.4-PROSE` — False Sign Claim $\Delta f_0(k) \lt 0$ at $k = 0$ in Proof of Lemma 4.4
+- **Source**: Proof of Lemma 4.4 (`\label{lem103}`, `SteinIntro.tex:1898-1900`)
+- **Printed text (verbatim, `L1898-1900`)**:
+  ```tex
+  \end{itemize}
+  And also $\Delta f_0(k)<0$.  Since
+  \ba
+  ```
+- **Counterexample (`not_Sec4_fwdDiff_f0_neg_printed`)**: For any $\lambda \gt 0$ and $f_0 := f_{\{0\}}$, $f_0(0) = 0$ (`L1843`) and $\lambda f_0(1) - 0 \cdot f_0(0) = \mathbb{I}[0 \in \{0\}] - \mathrm{Po}(\lambda)(\{0\}) = 1 - e^{-\lambda}$ (`L1841`), so at $k = 0$,
+  $$\Delta f_0(0) = f_0(1) - f_0(0) = \frac{1 - e^{-\lambda}}{\lambda} > 0$$
+  (e.g. at $\lambda = 1$, $\Delta f_0(0) = 1 - e^{-1} \approx 0.6321 \gt 0$). Strict negativity $\Delta f_0(k) \lt 0$ holds only for $k \ge 1$.
+- **Resolution**: Lemma 4.4 (`Lem4_4`) itself is unaffected because at $k = 0$ with $0 \in A$, the positive term $\Delta f_0(0)$ attains the upper bound $(1 - e^{-\lambda})/\lambda$ while all $j \ge 1$ satisfy $\Delta f_j(0) \le 0$. Machine-checked refutation `not_Sec4_fwdDiff_f0_neg_printed` (`Formalization/Sweep/SweepC4.lean`) and corrected point-mass properties `Sec4_poissonSteinSol_pointMass_corrected` (`Sec4.lean` / `Sec4Proofs.lean`) are proved.
+
+---
+
 ### `ISSUE-4.7` — Omitted $i \in N_i$ Hypothesis in Theorem 4.7
 - **Source**: Theorem 4.7 (`\label{thm103}`, `SteinIntro.tex:1970-1977`; Remark 4.1 `L1978-1981`; proof at `SteinIntro.tex:1982-2000`)
 - **Printed text (verbatim, `L1971-1976`)**:
@@ -370,26 +629,155 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   - **Reading (A)** (individual direction): for each $i$, $X_i$ is increasing or $X_i$ is decreasing, possibly in opposite directions for different indices $i$.
   - **Reading (B)** (common direction): all $X_1, \ldots, X_n$ are increasing, or all $X_1, \ldots, X_n$ are decreasing.
   Reading (A) is **false**: take $N = 1$, $Y_1 \sim \mathrm{Bernoulli}(1/2)$, $n = 2$, $X_1(y_1) = y_1$ (increasing), and $X_2(y_1) = 1 - y_1$ (decreasing). Then $W = X_1(Y_1) + X_2(Y_1) \equiv 1$, $\lambda = 1$, $\mathrm{Var}(W) = 0$, and $p_1 = p_2 = 1/2$, so the printed upper bound is $\min\{1, 1\}(0 - 1 + 2(1/4 + 1/4)) = 0$, whereas $d_{\mathrm{TV}}(\delta_1, \mathrm{Po}(1)) = 1 - e^{-1} > 0$. (The FKG step at `L2395-2401` requires $\phi \circ \mathbf{X}$ to be monotone in the same direction as $X_i$.)
-- **Resolution**: Formalize `Thm4_17_corrected` under Reading (B) (all $X_1, \ldots, X_n$ increasing, or all $X_1, \ldots, X_n$ decreasing).
+- **Proof-step pinpoint (`L2392-2398`)**: Under Reading (A), the proof step *"since each $X_i(\mathbf{Y})$ is an increasing or decreasing function applied to independent indicators, then so is $\phi \circ \mathbf{X}(\mathbf{Y})$"* (`L2395-2396`) fails directly: for $N = 2, n = 2$, $f_1(y_1, y_2) = y_1$, $f_2(y_1, y_2) = 1 - y_2$, and $\phi(x_1, x_2) = \mathbf{1}[x_1 \ge 1 \wedge x_2 \ge 1]$, $(\phi \circ \mathbf{f})(0, 0) = 0, (\phi \circ \mathbf{f})(1, 0) = 1, (\phi \circ \mathbf{f})(1, 1) = 0$ is neither increasing nor decreasing on $\{0, 1\}^2$ (`SteinMethod.not_thm4_17_comp_monotone_printed` / `SteinMethod.not_Thm4_17_comp_monotone_printed` in `Formalization/Sweep/SweepDMonotone.lean`), and at $N = 1, n = 2$ with $\phi(x_1, x_2) = \mathbf{1}[x_2 \ge 1]$, $\phi \circ \mathbf{f} = f_2$ has the opposite direction from $f_1$, violating FKG's same-direction hypothesis at `L2398`.
+- **Resolution**: Formalize `Thm4_17_corrected`, `Thm4_17_implicit_coupling_corrected`, and `Thm4_17_comp_monotone_corrected` under Reading (B) (all $X_1, \ldots, X_n$ increasing, or all $X_1, \ldots, X_n$ decreasing on $\{0, 1\}^N$) together with the machine-checked refutations `SteinMethod.not_Thm4_17_printed` (`Formalization/PoissonSizeBias/Monotone/FKG.lean`) and `SteinMethod.not_Thm4_17_comp_monotone_printed` (`Formalization/Sweep/SweepDMonotone.lean`).
+
+---
+
+### `ISSUE-4.16` — Omitted Zero-Denominator Guard $k \ne \log(\lambda)$ in Non-Uniform Coupon Collecting (`SteinIntro_utf8.tex:2590`)
+- **Location**: Example 4.16 (`[Coupon collecting continued]`), `SteinIntro_utf8.tex` line 2590:
+  `\dtv(W,Z)\leq \min\{1, \lambda\}\left[\max_{i}(1-p_i)^k+\frac{k}{\lambda}\left(\frac{\lambda \log(k)}{k-\log(\lambda)}+\frac{4}{k}\right)^2\right].`
+- **Issue**: The displayed upper bound divides by $k - \log(\lambda)$ without stating
+  $k \ne \log(\lambda)$. This zero denominator occurs on the non-degenerate interior of the
+  probability simplex: at $k = 2$ and $n = 9$, $\lambda(p) = \sum_{i=1}^9 (1 - p_i)^2$ equals
+  $64/9 \lt e^2$ at $p = (1/9, \dots, 1/9)$ and $2273/288 \gt e^2$ at
+  $p = (17/18, 1/144, \dots, 1/144)$, so
+  by continuity there exist $p_1, \dots, p_9 \gt 0$ with $\sum_{i=1}^9 p_i = 1$ and
+  $\lambda = e^2 \gt 0$, where $k - \log(\lambda) = 0$. (`1 ≤ k` and `0 < \lambda` are domain guards
+  for `4/k`, `\log(k)`, `k/\lambda`, `\log(\lambda)`, and `\Po(\lambda)`.)
+- **Formalization**: Singularity witness proved in `Ex4_16_exists_zero_denom`
+  (`ex4_16_exists_zero_denom`); the printed bound is true wherever defined (not a source error in
+  the inequality) and is proved from scratch for all $1 \le k$, $\lambda \gt 0$, and
+  $k \ne \log(\lambda)$ (covering both $\log(\lambda) \lt k$ and $k \lt \log(\lambda)$) in
+  `Ex4_16_restricted` (`ex4_16_restricted`).
+
+---
+
+### `ISSUE-REM-4.17` — False Theorem 4.14 (`\ref{thm122}`) Claim for Boxes Containing At Least $m \ge 1$ Balls (`SteinIntro_utf8.tex:2600`)
+- **Location**: Remark 4.17, `SteinIntro_utf8.tex` line 2600:
+  `Finally, could also consider the number of boxes containing exactly $m\geq0$ balls and containing at least $m\geq1$ balls, Theorem \ref{thm122} applies to the latter problem.  See Chapter 6 of \cite{bhj92}.`
+- **Issue**: Theorem 4.14 (`\ref{thm122}`) requires an *increasing* conditional coupling
+  $X_j^{(i)} \ge X_j$ ($j \ne i$) and gives the upper bound
+  $\min\{1, \lambda^{-1}\}(\mathrm{Var}(W) - \lambda + 2 \sum_{i=1}^n q_i^2)$. For fixed ball
+  count $k$ and indicators $X_i = \mathbf{1}[B_i \ge m]$ ($m \ge 1$), conditioning on $X_i = 1$
+  absorbs at least $m$ balls into box $i$, leaving fewer balls for boxes $j \ne i$ and making the
+  indicators **negatively** related ($X_j^{(i)} \le X_j$). At $n = 2, k = 1, m = 1,
+  p = (1/2, 1/2)$, $W \equiv 1$ has $\lambda = 1$, $\mathrm{Var}(W) = 0$, and
+  $q_1 = q_2 = 1/2$, so no coupling satisfies $X_2^{(1)} \ge X_2$ a.s. and Theorem 4.14's bound
+  evaluates to $0 \lt e^{-1} \le d_{\mathrm{TV}}(\delta_1, \mathrm{Po}(1))$ (and to $-1/3 \lt 0$ at
+  $n = 3, k = 1, m = 1, p = (1/3, 1/3, 1/3)$, where $W \equiv 1$, $\lambda = 1$,
+  $\mathrm{Var}(W) = 0$, and $\sum_{i=1}^3 q_i^2 = 1/3$). The theorem that actually applies is
+  **Theorem 4.19 (`\ref{thm125}`)**.
+- **Formalization**: Refuted as printed by `not_Rem4_17_atLeast_printed`
+  (`not_rem4_17_atLeast_printed`), and proved with the decreasing conditional coupling and Theorem
+  4.19 bound in `Rem4_17_atLeast_corrected` (`rem4_17_atLeast_corrected`).
+
+---
+
+### `ISSUE-5.2-ODE` — Non-Differentiability at Jump Discontinuities in Lemma 5.2
+- **Source**: Lemma 5.2 (`\label{lem172}`, `SteinIntro.tex:2740-2745`, proof `2774-2779`)
+- **Printed text (verbatim, `L2740-2745`)**:
+  ```tex
+  \begin{lemma}\label{lem172}
+  Let $Z\sim\Exp(1)$ and for some function $h$ let $f_h$ be the unique solution of
+  \ban
+  f_h'(x)-f_h(x)=h(x)-\IE[h(Z)] \label{171}
+  \ee
+  such that $f_h(0)=0$. 
+  ```
+- **Counterexample (`not_exists_hasDerivAt_expStein_Iic`)**: Exactly as in `ISSUE-2.2`, for discontinuous bounded non-negative $h$ such as the half-line indicator $h = \mathbf{1}_{(-\infty, 1]}$ used in Kolmogorov bounds, Darboux's theorem precludes any everywhere two-sided differentiable solution $g : \mathbb{R} \to \mathbb{R}$ of $g'(x) - g(x) = h(x) - \mathbb{E}[h(Z)]$: any such $g$ would be continuous, hence $g'(x) = g(x) + h(x) - \mathbb{E}[h(Z)]$ would have a jump discontinuity of size $1$ at $x = 1$, contradicting the intermediate value property for derivatives (machine-checked as `not_exists_hasDerivAt_expStein_Iic` in `Formalization/Exponential/SteinEquation.lean`).
+- **Resolution**: Formalize `Lem5_2_formula` (interval-integral formula and boundary value $f_h(0) = 0$ for locally integrable $h \in L^1(\mathrm{Exp}(1))$, plus two-sided ODE and uniqueness from $g(0) = 0$ alone when $h$ is continuous), `Lem5_2_ode_contAt` (two-sided ODE at every continuity point of $h$), `Lem5_2_ode_ae` (local absolute continuity, Lebesgue-a.e. two-sided ODE, and uniqueness among locally AC functions with $g(0) = 0$), and `Lem5_2_1` with `LipschitzWith (Real.toNNReal (2 * M)) (expSteinSol h)` alongside the pointwise `deriv` and `derivWithin` bounds.
+
+---
+
+### `ISSUE-5.5` — Equilibrium Uniqueness and Lebesgue Absolute Continuity Fail at $\mu = \mathbb{E}[W] = 0$
+- **Source**: Definition 5.2 and following prose (`SteinIntro.tex:2836-2845`)
+- **Printed text (verbatim, `L2836-2845`)**:
+  ```tex
+  \begin{definition}
+  Let $W\geq0$  a random variable with $\IE[W]=\mu$.  We say that $W^e$ has the \emph{equilibrium} distribution
+  with respect to $W$ if 
+  \ban
+  \IE[f(W)]-f(0)=\mu\IE[f'(W^e)] \label{173}
+  \ee
+  for all Lipschitz functions $f$.  
+  \end{definition}
+  We will see below that the equilibrium distribution is absolutely continuous with respect to Lebesgue measure, so that the
+  right hand side of \eq{173} is well defined.  Before this discussion, we note
+  ```
+- **Counterexample**: Definition 5.2 allows $\mu = \mathbb{E}[W] = 0$ ($W = 0$ almost surely), under which `IsEquilibrium` is formalized literally (`D1`) and Proposition 5.5 (`Prop5_5`) holds literally with no restriction. However, at $\mu = 0$ equation `(5.3)` reduces to $0 = 0 \cdot \mathbb{E}[f'(W^e)]$, which is satisfied by **every** random variable $W^e$ — in particular $W^e \equiv 0$ ($\mathrm{Law}(W^e) = \delta_0$), which is neither unique nor absolutely continuous with respect to Lebesgue measure.
+- **Resolution**: Keep `IsEquilibrium` and `Prop5_5` literal without restricting $\mu \gt 0$, and include the explicit positivity hypothesis `0 < ∫ ω, W ω ∂P` on the uniqueness and Lebesgue-density statement `Sec5_1_equilibrium_ac`.
+
+---
+
+### `ISSUE-5.4` — Equilibrium Scaling $(cX)^e \stackrel{d}{=} c X^e$ Requires $c \gt 0$
+- **Source**: Example 5.4 (`\label{ex171}`, `SteinIntro.tex:2894-2895`) and Proof of Theorem 5.9 (`SteinIntro.tex:3023-3024`)
+- **Printed text (verbatim, `L2894-2895` and `L3023-3024`)**:
+```tex
+It is easy to verify that for a constant $c$ and a non-negative variable $X$, $(cX)^e\ed cX^e$, so that if we define $W=pN$ 
+our remarks above imply that $W^e:=W-pU$ has the equilibrium distribution with respect to $W$.
+```
+```tex
+$\IE\abs{Y_n-Y_n^e}\leq C \log(n)$.  Once this is established, the result is proved 
+by Theorem \ref{thm172} and the fact that $(cY_n)^e\ed cY_n^e$ for any constant $c$.
+```
+- **Counterexample**: For $c \lt 0$ and $\mathbb{P}(X \gt 0) \gt 0$, $c X$ violates the non-negativity requirement of Definition 5.2; for $c = 0$ and $X \sim \mathrm{Exp}(1)$ ($X^e \sim \mathrm{Exp}(1)$, $0 \cdot X^e \equiv 0$), $0 \cdot X \equiv 0$ has mean $\mu = 0$, so by `ISSUE-5.5` any variable $Y$ (e.g. $Y \equiv 1 \not\stackrel{d}{=} 0 \cdot X^e$) satisfies `(5.3)` for $0 \cdot X$.
+- **Resolution**: Formalize `Sec5_1_equilibrium_scale_restricted` under `0 < c` (`sec5_1_equilibrium_scale_restricted` in `Formalization/Exponential/Equilibrium.lean`).
 
 ---
 
 ### `ISSUE-5.7` — Unstated Support $M \ge 1$ and Joint Independence of $(N, M)$ from $(X_i)$ in Theorem 5.7
 - **Source**: Theorem 5.7 (`\label{thm1710}`, `SteinIntro.tex:2915-2929`)
 - **Printed text (verbatim, `L2916-2928`)**:
-  *"Let $X_1, X_2, \ldots$ be square integrable, non-negative, and independent random variables with $\mathbb{E}[X_i]=1$. Let $N>0$ be an integer valued random variable with $\mathbb{E}[N]=1/p$ for some $0 \lt p\leq 1$ and let $M$ be defined on the same space as $N$ such that $\mathbb{P}(M=m)=p \mathbb{P}(N\geq m)$. If $W=p\sum_{i=1}^N X_i$, $Z\sim\mathrm{Exp}(1)$, and $X_i^e$ is an equilibrium coupling of $X_i$ independent of $N, M$, and $(X_j)_{j\not=i}$, then $d_{\mathrm{W}}(W, Z)\leq 2p\left(\mathbb{E}|X_M-X_M^e|+\mathbb{E}|N-M|\right) \leq 2p\left(1+\frac{\mu_2}{2}+\mathbb{E}|N-M|\right)$, where $\mu_2:=\sup_{i} \mathbb{E}[X_i^2]$."*
-- **Issues & Counterexamples**:
-  1. *Omitted $m \ge 1$ restriction in `L2920`*: Because $N > 0$ is integer-valued with $\mathbb{E}[N] = 1/p$, $\sum_{m=1}^\infty p \mathbb{P}(N \ge m) = p \mathbb{E}[N] = 1$. However, `L2920` prints $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ without restricting $m \ge 1$; for every integer $m \le 0$, $\mathbb{P}(N \ge m) = 1$, which would assign mass $p > 0$ to infinitely many $m \le 0$ (and $X_M$ at `L2925` is only indexed for $M \ge 1$). Thus $M$ must take values in $\{1, 2, \ldots\}$ with $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ for $m \ge 1$ (matching Remark 5.5 at `L2935`).
-  2. *Omitted independence of $(N, M)$ from $(X_i)_{i \ge 1}$*: `L2916-2922` omits that $(N, M)$ is independent of $(X_i)_{i \ge 1}$ (unlike Theorem 5.6 at `L2906-2907`). Counterexample: let $X_i \stackrel{\text{i.i.d.}}{\sim} 2\,\mathrm{Bernoulli}(1/2)$ ($\mathbb{E}[X_i] = 1$, $\mu_2 = 2$), let $X_i^e \stackrel{\text{i.i.d.}}{\sim} \mathrm{Unif}(0, 2)$ completely independent of $(X_j)_{j \ge 1}$, fix a large odd integer $m$, set $p = 1 - 2^{-1/m}$ so $\mathbb{P}(G \le m) = 1/2$ for an independent $G \sim \mathrm{Geom}(p)$, and sample $N = M$ from $\mathrm{Law}(G \mid G > m)$ when $S_m := \sum_{i=1}^m (X_i - 1) > 0$ and from $\mathrm{Law}(G \mid G \le m)$ when $S_m < 0$. Then $N = M \sim \mathrm{Geom}(p)$ ($\mathbb{E}|N - M| = 0$) and every printed hypothesis holds, yet $d_{\mathrm{W}}(W, Z) \ge \mathbb{E}[W] - 1 = p\,\mathbb{E}[S_N] = \frac{p}{2}(1 - \frac{\mathbb{E}[G \mid G \le m]}{m})\mathbb{E}|S_m| = \Theta(\sqrt{p})$, which exceeds $2p(1 + \mu_2/2 + 0) = 4p$ for all sufficiently large odd $m$.
-- **Resolution**: Formalize `Thm5_7_corrected` requiring $M \ge 1$ with $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ for $m \ge 1$ and joint independence of $(N, M)$ from $((X_i, X_i^e))_{i \ge 1}$ (see also [`docs/DEFINITIONS.md`](DEFINITIONS.md) §5.3 for the Lean real/extended-real encoding note).
+  *"Let $X_1, X_2, \ldots$ be square integrable, non-negative, and independent random variables with $\mathbb{E}[X_i]=1$. Let $N \gt 0$ be an integer valued random variable with $\mathbb{E}[N]=1/p$ for some $0 \lt p\leq 1$ and let $M$ be defined on the same space as $N$ such that $\mathbb{P}(M=m)=p \mathbb{P}(N\geq m)$. If $W=p\sum_{i=1}^N X_i$, $Z\sim\mathrm{Exp}(1)$, and $X_i^e$ is an equilibrium coupling of $X_i$ independent of $N, M$, and $(X_j)_{j\not=i}$, then $d_{\mathrm{W}}(W, Z)\leq 2p\left(\mathbb{E}|X_M-X_M^e|+\mathbb{E}|N-M|\right) \leq 2p\left(1+\frac{\mu_2}{2}+\mathbb{E}|N-M|\right)$, where $\mu_2:=\sup_{i} \mathbb{E}[X_i^2]$."*
+- **Issues & Counterexamples (`not_Thm5_7_printed`)**:
+  1. *Omitted $m \ge 1$ restriction in `L2920`*: Because $N \gt 0$ is integer-valued with $\mathbb{E}[N] = 1/p$, $\sum_{m=1}^\infty p \mathbb{P}(N \ge m) = p \mathbb{E}[N] = 1$. However, `L2920` prints $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ without restricting $m \ge 1$; for every integer $m \le 0$, $\mathbb{P}(N \ge m) = 1$, which would assign mass $p \gt 0$ to infinitely many $m \le 0$ (and $X_M$ at `L2925` is only indexed for $M \ge 1$). Thus $M$ must take values in $\{1, 2, \ldots\}$ with $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ for $m \ge 1$ (matching Remark 5.5 at `L2935`).
+  2. *Omitted independence of $(N, M)$ from $(X_i)_{i \ge 1}$*: `L2916-2922` omits that $(N, M)$ is independent of $(X_i)_{i \ge 1}$ (unlike Theorem 5.6 at `L2906-2907`). Machine-checked counterexample (`SteinMethod.not_Thm5_7_printed` in `Formalization/Exponential/GeometricSumsCounterexample.lean`): fix odd $m = 4001$, set $p = 1 - 2^{-1/4001} \in (0, 1)$ so $(1 - p)^{4001} = 1/2$ and $\mathbb{P}(G \le 4001) = 1/2$ for $G \sim \mathrm{Ge}(p)$, let $X_i \stackrel{\text{i.i.d.}}{\sim} 2\,\mathrm{Bernoulli}(1/2)$ ($\mathbb{E}[X_i] = 1$, $\mu_2 = 2$), let $X_i^e \stackrel{\text{i.i.d.}}{\sim} \mathrm{Unif}(0, 2)$ completely independent of $(X_j)_{j \ge 1}$ and $(N, M)$, and sample $N = M$ from $\mathcal{L}(G \mid G \gt 4001)$ on $\{S_{4001} \gt 0\}$ and from $\mathcal{L}(G \mid G \le 4001)$ on $\{S_{4001} \lt 0\}$ where $S_{4001} := \sum_{i=1}^{4001} (X_i - 1)$. Conditioning on $(S_{4001}, N)$ gives the exact identity
+     $$\mathbb{E}[W] - 1 = \frac{p}{2}\,\mathbb{E}|S_{4001}|\left(1 - \frac{\mathbb{E}[G \mid G \le 4001]}{4001}\right).$$
+     Since $\mathbb{E}|S_{4001}| \gt 36$ (fourth-moment / Hölder bound) and $\mathbb{E}[G \mid G \le 4001] \le 2001$ (monotone pairing $k \leftrightarrow 4002 - k$), $d_{\mathrm{W}}(W, Z) \ge \mathbb{E}[W] - 1 \gt \frac{p}{2} \cdot 36 \cdot \frac{2000}{4001} \gt 8 p \gt 4 p = 2 p(1 + \mu_2 / 2 + \mathbb{E}|N - M|)$.
+- **Resolution**: Formalize `Thm5_7_corrected` (`SteinMethod.thm5_7_corrected_minimal`) under the exact minimal hypotheses: $M \ge 1$ a.s. with $\mathbb{P}(M = m) = p \mathbb{P}(N \ge m)$ for $m \ge 1$, the printed joint independence of each $X_i^e$ from $(N, M, (X_j)_{j \ne i})$, and the single omitted joint independence $(N, M) \perp (X_i)_{i \ge 1}$ (matching `SteinMethod.not_Thm5_7_printed` in every other clause; see also [`docs/DEFINITIONS.md`](DEFINITIONS.md) §5.3).
 
 ---
 
-### `ISSUE-5.9` — Boundary Case $n = 1$ ($\log 1 = 0$) and $\sigma^2 = 0$ in Theorem 5.9
-- **Source**: Theorem 5.9 (`SteinIntro.tex:3015-3020`)
-- **Printed text**: For a critical branching process $Z_n$ with $\mathrm{Var}(Z_1) = \sigma^2 < \infty$, $\mathbb{E}[Z_1^3] < \infty$, and $Y_n \stackrel{d}{=} Z_n \mid Z_n > 0$, asserts existence of $C > 0$ such that $d_{\mathrm{W}}(\frac{2 Y_n}{n \sigma^2}, Z) \le C \frac{\log(n)}{n}$ for $Z \sim \mathrm{Exp}(1)$.
-- **Counterexample**: Take $\mathbb{P}(Z_1 = 0) = \mathbb{P}(Z_1 = 2) = 1/2$, so $\mathbb{E}[Z_1] = 1$, $\sigma^2 = 1 > 0$, and $\mathbb{E}[Z_1^3] = 4 < \infty$. At $n = 1$, $Y_1 \equiv 2$ deterministically, so $\frac{2 Y_1}{1 \cdot \sigma^2} \equiv 4$ and $d_{\mathrm{W}}(\delta_4, \mathrm{Exp}(1)) \ge |4 - 1| = 3 > 0$, whereas for **every** constant $C > 0$, $C \frac{\log(1)}{1} = 0$. (Also at $\sigma^2 = 0$, $Z_1 \equiv 1$ and $2 Y_n / (n \sigma^2)$ divides by zero.)
-- **Resolution**: Formalize `Thm5_9_corrected` requiring `0 < σ²` and `2 ≤ n`.
+### `ISSUE-5.8` — Ill-Defined Division by $\sigma^2 = 0$ When $Z_1 \equiv 1$ in Theorem 5.8 and Kolmogorov's Survival Limit
+- **Source**: Theorem 5.8 (Yaglom's Theorem, `SteinIntro.tex:3007-3013`) and Kolmogorov's survival asymptotic (`SteinIntro.tex:3028, 3185-3186`)
+- **Printed text (verbatim, `L3007-3013` and `L3185-3186`)**:
+  ```tex
+\begin{theorem}[Yaglom's Theorem]
+Let $1=Z_0, Z_1,\ldots$ be the generation sizes of a Galton-Watson branching process where
+$\IE[Z_1]=1$ and $\var(Z_1)=\sigma^2<\infty$.  If $Y_n\ed (Z_n|Z_n>0)$ and $Z\sim \Exp(1)$, then
+\ba
+\lim_{n\to\infty}\dk\left(\frac{2Y_n}{n\sigma^2}, Z\right)=0.
+\ee
+\end{theorem}
+  ```
+  ```tex
+Using Kolmogorov's estimate (see Chapter 1, Section 9 of \cite{atne72}),
+we have $\lim_{n\to\infty}n\IP(Z_n>0) = 2/\sigma^2$, which
+  ```
+- **Boundary Defect (`not_Thm5_8_printed`)**: Theorem 5.8 assumes $\mathbb{E}[Z_1] = 1$ and $\mathrm{Var}(Z_1) = \sigma^2 \lt \infty$ without requiring $\sigma^2 \gt 0$. For the deterministic critical branching process $Z_1 \equiv 1$ ($\sigma^2 = 0$), $Z_n \equiv 1$ and $Y_n \equiv 1$ for all $n \ge 0$, so the printed expressions $\frac{2 Y_n}{n \sigma^2}$ and $\frac{2}{\sigma^2}$ are mathematically ill-defined (division by $0$, not false when $\sigma^2 \gt 0$), while $n \mathbb{P}(Z_n \gt 0) = n \to \infty$. Under Lean's `x / 0 = 0` convention, $\mathcal{L}(2 Y_n / (n \sigma^2)) = \delta_0$ and $d_{\mathrm{K}}(\delta_0, \mathrm{Exp}(1)) = 1 \not\to 0$ (machine-checked as `SteinMethod.not_Thm5_8_printed` in `Formalization/Branching/YaglomRate.lean`).
+- **Resolution**: Formalize `Thm5_8_restricted` (`thm5_8_restricted`) and `Sec5_3_kolmogorov_survival_restricted` (`sec5_3_kolmogorov_survival_restricted`) under the explicit positivity hypothesis `0 < ProbabilityTheory.variance (fun ω ↦ (Z 1 ω : ℝ)) P`.
+
+---
+
+### `ISSUE-5.9` — Boundary Failure at $n = 1$ ($\log 1 = 0$) in Theorem 5.9 and the $\log(n)$ Coupling Bound (`L3023`, `L3141`)
+- **Source**: Theorem 5.9 (`SteinIntro.tex:3015-3020`) and the logarithmic coupling bound (`SteinIntro.tex:3022-3023, 3140-3141`)
+- **Printed text (verbatim, `L3015-3023`)**:
+  ```tex
+\begin{theorem}
+Let $Z_0, Z_1, \ldots$ as in Yaglom's Theorem above and assume also that $\IE\abs{Z_1}^3<\infty$.  If $Y_n\ed (Z_n|Z_n>0)$ and $Z\sim \Exp(1)$, then for some constant $C$, 
+\ba
+\dw\left(\frac{2Y_n}{n\sigma^2}, Z\right)\leq C\frac{\log(n)}{n}.
+\ee
+\end{theorem}
+\begin{proof}
+We will construct a copy of $Y_n$ and $Y_n^e$ having the equilibrium distribution on the same space and then show that
+$\IE\abs{Y_n-Y_n^e}\leq C \log(n)$.  Once this is established, the result is proved 
+  ```
+- **Counterexample (`not_Thm5_9_printed`)**:
+  1. *Theorem 5.9 at $n = 1$ with $\sigma^2 \gt 0$*: Take $\mathbb{P}(Z_1 = 0) = \mathbb{P}(Z_1 = 2) = 1/2$ (`Sec5_3_exists_isGaltonWatson_pos_var`), so $\mathbb{E}[Z_1] = 1$, $\sigma^2 = 1 \gt 0$, and $\mathbb{E}|Z_1|^3 = 4 \lt \infty$. At $n = 1$, $Y_1 = (Z_1 \mid Z_1 \gt 0) = 2$ a.s., so $\frac{2 Y_1}{1 \cdot \sigma^2} = 4$ a.s. and $d_{\mathrm{W}}(\delta_4, \mathrm{Exp}(1)) \ge |4 - 1| = 3 \gt 0$, whereas for **every** constant $C \in \mathbb{R}$, $C \frac{\log(1)}{1} = 0$. Machine-checked as `SteinMethod.not_Thm5_9_printed` in `Formalization/Branching/YaglomRate.lean` (in addition, $\sigma^2 = 0$ is ill-defined as in `ISSUE-5.8`).
+  2. *Coupling discrepancy $\mathbb{E}|Y_n - Y_n^e| \le C \log(n)$ at $n = 1$ (`L3023`, `L3141`)*: At $n = 1$, $Y_1 - Y_1^e = U + (R_{1,1}' - R_{1,1})\mathbf{1}_{L_{1,1} \gt 0} \in U + \mathbb{Z}$ with $U \sim \mathrm{Unif}(0, 1)$, so $|Y_1 - Y_1^e| \ge \min(U, 1 - U)$ and $\mathbb{E}|Y_1 - Y_1^e| \ge 1/4 \gt 0 = C \log(1)$ for every $C \in \mathbb{R}$ and every critical offspring law.
+- **Resolution**: Formalize `Thm5_9_restricted` (`thm5_9_restricted`, restricted to $\sigma^2 \gt 0$ and $n \ge 2$) and `Sec5_3_lpp_mean_diff_log_restricted` (`sec5_3_lpp_mean_diff_log_restricted`, restricted to $n \ge 2$ without needing $\sigma^2 \gt 0$).
 
 ---
 
@@ -404,8 +792,8 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   \left|\dw(pW, Z)-\dw(X, W)\right|\leq p.
   \ee
   ```
-- **Counterexample (`not_Sec6_opening_wasserstein_printed`)**: Take $p = 1/4$ and $W \equiv 4$ deterministically ($W > 0$ integer-valued with $\mathbb{E}[W] = 4 = 1/p$). Then $p W \equiv 1$, $d_{\mathrm{W}}(\delta_1, \mathrm{Exp}(1)) = 2 e^{-1} < 1$, whereas $X \sim \mathrm{Ge}(1/4)$ on $\{1, 2, \dots\}$ satisfies $d_{\mathrm{W}}(X, 4) = \mathbb{E}|X - 4| = 2 \cdot \frac{81}{64} = \frac{81}{32}$, so $|d_{\mathrm{W}}(pW, Z) - d_{\mathrm{W}}(X, W)| = \frac{81}{32} - 2 e^{-1} \approx 1.80 > \frac{1}{4} = p$.
-- **Cause & Resolution**: By homogeneity of Wasserstein distance, $d_{\mathrm{W}}(p X, p W) = p\,d_{\mathrm{W}}(X, W)$, so the reverse triangle inequality combined with Example 5.4 ($d_{\mathrm{W}}(p X, Z) \le p$) yields $|d_{\mathrm{W}}(p W, Z) - p\,d_{\mathrm{W}}(X, W)| \le d_{\mathrm{W}}(p X, Z) \le p$. Machine-checked refutation `not_Sec6_opening_wasserstein_printed` and reduction `opening_wasserstein_of_ex5_4` are proved in `Formalization/Geometric/OpeningBound.lean`.
+- **Counterexample (`not_Sec6_opening_wasserstein_printed`)**: Take $p = 1/4$ and $W \equiv 4$ deterministically ($W \gt 0$ integer-valued with $\mathbb{E}[W] = 4 = 1/p$). Then $p W \equiv 1$, $d_{\mathrm{W}}(\delta_1, \mathrm{Exp}(1)) = 2 e^{-1} \lt 1$, whereas $X \sim \mathrm{Ge}(1/4)$ on $\{1, 2, \dots\}$ satisfies $d_{\mathrm{W}}(X, 4) = \mathbb{E}|X - 4| = 2 \cdot \frac{81}{64} = \frac{81}{32}$, so $|d_{\mathrm{W}}(pW, Z) - d_{\mathrm{W}}(X, W)| = \frac{81}{32} - 2 e^{-1} \approx 1.80 \gt \frac{1}{4} = p$.
+- **Cause & Resolution**: By homogeneity of Wasserstein distance, $d_{\mathrm{W}}(p X, p W) = p\,d_{\mathrm{W}}(X, W)$, so the reverse triangle inequality combined with Example 5.4 ($d_{\mathrm{W}}(p X, Z) \le p$) yields $|d_{\mathrm{W}}(p W, Z) - p\,d_{\mathrm{W}}(X, W)| \le d_{\mathrm{W}}(p X, Z) \le p$. Machine-checked refutation `not_Sec6_opening_wasserstein_printed` (`not_opening_wasserstein_printed`), reduction `opening_wasserstein_of_ex5_4`, and unconditional corrected theorem `Sec6_opening_wasserstein_corrected` (`Sec6_opening_wasserstein_corrected_holds` / `opening_wasserstein_corrected`, importing `wassersteinDist_shiftedGeomLaw_le` from `Formalization/Exponential/GeometricExample.lean`) are proved in `Formalization/Geometric/OpeningBound.lean`.
 
 ---
 
@@ -416,7 +804,7 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   The following result provides a constructive definition of the discrete equilibrium distribution, so that the
   right hand side of \eq{1717} defines a probability distribution.
   \begin{proposition}\label{prop172}
-  Let $W\geq0$ be an integer-valued random variable with $\IE[W]=(1-p)/p$ for some $0 \lt p\leq 1$ and let $W^s$ have the size-bias distribution
+  Let $W\geq0$ be an integer-valued random variable with $\IE[W]=(1-p)/p$ for some $0<p\leq 1$ and let $W^s$ have the size-bias distribution
   of $W$.  If conditional on $W^s$, $W^e$ is uniform on $\{0, 1, \ldots, W^s-1\}$, then $W^e$
   has the discrete equilibrium distribution with respect to $W$.
   \end{proposition}
@@ -431,19 +819,103 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 
 ---
 
+### `ISSUE-EX7.2` — Lower-Order Claim $e^{-t\log(t)}$ Fails for $0 \lt \lambda \le e^{-1}$ in Example 7.2
+- **Source**: Example 7.2 (`\label{ex212}`, `SteinIntro.tex:3447-3461`)
+- **Printed text (verbatim, `L3447-3461`)**:
+  ```tex
+  \begin{example}[Poisson distribution]\label{ex212}
+  Let $Z$ have the Poisson distribution with mean $\lambda$.  
+  A simple calculation implies $\IE[e^{\theta Z}]=\exp\{\lambda(e^\theta-1)\}$ for all $\theta \in \IR$,
+  so that for $\theta, t>0$ Proposition \ref{prop211} implies
+  \ba
+  \IP(Z-\lambda\geq t)\leq  \exp\{\lambda(e^\theta-1)-\theta(t+\lambda)\},
+  \ee
+  and choosing the minimizer $\theta=\log(1+t/\lambda)$ yields 
+  \ba
+  \IP(Z-\lambda \geq t)\leq  \exp\left\{ -t\left(\log\left(1+\frac{t}{\lambda}\right)-1\right) -\lambda\log\left(1+\frac{t}{\lambda}\right) \right\},
+  \ee
+  which is of smaller order than $e^{-ct}$ for $t$ large and fixed $c>0$, but of bigger order than $e^{-t\log(t)}$.
+  This is the best behavior we can hope for using Proposition \ref{prop211} in examples
+  where the random variable is approximately Poisson (such as sums of independent indicators, each with a small probability of being one). 
+  \end{example}
+  ```
+- **Counterexample (`poisson_bound_order_not_tendsto_of_le` / `not_poisson_bound_order_printed`)**: Writing $B(\lambda, t) := \exp\bigl(-t(\log(1 + t/\lambda) - 1) - \lambda\log(1 + t/\lambda)\bigr)$, we have $\log B(\lambda, t) + t\log t = (1 + \log\lambda)t - \lambda\log t + O(1)$ as $t \to \infty$. Hence $\lim_{t \to \infty} e^{-t\log t} / B(\lambda, t) = 0$ holds if and only if $\lambda \gt e^{-1}$: for **every** $\lambda \in (0, e^{-1}]$, $e^{-t\log t} / B(\lambda, t) \ge 1$ for all $t \ge 1$ (machine-checked for all $\lambda \in (0, e^{-1}]$ as `poisson_bound_order_not_tendsto_of_le` in `Formalization/Concentration/Followups.lean` and at $\lambda = e^{-1}$ as `not_poisson_bound_order_printed` in `Formalization/Concentration/Basic.lean`; e.g., at $\lambda = 0.1, t = 100$, $\log B \approx -591.57 \lt -460.52 = -100\log 100$).
+- **Resolution**: Formalize `Ex7_2` (MGF, Chernoff bound, minimizer optimality at $\theta = \log(1 + t/\lambda)$, and $B(\lambda, t) = o(e^{-c t})$ for every $c \gt 0$), `Ex7_2_order_corrected` ($e^{-c t \log t} / B(\lambda, t) \to 0$ for all $\lambda \gt 0$ and $c \gt 1$), `Ex7_2_order_restricted` ($e^{-t\log t} / B(\lambda, t) \to 0$ for $\lambda \gt e^{-1}$), and `poisson_bound_order_not_tendsto_of_le` / `not_poisson_bound_order_printed`.
+
+---
+
+### `ISSUE-EX7.4` — Centered vs. Uncentered Sum Symbol Clash (`W` and `\mu := \mathbb{E}[W]`) in Example 7.4(2)
+- **Source**: Example 7.4 (`SteinIntro.tex:3497-3502` and `3516-3536`, eq. `(7.2)` `\label{21198}`)
+- **Printed text (verbatim, `L3497-3502` and `L3516-3536`)**:
+  ```tex
+  \begin{example}[Sum of independent variables]
+  Let $X_1, \ldots, X_n$ be independent random variables with $\mu_i:=\IE[X_i]$, $\sigma_i^2:=\var(X_i)<\infty$
+  and define $W=\sum_i X_i-\mu_i$.
+  Let $X_1', \ldots, X_n'$ be an independent copy of the $X_i$ and for $I$ independent of all else and uniform on $\{1, \ldots, n\}$,
+  let $W'=W-X_I+X_I'$ so that as usual, $(W, W')$ is a $1/n$-Stein pair.  We consider two special cases of this setup.
+  \begin{enumerate}
+  ```
+  ```tex
+  \item For $i=1, \ldots, n$, assume  $0\leq X_i \leq 1$. Then the moment generating function condition of the theorem is satisfied and
+  \ba
+  \IE[(W'-W)^2 | (X_j)_{j\geq 1}]&=\frac{1}{n}\sum_{i=1}^n\IE[(X_i'-X_i)^2 | (X_j)_{j\geq 1}] \\
+  	&=\frac{1}{n}\sum_{i=1}^n\IE[(X_i')^2]-2\mu_iX_i+X_i^2  \\
+  	&\leq \frac{1}{n}\sum_{i=1}^n\mu_i +X_i= \frac{1}{n}(2\mu+W),
+  \ee
+  where $\mu:=\IE[W]$ and we have used that $-2\mu_iX_i\leq 0$ and $X_i^2\leq X_i$.
+  We can now apply Theorem \ref{thm211a} with $B=1/2$ and $C=\mu$ to find that
+  for $t>0$,
+  \ban
+  \IP\left(\abs{W-\mu}\geq t\right)\leq 2\exp\left\{-\frac{t^2}{2\mu+t}\right\}. \label{21198}
+  \ee
+  Note that if $\mu$ is constant in $n$, then \eq{21198} is of the order $e^{-t}$ for large $t$, which according to Example \ref{ex212} is
+  similar to the order of Poisson tails.  However, if $\mu$ and $\sigma^2:=\var(W)$ are both going to infinity at the same rate,
+  then \eq{21198} implies
+  \ba
+  \IP\left(\frac{\abs{W-\mu}}{\sigma}\geq t\right)\leq 2\exp\left\{-\frac{t^2}{2\frac{\mu}{\sigma^2}+\frac{t}{\sigma}}\right\}, 
+  \ee
+  so that for $\sigma^2$ large, the tails are of order $e^{-ct^2}$, which according to Example \ref{ex211} is
+  similar to the order of Gaussian tails.
+  \end{enumerate} 
+  ```
+- **Counterexample under literal `L3499` + `L3522`**: Line `3499` defines $W = \sum_i (X_i - \mu_i)$ (so $\mathbb{E}[W] = 0$), whereas Example 7.4(2) writes $\frac{1}{n}\sum_{i=1}^n \mu_i + X_i = \frac{1}{n}(2\mu + W)$ (`L3520`) with *"where $\mu := \mathbb{E}[W]$"* (`L3522`) and claims $\mathbb{P}(|W - \mu| \ge t) \le 2\exp(-t^2/(2\mu + t))$ (`(7.2)`, `L3526`). Under $\mu = \mathbb{E}[W] = 0$, `(7.2)` asserts $\mathbb{P}(|W| \ge t) \le 2 e^{-t}$, which fails at $n = 16$ i.i.d. $\mathrm{Bernoulli}(1/2)$ summands and $t = 2$: $\mathbb{P}(|\sum_{i=1}^{16} (X_i - 1/2)| \ge 2) = 29786 / 65536 \approx 0.4545 \gt 0.2707 \approx 2 e^{-2}$. (Also `L3532` divides by $\sigma = \sqrt{\mathrm{Var}(W)}$, which requires $\mathrm{Var} \gt 0$.)
+- **Resolution**: Formalize `Ex7_4_2_corrected` using the uncentered sum $S = \sum_{i=1}^n X_i$ and $\mu = \mathbb{E}[S] = \sum_{i=1}^n \mu_i$ (so $W = S - \mu$ satisfies $\sum_i (\mu_i + X_i) = 2\mu + W$), guarding the standardized display `L3532` by `0 < variance S P`, plus `Ex7_4_2_order` (`L3528`: $\exp(-t^2/(2\mu + t)) / e^{-t} \to e^{2\mu}$ as $t \to \infty$ for constant $\mu \ge 0$).
+
+---
+
 ### `ISSUE-7.5` — Stein Parameter $a = 2/(n - 1)$ Violates $a \le 1$ at $n = 2$ (and Divides by Zero at $n = 1$)
 - **Source**: Example 7.5 and Proposition 7.3 (`SteinIntro.tex:3597-3625`)
 - **Printed text**: For a uniform random permutation $\sigma$ of $\{1, \dots, n\}$ and uniform random transposition $\tau$, claims (`L3610`, `L3619`) that $(W, W')$ is a $\frac{2}{n - 1}$-Stein pair and applies Theorem 7.2 (`\label{thm211a}`).
 - **Counterexample**: At $n = 2$ with $a_{11} = a_{22} = 1$ and $a_{12} = a_{21} = 0$, $W = \pm 1$ with equal probability and the unique transposition $\tau = (1\,2)$ gives $W' = -W$, so $\mathbb{E}[W' \mid W] = -W = (1 - 2)W$. Here $a = \frac{2}{2 - 1} = 2 > 1$, which violates Definition 3.2's requirement $0 < a \le 1$ (`L954`). Furthermore, at $n = 1$ no transposition exists and $2/(n - 1)$ divides by zero (though $W \equiv 0$ makes Proposition 7.3's inequality $\mathbb{P}(|W| \ge t) = 0 \le 2 e^{\dots}$ trivially true for $t > 0$).
-- **Resolution (`D7`)**: Keep `0 < a ∧ a ≤ 1` in `IsSteinPair` as printed, prove the library concentration theorem (Theorem 7.2) for any `0 < a`, and use it directly to prove Proposition 7.3 for all $n \ge 2$ (with $n = 1$ handled trivially since $W \equiv 0$).
+- **Resolution (`D7`)**: Keep `0 < a ∧ a ≤ 1` in `IsSteinPair` as printed, prove the library concentration theorem (Theorem 7.2) for any `0 < a`, formalize `Ex7_5_steinPair_restricted` for all `2 ≤ n` (giving $\mathbb{E}[W] = 0$, exchangeability, $\mathbb{E}[W' \mid W] = (1 - \frac{2}{n - 1})W$, and `3 ≤ n → IsSteinPair …`, differing from the printed claim only by dropping Def 3.2's $a \le 1$ at $n = 2$) together with the machine-checked refutation `not_combinatorial_isSteinPair_n2` (`Formalization/Concentration/CombinatorialPair.lean`), and use the `0 < a` library bound directly to prove `Prop7_3` for all $n \in \mathbb{N}$.
 
 ---
 
 ### `ISSUE-7.6` — Missing $t \ge 0$ Hypothesis in Size-Bias Concentration Theorem 7.6
 - **Source**: Theorem 7.6 (`\label{thm211c}`, `SteinIntro.tex:3814-3826`)
-- **Printed text**: States tail bounds $\mathbb{P}(\frac{X - \mu}{\sigma} \le -t) \le \exp(\frac{-t^2}{2 C \mu / \sigma^2})$ and $\mathbb{P}(\frac{X - \mu}{\sigma} \ge t) \le \exp(\frac{-t^2}{2(C \mu/\sigma^2 + C t/(2\sigma))})$ without stating $t \ge 0$ (unlike Proposition 7.1 `L3413` and Theorem 7.2 `L3485`, which print *"for all $t \ge 0$"*).
+- **Printed text**: States tail bounds $\mathbb{P}(\frac{X - \mu}{\sigma} \le -t) \le \exp(\frac{-t^2}{2 C \mu / \sigma^2})$ and $\mathbb{P}(\frac{X - \mu}{\sigma} \ge t) \le \exp(\frac{-t^2}{2(C \mu/\sigma^2 + C t/(2\sigma))})$ without stating $t \ge 0$ (unlike Proposition 7.1 `L3413` and Theorem 7.2 `L3485`, which print *"for all $t \gt 0$"*).
 - **Counterexample**: Take $X \sim \mathrm{Bernoulli}(1/2)$ and $X^s \equiv 1 \ge X$ ($C = 1$, $\mu = 1/2$, $\sigma = 1/2$). At $t = -3 < 0$, $\mathbb{P}((X - \mu)/\sigma \le -(-3)) = \mathbb{P}(2X - 1 \le 3) = 1$, whereas $\exp(-(-3)^2 / (2 \cdot 2)) = e^{-9/4} < 1$.
-- **Resolution**: Formalize `Thm7_6_corrected` quantifying `∀ t : ℝ, 0 ≤ t → ...` (note `0 < C` follows automatically from `0 < Var(X)` and `|X - X^s| ≤ C`).
+- **Resolution**: Formalize `Thm7_6_corrected` quantifying `∀ t : ℝ, 0 ≤ t → ...` together with the machine-checked refutation `not_sizeBias_tail_bounds_printed` in `Formalization/Concentration/SizeBias.lean` (note `0 < C` follows automatically from `0 < Var(X)` and `|X - X^s| ≤ C`).
+
+---
+
+### `ISSUE-EX7.6` — Missing Factor `2` in Variance Formula (Plus Wrap-Around Conditions on $n$, Degenerate $p \in \{0, 1\}$, and Omitted $t \ge 0$) in Example 7.6
+- **Source**: Example 7.6 (`SteinIntro.tex:3878-3884`)
+- **Printed text (verbatim, `L3878-3884`)**:
+  ```tex
+  \begin{example} 
+  Let $Y_1,\dots, Y_n$ be i.i.d.\! $Be(p)$, fix $k\geq 1$, and define $X_i = \prod_{j=i}^{i+k-1} Y_j$ with the bounds being modular.  Further define $X=\sum_{i=1}^n X_i$ and define $X^s$ by sampling $X_1,\dots, X_n$ and forcing $X_1=1$.  Conditional on this, the rest of the $Y_i$ are as before.  If 
+  \[ X^{(k)}_i = \begin{cases} 1 & \textrm{if there exists a head run of length $k$ at $i$ after forcing} \\ 0 & \textrm{otherwise},\end{cases}\]
+  then $X^s = 1+\sum_{j=2}^n X^{(k)}_j$.  Note that $X^s\geq X$ and $|X^s-X|\leq 2k-1$.  In this case Theorem \ref{thm211c} implies
+  \[ \IP\left(\left|\frac{X-\mu}{\sigma}\right| \geq t\right) \leq 2 \exp\left( \frac{-t^2}{2(2k-1)\left(\frac{\mu}{\sigma^2} + \frac{t}{2\sigma} \right)}\right),\]
+  where $\mu = np^k$ and $\sigma^2 = \mu\left(1-p^k+\sum_{i=1}^{k-1} (p^i-p^k)\right)$.
+  \end{example}
+  ```
+- **Issues & Counterexamples**:
+  1. *Missing factor `2` in $\sigma^2$ (`L3883`)*: For $n \ge 2k - 1$, each cyclic window $X_i$ overlaps **two** translates $X_{i+r}$ and $X_{i-r}$ ($\bmod\,n$) at each lag $r \in \{1, \dots, k - 1\}$, each contributing covariance $p^k(p^r - p^k)$, so $\mathrm{Var}(X) = \mu\bigl(1 - p^k + 2\sum_{r=1}^{k-1}(p^r - p^k)\bigr)$. Machine-checked counterexample (`Ex7_6_variance_counterexample` in `Formalization/Concentration/CircularRuns.lean`): for $n = 4$, $k = 2$, $p = 1/2$, $\mu = 1$ and $\mathrm{Var}(X) = 5/4$, whereas the printed formula evaluates to $1 \ne 5/4$.
+  2. *Wrap-around when $n \lt 2k - 1$*: $\mu = n p^k$ requires $n \ge k$ (at $n = 1, k = 2, p = 1/2$, $X = Y_1^2 = Y_1$ has $\mathbb{E}[X] = 1/2 \ne 1/4$), and the lag-covariance sum requires $n \ge 2k - 1$ (at $n = 2, k = 2, p = 1/2$, $X = 2 Y_1 Y_2$ has $\mathrm{Var}(X) = 3/4 \ne 5/8$). However, the size-bias coupling (`IsSizeBias P X P Xs`), monotonicity (`X ≤ᵐ[P] Xs`), bounded increment (`|Xs - X| ≤ 2k - 1` a.s.), variance positivity (`0 < Var(X)` for $0 \lt p \lt 1$), and the two-sided tail bound hold for **all** $n \ge 1, k \ge 1, 0 \lt p \lt 1, t \ge 0$.
+  3. *Degenerate $p \in \{0, 1\}$ and $t \lt 0$*: At $p \in \{0, 1\}$, $\sigma = 0$; at $t \lt 0$, the tail bound fails just as in `ISSUE-7.6`.
+- **Resolution**: Formalize `Ex7_6_corrected` assuming $1 \le n$, $1 \le k$, $0 \lt p \lt 1$, proving the coupling properties and two-sided concentration bound for $t \ge 0$ unconditionally on $n$, while guarding $\mu = n p^k$ by $k \le n$ and the corrected variance formula (with factor `2`) by $2k - 1 \le n$.
 
 ---
 
@@ -455,6 +927,19 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   - Surrounding context (`L750-752`): *"Since our strategy is to apply Theorem \ref{thm31} by estimating the right side of (3.2) for bounded $f$ with bounded first and second derivative, the first lemma shows an expansion of the right side of (3.2) using the structure of $W$ as defined in Theorem \ref{thm32}."*
   - Lemma 3.3 (`L754-758`): *"In the notation of Theorem \ref{thm32}, if $W_i = (\sum_{j \ne i} X_i)/\sqrt{n}$ then $\mathbb{E}[W f(W)] = \mathbb{E}\bigl[\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i(f(W) - f(W_i) - (W - W_i)f'(W))\bigr] + \mathbb{E}\bigl[\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i(W - W_i)f'(W)\bigr]$."*
 - **Reading note**: Lemma 3.3 prints no explicit hypothesis on $f$, inheriting from `L750-751` the context of *"bounded $f$ with bounded first and second derivative"*. `SteinMethod.Lem3_3` assumes strictly less (`Differentiable ℝ f`, `f` bounded, and `deriv f` bounded, without requiring second-order differentiability or a bound on $f''$), under which all three expectations in `(3.3)`–`(3.4)` are Bochner-integrable, so `Lem3_3` implies the printed lemma under its surrounding context (`ISSUE-TYPO-3.3` covers the `X_j` summand typo in $W_i$).
+
+---
+
+### `ISSUE-3.5-PROOF-SYM` (Proof Note on `L853-856` — Symmetric Neighborhoods Required for `D^2` Sum Bound in Theorem 3.5)
+- **Source**: Proof of Theorem 3.5 (`\label{thm41}`, `SteinIntro.tex:853-856`; `SA-10`, cross-referencing `ISSUE-3.5` in Part II)
+- **Printed text (verbatim, `L853-856`)**:
+  ```tex
+  so that \eqref{447} is bounded above by the first term in the bound \eqref{41}, where we use for example that
+  \ba
+  \sum_{i=1}^n\sum_{j,k\in N_i}\IE|X_j|^3\leq D^2 \sum_{j=1}^n\IE|X_j|^3.
+  \ee
+  ```
+- **Proof note & counterexample**: Re-indexing $\sum_{i=1}^n \sum_{j, k \in N_i} \mathbb{E}|X_j|^3 = \sum_{j=1}^n (\sum_{i : j \in N_i} |N_i|) \mathbb{E}|X_j|^3$ bounds the coefficient of $\mathbb{E}|X_j|^3$ by $D^2$ only when each $j$ belongs to at most $D$ neighborhoods $N_i$ (which follows from symmetry $j \in N_i \iff i \in N_j$, since $|\{i : j \in N_i\}| = |N_j| \le D$). Under literal Definition 3.1 (`HasDependencyNeighborhoods`, asymmetric $N_i$), take $N_1 = \{1\}$ and $N_i = \{1, i\}$ for $2 \le i \le n$: then $D = \max_i |N_i| = 2$, whereas $\mathbb{E}|X_1|^3$ has coefficient $1 + 2(n - 1) = 2n - 1 \gt 4 = D^2$ for all $n \ge 3$. Together with `(3.15)` in `ISSUE-3.5`, this is the second step in the proof of Theorem 3.5 requiring `IsDependencyGraph` (which includes symmetry `∀ i j, j ∈ N i → i ∈ N j`, already assumed by `SteinMethod.Thm3_5_corrected`).
 
 ---
 
@@ -472,7 +957,7 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 ### `ISSUE-3.22` (Prose Note on `L1558-1561`) — Non-Centered Triangular Arrays in Prose Remark (`Thm3_22` and `Thm3_23` Are Literal)
 - **Source**: Unnumbered triangular-array prose (`SteinIntro.tex:1558-1564`), Theorem 3.22 (`\label{thm82}`, `SteinIntro.tex:1568-1575`), and Theorem 3.23 (`\label{thm83}`, `SteinIntro.tex:1578-1581`)
 - **Printed text (verbatim)**:
-  - Unnumbered prose (`L1558-1564`): *"Let $(X_{i,n})_{1\leq n, 1\leq i \leq n}$ be a triangular array of random variables [footnote: That is, for each $n$, $(X_{i,n})_{1\leq i \leq n}$ is a collection of independent random variables.] such that $\mathrm{Var}(X_{i,n})=\sigma_{i,n}^2 \lt \infty$. Let $W_n=\sum_{i=1}^n X_{i,n}$, and assume that $\mathrm{Var}(W_n)=1$. A sufficient condition for $W_n$ to satisfy a CLT as $n\rightarrow\infty$ is the Lindeberg condition: for all $\varepsilon>0$, $\sum_{i=1}^n \mathbb{E}[X_{i, n}^2\mathbb{I}[|X_{i,n}|>\varepsilon]]\rightarrow 0$, as $n\rightarrow \infty$."*
+  - Unnumbered prose (`L1558-1564`): *"Let $(X_{i,n})_{1\leq n, 1\leq i \leq n}$ be a triangular array of random variables [footnote: That is, for each $n$, $(X_{i,n})_{1\leq i \leq n}$ is a collection of independent random variables.] such that $\mathrm{Var}(X_{i,n})=\sigma_{i,n}^2 \lt \infty$. Let $W_n=\sum_{i=1}^n X_{i,n}$, and assume that $\mathrm{Var}(W_n)=1$. A sufficient condition for $W_n$ to satisfy a CLT as $n\rightarrow\infty$ is the Lindeberg condition: for all $\varepsilon \gt 0$, $\sum_{i=1}^n \mathbb{E}[X_{i, n}^2\mathbb{I}[|X_{i,n}| \gt \varepsilon]]\rightarrow 0$, as $n\rightarrow \infty$."*
   - Theorem 3.22 (`L1569-1574`): *"Let $(X_{i,n})_{1 \leq n, 1\leq i \leq n}$ be the triangular array defined above and let $I_n$ be a random variable independent of the $X_{i,n}$ and such that $\mathbb{P}(I_n=i)=\sigma_{i, n}^2$. For each $1\leq i \leq n$, let $X_{i,n}^z$ have the zero-bias distribution of $X_{i,n}$ independent of all else. Then the Lindeberg condition (3.34) holds if and only if $X_{I_n, n}^z \stackrel{p}{\rightarrow} 0$ as $n \to \infty$."*
   - Theorem 3.23 (`L1579-1580`): *"In the notation of Theorem \ref{thm82} and the remarks directly preceding it, if $X_{I_n, n}^z \to 0$ in probability as $n \to \infty$, then $W_n$ satisfies a CLT."*
 - **Classification (`review-01.md` M4 — prose note, NOT a theorem defect)**:
@@ -496,11 +981,62 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
 
 ---
 
+### `ISSUE-5.2-PROOF` (Proof Note on `L2790-2796` — Twice Differentiability Claim for Locally AC $h$ in Lemma 5.2(2))
+- **Source**: Proof of Lemma 5.2(2) (`\label{lem172}` item `\ref{i172}`, `SteinIntro.tex:2790-2796`)
+- **Printed text (verbatim, `L2790-2796`)**:
+  ```tex
+  \item[\ref{i172}.] If $h$ is absolutely continuous, then by the form of \eq{172} it is clear
+  that $f_h$ is twice differentiable.  Thus we have that $f_h$ satisfies
+  \ba
+  f_h''(x)-f_h'(x)=h'(x),
+  \ee
+  so that we can use the arguments of the proof of the previous item to establish the bounds
+  on $\norm{f_h'}$ and $\norm{f_h''}$.
+  ```
+- **Proof note**: For a general locally absolutely continuous function $h$ with bounded derivative, $f_h$ is everywhere continuously differentiable, but $f_h'$ need not be everywhere differentiable: for $h(t) = \max(t, 0)$ (locally AC, $1$-Lipschitz), $\mathbb{E}[h(Z)] = 1$ and $f_h'(x)$ equals $-e^x$ for $x \lt 0$ and $-1$ for $x \ge 0$, which has a corner at $x = 0$ (left derivative $-1$, right derivative $0$). The printed bound $\|f_h''\| \le 2\|h'\|$ holds everywhere in Lipschitz form as `LipschitzWith (Real.toNNReal (2 * L)) (deriv (expSteinSol h))` alongside `Differentiable ℝ (expSteinSol h)` and `|deriv (deriv (expSteinSol h)) x| ≤ 2 * L` (`SteinMethod.Lem5_2_2`).
+
+---
+
+### `ISSUE-5.9-PROOF-MEAN` (Proof Note on `L3022-3024` — Direct Application of Unit-Mean Theorem 5.4 to $2 Y_n / (n \sigma^2)$)
+- **Source**: Proof of Theorem 5.9 (`SteinIntro.tex:3022-3024`)
+- **Printed text (verbatim, `L3022-3024`)**:
+  ```tex
+  We will construct a copy of $Y_n$ and $Y_n^e$ having the equilibrium distribution on the same space and then show that
+  $\IE\abs{Y_n-Y_n^e}\leq C \log(n)$.  Once this is established, the result is proved 
+  by Theorem \ref{thm172} and the fact that $(cY_n)^e\ed cY_n^e$ for any constant $c$.
+  ```
+- **Proof note**: Theorem 5.4 (`\label{thm172}`, `L2848`) requires $\mathbb{E}[W] = 1$. For $Y_n \stackrel{d}{=} (Z_n \mid Z_n \gt 0)$ in a critical Galton–Watson process ($\mathbb{E}[Z_n] = 1$), $\mathbb{E}[Y_n] = 1 / \mathbb{P}(Z_n \gt 0)$, so $\mathbb{E}[2 Y_n / (n \sigma^2)] = 2 / (n \sigma^2 \mathbb{P}(Z_n \gt 0))$, which converges to $1$ as $n \to \infty$ when $\sigma^2 \gt 0$ (`Sec5_3_kolmogorov_survival_restricted`) but is not equal to $1$ for finite $n$: for $\mathbb{P}(Z_1 = 0) = \mathbb{P}(Z_1 = 2) = 1/2$ ($\mathbb{E}[Z_1] = 1$, $\sigma^2 = 1$, $\mathbb{E}[Z_1^3] = 4$), $p_n = \mathbb{P}(Z_n \gt 0)$ satisfies $p_{n+1} = p_n(1 - p_n/2)$ ($p_1 = 1/2$, $p_2 = 3/8$, $p_3 = 39/128$), giving $p_n \le 2 / (n + 2)$ and $\mathbb{E}[2 Y_n / (n \sigma^2)] = 2 / (n p_n) \ge 1 + 2/n \gt 1$ for every $n \ge 1$ (machine-checked as `Sec5_3_scaled_Yn_mean_gt_one_witness` / `sec5_3_scaled_Yn_mean_gt_one_witness` in `Formalization/Sweep/SweepE1.lean`).
+- **Resolution**: Formalize the witness `Sec5_3_scaled_Yn_mean_gt_one_witness`; the library proof `thm5_9_restricted` (`Thm5_9_restricted` in `Formalization/Branching/YaglomRate.lean`) handles the finite-$n$ mean mismatch via the explicit $|1 - \mathbb{E}[W]|$ mean-discrepancy penalty in `wassersteinDist_le_two_mul_integral_equilibrium_add_abs_mean` and `wassersteinDist_scaled_Y_le`.
+
+---
+
+### `ISSUE-5.9-PROOF` (Proof Notes on `L3160-3164` and `L3176` — Conditional Expectation Chain on `{L_{n,j} = 0}` and Non-`$\sigma(X_j)$`-Measurable RHS)
+- **Source**: Proof of Theorem 5.9 (`SteinIntro.tex:3158-3164` and `SteinIntro.tex:3170-3177`)
+- **Printed text (verbatim, `L3158-3164` and `L3176-3177`)**:
+  ```tex
+and using that $S_{n, j}$ and $\I[L_{n,j}=0]$ are negatively correlated (in the second inequality) below, we find
+\ba
+\IE[R_{n,j}']&=\IE[R_{n,j}|L_{n,j}=0]\\
+&\leq \IE[S_{n,j}-1|L_{n,j}=0] \\
+	&\leq \IE[S_{n,j}]-1 \\
+	&\leq \IE[S_n]-1=\sigma^2.
+\ee
+  ```
+  ```tex
+where we have used that $\IE[R_{n,j}\I[L_{n,j}>0]|X_j]\leq X_j \I[L_{n,j}>0]$ in the first inequality
+and that $\IP(L_{n,j}>0|X_j=k)\leq k\IP(Z_{n-j}>0)$ in the penultimate inequality.
+  ```
+- **Proof notes & counterexamples**:
+  1. *False intermediate inequality at `L3161` and misstated $\mathbb{E}[S_n] - 1$ at `L3163` (`I-8`)*: Because $S_{n,j} = L_{n,j} + R_{n,j}$ (`L3117-3121`), on the event $\{L_{n,j} = 0\}$ we have $R_{n,j} = S_{n,j}$ identically, so $\mathbb{E}[R_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} - 1 \mid L_{n,j} = 0] + 1 \gt \mathbb{E}[S_{n,j} - 1 \mid L_{n,j} = 0]$ (`L3161` is false as written). Moreover, since $S_n = 1 + \sum_{j=1}^n S_{n,j}$ and $\mathbb{E}[S_{n,j}] = \sigma^2$, $\mathbb{E}[S_n] - 1 = n \sigma^2$ rather than $\sigma^2$ (`L3163`). Using negative correlation of $S_{n,j}$ and $\mathbf{1}_{L_{n,j} = 0}$ (`L3158`), the corrected chain $\mathbb{E}[R_{n,j}'] = \mathbb{E}[R_{n,j} \mid L_{n,j} = 0] = \mathbb{E}[S_{n,j} \mid L_{n,j} = 0] \le \mathbb{E}[S_{n,j}] = \sigma^2$ and $\mathbb{E}[S_n] - 1 = n \sigma^2$ is proved as `Sec5_3_neg_corr_3158_and_3160_corrected`.
+  2. *Non-$\sigma(X_j)$-measurable right-hand side at `L3176` (`I-9`)*: The right-hand side $X_j \mathbf{1}_{L_{n,j} \gt 0}$ of $\mathbb{E}[R_{n,j}\mathbf{1}_{L_{n,j} \gt 0} \mid X_j] \le X_j \mathbf{1}_{L_{n,j} \gt 0}$ is not $\sigma(X_j)$-measurable, so the inequality is false almost surely: for $Z_1 \in \{0, 3\}$ with probabilities $(2/3, 1/3)$ and $n - j = 1$, $X_j = Z_1^s - 1 \equiv 2$ is deterministic so $\mathbb{E}[R_{n,j}\mathbf{1}_{L_{n,j} \gt 0} \mid X_j] = 1/9 \gt 0$ a.s., whereas on $\{L_{n,j} = 0\}$ (which has probability $19/27 \gt 0$) the right-hand side equals $0 \lt 1/9$. Only the integrated inequality $\mathbb{E}[R_{n,j}\mathbf{1}_{L_{n,j} \gt 0}] \le \mathbb{E}[X_j \mathbf{1}_{L_{n,j} \gt 0}]$ (`L3170`) holds, and it suffices for `Sec5_3_step_ii`.
+
+---
+
 ### `ISSUE-6.1` (Reading Note on `L3237` and `L3284` — Integer-Valued Support of $W$ in Section 6)
 - **Source**: Lemma 6.1(2) (`\label{lem173}`, `SteinIntro.tex:3237-3238`) and Definition 6.1 (`SteinIntro.tex:3283-3289`)
 - **Printed text (verbatim)**:
   - Lemma 6.1(2) (`L3237-3238`): `\item If for some non-negative random variable $W$, $\IE\%{A}f(W)=0$ for all bounded $f$, then $W\sim\Geo(p)$.`
-  - Definition 6.1 (`L3284`): `Let $W\geq0$  a random variable with $\IE[W]=(1-p)/p$ for some $0 \lt p\leq 1$.`
+  - Definition 6.1 (`L3284`): `Let $W\geq0$  a random variable with $\IE[W]=(1-p)/p$ for some $0<p\leq 1$.`
 - **Reading note**: Both $\mathcal{A}f(k) = (1 - p)\Delta f(k) - p f(k) + p f(0)$ (`L3232`) and Proposition 6.4 / Theorem 6.5 (`L3293, L3313`) evaluate forward differences $\Delta f$ on $\mathbb{N} = \{0, 1, 2, \dots\}$, so *"non-negative random variable $W$"* at `L3237` and `L3284` is read as $\mathbb{N}$-valued (`W : Ω → ℕ`) in `Lem6_1_2` and `IsDiscreteEquilibrium`.
 
 ---
@@ -517,3 +1053,80 @@ Per Rules 3–5 of [`AGENTS.md`](../AGENTS.md) and [`docs/AUTHOR_RULINGS.md`](AU
   \end{theorem}
   ```
 - **Proof note**: Applying Theorem 6.5 (`d_{\mathrm{TV}}(W, N) \le 2(1 - p)\mathbb{E}|W^e - W|`) at $p = 1/2$ gives $2(1 - 1/2) = 1$, so $\mathbb{E}|W^e - W| = \frac{1}{n}\sum_{i=1}^n \frac{1}{n - i + 1} \le \frac{\log(n) + 1}{n}$ actually yields the sharper bound $d_{\mathrm{TV}}(W, N) \le \frac{\log(n) + 1}{n}$ (`tvDist_uniformAttachment_inDegree_le_sharp` in `Formalization/Geometric/UniformAttachment.lean`). Theorem 6.6's printed bound $\frac{2(\log(n) + 1)}{n}$ holds a fortiori for all $n \ge 1$ and is formalized verbatim as `SteinMethod.Thm6_6`.
+---
+
+### `ISSUE-THM-4.14` (Proof Note on `L2268` — Triangle-Inequality Step Prints `=` Instead of `≤` in Theorem 4.14)
+- **Source**: Proof of Theorem 4.14 (`\label{thm122}`, `SteinIntro.tex:2267-2269`)
+- **Printed text (verbatim, `L2267-2269`)**:
+  ```tex
+  \dtv(W,Z)&\leq \min\{1, \lambda^{-1}\}\sum_{i=1}^n p_i\IE\abs{W+1-W_i}\notag \\
+  	&=\min\{1, \lambda^{-1}\}\sum_{i=1}^n p_i\IE\left[\sum_{j\not=i}\left( X_j^{(i)}-X_j\right)+X_i\right] \notag  \\
+  	&=\min\{1, \lambda^{-1}\}\sum_{i=1}^n p_i\IE\left[W_i-W-1+2 X_i\right], \label{122}
+  ```
+- **Proof note**: Since $W = X_i + \sum_{j \ne i} X_j$ and $W_i = 1 + \sum_{j \ne i} X_j^{(i)}$, we have $W + 1 - W_i = X_i - \sum_{j \ne i}(X_j^{(i)} - X_j)$. Because $X_i \ge 0$ and $X_j^{(i)} - X_j \ge 0$ almost surely, the triangle inequality gives $|W + 1 - W_i| \le \sum_{j \ne i}(X_j^{(i)} - X_j) + X_i = W_i - W - 1 + 2 X_i$ (with strict inequality whenever $X_i = 1$ and $\sum_{j \ne i}(X_j^{(i)} - X_j) \ge 1$ co-occur with positive probability). Replacing `=` on `L2268` with `≤` combines with `≤` on `L2267` to yield the exact printed bound of Theorem 4.14 (`SteinMethod.Thm4_14`).
+
+---
+
+### `ISSUE-SEC4.3.2-EXCH` (Proof Note on `L2298-2299` — Subgraph Copy Indicators Are Vertex-Transitive, Not Exchangeable, for $n \ge 5$)
+- **Source**: Proof of Theorem 4.15 (`\label{thm123}`, `SteinIntro.tex:2298-2299`)
+- **Printed text (verbatim, `L2298-2299`)**:
+  ```tex
+  Since $W=\sum_{\alpha\in\Gamma}X_\alpha$ is a sum of exchangeable indicators, we can apply Corollary \ref{cor122}
+  to construct a size-bias coupling of $W$.
+  ```
+- **Proof note & machine-checked counterexample (`not_isExchangeableTuple_subgraphCopyIndicator_triangles`)**: While $(X_\alpha)_{\alpha \in \Gamma}$ is **vertex-transitive** (any two copies $\alpha_1, \alpha_2 \in \Gamma$ are related by a vertex permutation of $\mathrm{Fin}\,n$ preserving $G(n, p)$ and the conditional law of $(X_\beta)_{\beta \ne \alpha}$ given $X_\alpha = 1$), the tuple $(X_\alpha)_{\alpha \in \Gamma}$ is **not** exchangeable under all permutations of $\Gamma$ (`IsExchangeableTuple`) for $n \ge 5$. For triangles ($H = K_3$) in $G(5, 1/2)$, $\alpha_0 = \{0, 1, 2\}$ and $\alpha_1 = \{0, 1, 3\}$ share $1$ edge so $\mathbb{E}[X_{\alpha_0} X_{\alpha_1}] = (1/2)^5 = 1/32$, whereas $\alpha_0$ and $\alpha_2 = \{0, 3, 4\}$ share $0$ edges so $\mathbb{E}[X_{\alpha_0} X_{\alpha_2}] = (1/2)^6 = 1/64 \ne 1/32$ (`SteinMethod.not_isExchangeableTuple_subgraphCopyIndicator_triangles` in `Formalization/PoissonSizeBias/Subgraph/IncreasingCoupling.lean`). Theorem 4.15 (`SteinMethod.Thm4_15`) holds literally as printed via Theorem 4.14 with a uniform random copy $I \in \Gamma$ and vertex-permutation symmetry.
+
+---
+
+### `ISSUE-7.2-INT` (Proof Note on `L3541-3544` — Integrability of $(W' - W)(f(W') - f(W))$ Requires Monotonicity or Cross-Integrability)
+- **Source**: Proof of Theorem 7.2 (`\label{thm211a}`, `SteinIntro.tex:3541-3544`)
+- **Printed text (verbatim, `L3540-3544`)**:
+```tex
+Let $m(\theta)=\IE[e^{\theta W}]$ and note that $m'(\theta)=\IE[We^{\theta W}]$.  Since $(W,W')$ is
+an $a$-Stein pair, we can use \eq{52} to find that for all $f$ such that $\IE\abs{Wf(W)}<\infty$,
+\ba
+\IE[(W'-W)(f(W')-f(W))]=2a \IE[Wf(W)].
+\ee
+```
+- **Counterexample for general measurable $f$**: $\mathbb{E}|W f(W)| \lt \infty$ alone does not ensure that $(W' - W)(f(W') - f(W))$ is Lebesgue integrable: for i.i.d. $W, W' \sim \mathrm{Unif}[-1, 1]$ (a $1$-Stein pair with $\mathrm{Var}(W) = 1/3 \lt \infty$) and $f(w) = -w^{-1}\mathbf{1}_{w \ne 0}$, $|W f(W)| = 1$ a.s. so $\mathbb{E}|W f(W)| = 1 \lt \infty$, whereas $(W' - W)(f(W') - f(W)) = (W' - W)^2/(W W')$ a.s. has $\mathbb{E}[X^+] = \mathbb{E}[X^-] = +\infty$.
+- **Monotone-$f$ rescue (using $\mathbb{E}|W| \lt \infty$ from $\mathrm{Var}(W) \lt \infty$)**: In Theorem 7.2, $\mathrm{Var}(W) \lt \infty$ (`MemLp W 2 P`) implies $\mathbb{E}|W| \lt \infty$ (hence $\mathbb{E}|W'| = \mathbb{E}|W| \lt \infty$ by exchangeability, and $\mathbb{E}[W] = 0$ from Stein-pair linearity). For any monotone (say nondecreasing; negate if nonincreasing) $f$ with $\mathbb{E}|W f(W)| \lt \infty$, define the centered bounded nondecreasing truncations $g_M(w) := \max(-M, \min(f(w) - f(0), M))$ ($M \in \mathbb{N}$):
+  1. Since $|g_M| \le M$ and $\mathbb{E}|W| = \mathbb{E}|W'| \lt \infty$, both $|(W' - W)(g_M(W') - g_M(W))| \le 2M(|W'| + |W|)$ and $|W g_M(W)| \le M|W|$ are integrable, so `(3.16)` (`\eq{52}`) gives $\mathbb{E}[(W' - W)(g_M(W') - g_M(W))] = 2a\,\mathbb{E}[W g_M(W)]$.
+  2. As $M \to \infty$, clamping is $1$-Lipschitz and order-preserving with $0 \le (w' - w)(g_M(w') - g_M(w)) \uparrow (w' - w)(f(w') - f(w))$ pointwise, so the Monotone Convergence Theorem applies on the LHS; meanwhile $|W g_M(W)| \le |W(f(W) - f(0))| \le |W f(W)| + |f(0)|\,|W| \in L^1$, so the Dominated Convergence Theorem gives $\mathbb{E}[W g_M(W)] \to \mathbb{E}[W(f(W) - f(0))] = \mathbb{E}[W f(W)]$ on the RHS (since $\mathbb{E}[W] = 0$).
+  In Theorem 7.2 (`L3547`), $f(w) = e^{\theta w}$ is monotone and $\mathbb{E}[e^{\theta W}|W' - W|] \lt \infty$ is also explicitly assumed (`L3480`), so `(7.3)` holds (`SteinMethod.exchangeable_antisymm_tail_bound`, `SteinMethod.steinPair_tail_bounds`).
+
+---
+
+### `ISSUE-7.6-PROOF` (Proof Note on `L3862` and `L3867-3868` — Unjustified Test Point Under Restricted Domain and Suboptimal Test Point Called Minimizer in Proof of Theorem 7.6(2))
+- **Source**: Proof of Theorem 7.6(2) (`\label{thm211c}`, `SteinIntro.tex:3861-3870`)
+- **Printed text (verbatim, `L3861-3870`)**:
+```tex
+Again defining $\tilde m(\theta) = \log(m(\theta))-\mu\theta$, we have $\tilde m'(\theta) \leq C\mu\theta/(1-\frac{C\theta}{2})$ so that
+\[\tilde m\left(\frac{\theta}{\sigma}\right) \leq  \frac{ C\mu\theta^2}{\sigma^2\left(2-\frac{C\theta}{\sigma}\right)} \quad\textrm{for } \ 0\leq \theta < \min\{2/C,2\sigma/C\}.\]
+We can now apply Proposition \ref{prop211} to find that 
+\ban
+\IP\left(\frac{X-\mu}{\sigma} \geq t\right) \leq \exp\left(\frac{\mu C \theta^2}{\sigma^2\left(2-\frac{C\theta}{\sigma}\right)} - \theta t\right). \label{2134b}
+\ee
+The right hand side of this \eq{2134b} is minimized at
+\[\theta = t\left(\frac{C\mu}{\sigma^2}+\frac{Ct}{2\sigma}\right)^{-1},\]
+and substituting this value into \eq{2134b} yields
+the second item of the theorem.
+```
+- **Proof notes & Counterexamples (`SteinMethod.sec7_3_eq7_12_minimizer_corrected`, `SteinMethod.not_sec7_3_eq7_12_minimizer_printed` / `SteinMethod.not_Sec7_3_eq7_12_minimizer_printed` in `Formalization/Sweep/SweepF.lean`)**:
+  1. *Suboptimal test point called minimizer (`L3867-3868`)*: For **every** $C, \mu, \sigma, t \gt 0$, the exponent $g(\theta) = \frac{\mu C \theta^2}{\sigma^2(2 - C\theta/\sigma)} - \theta t$ of `(7.12)` has $g'(\theta_{\mathrm{sub}}) = \frac{\sigma t^2}{4\mu} \gt 0$, while its unique minimizer on $[0, 2\sigma/C)$ is $\theta_{\min} = \frac{2\sigma}{C}\bigl(1 - \sqrt{\mu/(\mu + \sigma t)}\bigr) \lt \theta_{\mathrm{sub}}$ (e.g. at $C = \mu = \sigma = 1, t = 3$, $\theta_{\mathrm{sub}} = 6/5$ gives $e^{-9/5} \gt e^{-2}$ achieved at $\theta_{\min} = 1$).
+  2. *Unjustified test-point substitution under `0 \leq \theta < \min\{2/C, 2\sigma/C\}` (`L3862, L3868-3869`)*: Although `L3862`'s inequality holds on $[0, \min\{2/C, 2\sigma/C\})$, restricting `(7.12)` to that interval leaves substituting $\theta_{\mathrm{sub}}$ unjustified whenever $\sigma \gt 1$ and $\theta_{\mathrm{sub}} \ge 2/C$ — e.g. for $X \sim \mathrm{Po}(100), X^s = X + 1$ ($C = 1, \mu = 100, \sigma = 10$) at $t = 100$, $\theta_{\mathrm{sub}} = 50/3 \notin [0, \min\{2/C, 2\sigma/C\}) = [0, 2)$. Rescaling $\tilde m(u) \le \frac{C\mu u^2}{2 - C u}$ from $0 \le u \lt 2/C$ (`L3857`) via $u = \theta/\sigma$ actually yields `(7.12)` on all of $0 \le \theta \lt 2\sigma/C$, which contains $\theta_{\mathrm{sub}}$ and justifies Theorem 7.6(2) (`SteinMethod.sizeBias_tail_bounds`).
+
+---
+
+### `ISSUE-7.2` (Proof / Reading Note on `L3561`, `L3581`, and `L3584` — Strict Signs on $m'(\theta)$ Fail When $W = 0$ a.s.)
+- **Source**: Proof of Theorem 7.2 (`\label{thm211a}`, `SteinIntro.tex:3561, 3581-3584`)
+- **Printed text (verbatim, `L3561` and `L3581-3584`)**:
+```tex
+Now, since $m$ is convex and $m'(0)=0$, we find that $m'(\theta)/\theta >0$ for $\theta \not=0$.  We now break the proof into 
+```
+```tex
+\item[$\theta<0$.]  In this case, since $m'(\theta)<0$, \eq{1222h} is bounded above by
+$-C \theta m(\theta)$ which implies
+\ba
+C \theta \leq \frac{d}{d\theta} \log(m(\theta)) < 0.
+```
+- **Proof note**: When $W = 0$ almost surely (which is permitted in Theorem 7.2, e.g., when $W' = W = 0$ a.s.), $m(\theta) = \mathbb{E}[e^{\theta W}] \equiv 1$ and $m'(\theta) \equiv 0$, so the strict inequalities $m'(\theta)/\theta \gt 0$ and $m'(\theta) \lt 0$ do not hold. However, convexity of $m$ and $m'(0) = 0$ always yield the non-strict inequalities $m'(\theta) \ge 0$ ($\theta \gt 0$) and $m'(\theta) \le 0$ ($\theta \lt 0$), which are all the proof uses (`mgf_tail_bounds_of_abs_deriv_le` in `Formalization/Concentration/Basic.lean`); Theorem 7.2 itself (`Thm7_2`) holds literally as printed.

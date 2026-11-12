@@ -25,13 +25,36 @@ from typing import Callable, Optional
 ROOT = Path(__file__).resolve().parents[1]
 
 _BACKTICK_IDENT_RE = re.compile(r"`([A-Za-z_][A-Za-z0-9_']*)`")
+_ROMAN_SMALL = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"]
+_SHORTHAND_RANGE_RE = re.compile(
+    r"`([A-Za-z_][A-Za-z0-9_']*?)_([0-9]+|[ivx]+)`\s*[–-]\s*`_([0-9]+|[ivx]+)`"
+)
+
+
+def expand_lean_shorthands(cell: str) -> str:
+    """Expand backticked suffix ranges like `` `Sec5_3_item_1`–`_4` `` or `` `Sec5_3_step_i`–`_iii` ``."""
+
+    def repl(m: re.Match[str]) -> str:
+        prefix, start_tok, end_tok = m.group(1), m.group(2), m.group(3)
+        if start_tok.isdigit() and end_tok.isdigit():
+            a, b = int(start_tok), int(end_tok)
+            if a <= b and b - a <= 50:
+                return ", ".join(f"`{prefix}_{k}`" for k in range(a, b + 1))
+        if start_tok in _ROMAN_SMALL and end_tok in _ROMAN_SMALL:
+            ia, ib = _ROMAN_SMALL.index(start_tok), _ROMAN_SMALL.index(end_tok)
+            if ia <= ib:
+                return ", ".join(f"`{prefix}_{_ROMAN_SMALL[k]}`" for k in range(ia, ib + 1))
+        return m.group(0)
+
+    return _SHORTHAND_RANGE_RE.sub(repl, cell)
+
 _STMT_DEF_RE = re.compile(
     r"^\s*(?:noncomputable\s+)?(?:def|abbrev)\s+([A-Za-z0-9_']+)\b[^:]*:\s*Prop\s*:=",
     re.MULTILINE,
 )
 _DECL_RE = re.compile(
     r"^\s*(?:private\s+|protected\s+|noncomputable\s+)*"
-    r"(?:theorem|lemma|def|abbrev|structure|class)\s+([A-Za-z_][A-Za-z0-9_']*)",
+    r"(?:theorem|lemma|def|abbrev|alias|structure|class)\s+([A-Za-z_][A-Za-z0-9_']*)",
     re.MULTILINE,
 )
 
@@ -191,8 +214,9 @@ def parse_coverage_rows(coverage_text: str) -> list[dict]:
             continue
 
         source_res, label_col, lines_col, lean_col, status_col, accepted_col = cols[:6]
-        names = [m.group(1) for m in _BACKTICK_IDENT_RE.finditer(lean_col)]
-        is_source_issue_only = status_col.lower().startswith("source issue")
+        expanded_lean_col = expand_lean_shorthands(lean_col)
+        names = [m.group(1) for m in _BACKTICK_IDENT_RE.finditer(expanded_lean_col)]
+        is_source_issue_only = status_col.lower().startswith(("source issue", "open"))
         is_definition_row = status_col.lower().startswith("definition")
         rows.append(
             {

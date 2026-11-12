@@ -3,7 +3,7 @@ Copyright (c) 2026 Aaradhya Pandey. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Aaradhya Pandey
 -/
-import Formalization.Statements.Sec3
+import Formalization.Defs
 import Formalization.RandomGraph.ErdosRenyi
 import Formalization.SizeBias.Coupling
 import Mathlib.Probability.ProbabilityMassFunction.Basic
@@ -404,7 +404,25 @@ private lemma deleteIncidenceSet_isolatedCount_sub {n : ℕ} (G : SimpleGraph (F
 `SteinIntro.tex:1354-1367, 1380-1383`): erasing all edges incident to an independent uniform
 vertex $I$ in $G \sim G(n, p)$ ($0 \le p < 1$) yields a size-biased version $X^s$ of the
 isolated-vertex count $X$ with $X^s - X = D_I + \mathbf{1}_{d_I > 0}$. -/
-theorem Ex3_9_sizeBias_proof : Ex3_9_sizeBias := by
+theorem Ex3_9_sizeBias_proof :
+    ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+      {n : ℕ} (hn : 0 < n) {p : ℝ} {G : Ω → SimpleGraph (Fin n)} {I : Ω → Fin n},
+      0 ≤ p →
+      p < 1 →
+      Measurable G →
+      P.map G = erdosRenyi n p →
+      Measurable I →
+      ProbabilityTheory.IndepFun I G P →
+      P.map I = (@PMF.uniformOfFintype (Fin n) inferInstance ⟨⟨0, hn⟩⟩).toMeasure →
+      let X_ind : Fin n → SimpleGraph (Fin n) → ℝ :=
+        fun i H ↦ {K : SimpleGraph (Fin n) | K.IsIsolated i}.indicator 1 H
+      let X : Ω → ℝ := fun ω ↦ ∑ i : Fin n, X_ind i (G ω)
+      let Xs : Ω → ℝ := fun ω ↦ ∑ i : Fin n, X_ind i ((G ω).deleteIncidenceSet (I ω))
+      let d : Fin n → Ω → ℕ := fun i ω ↦ ((G ω).neighborSet i).ncard
+      let D : Fin n → Ω → ℝ :=
+        fun i ω ↦ ({j : Fin n | (G ω).Adj i j ∧ ((G ω).neighborSet j).ncard = 1}.ncard : ℝ)
+      IsSizeBias P X P Xs ∧
+        ∀ ω : Ω, Xs ω - X ω = D (I ω) ω + {ω' : Ω | 0 < d (I ω') ω'}.indicator 1 ω := by
   intro Ω _ P _ n hn p G I hp0 hp1 hG_meas hG_law hI_meas hIG_indep hI_law
   dsimp only
   set X_ind : Fin n → SimpleGraph (Fin n) → ℝ :=

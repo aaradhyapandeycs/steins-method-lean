@@ -10,10 +10,20 @@ import Formalization.Exchangeable.Basic
 import Formalization.Exchangeable.IndepSumPair
 import Formalization.Exchangeable.IndepSumPairBounds
 import Formalization.Exchangeable.SteinPairBound
+import Formalization.Exer.AntiVoterKolmogorov
+import Formalization.Exer.CombinatorialKolmogorov
+import Formalization.Exer.GoldsteinReinert
+import Formalization.Exer.IndepSumZeroBiasKolmogorov
+import Formalization.Exer.PermSwapCoupling
+import Formalization.Exer.Thm328Applications
 import Formalization.Kolmogorov.BinomialOrder
 import Formalization.Kolmogorov.ExchangeableBound
 import Formalization.Leftovers.Ex36SmallN
 import Formalization.Leftovers.Ex38IndepSum
+import Formalization.Leftovers.OUUniqueness
+import Formalization.Leftovers.OrnsteinUhlenbeck
+import Formalization.Leftovers.RandomGraphAddenda
+import Formalization.Leftovers.TrianglesKolm
 import Formalization.Normal.DependencyNeighborhoods
 import Formalization.Normal.IndependentSums
 import Formalization.Normal.WassersteinBound
@@ -30,6 +40,12 @@ import Formalization.ZeroBias.Coupling
 import Formalization.ZeroBias.Density
 import Formalization.ZeroBias.Lindeberg
 import Formalization.ZeroBias.LindebergFeller
+import Formalization.Sweep.SweepASec3a
+import Formalization.Sweep.SweepASec3b
+import Formalization.Sweep.SweepASec3c
+import Formalization.Sweep.SweepBAntiVoter
+import Formalization.Sweep.SweepBSteinPair
+import Formalization.Sweep.SweepBZeroBias
 import Formalization.Statements.Sec3
 
 /-!
@@ -46,7 +62,11 @@ theorem Sec3_dK_le_dW_holds : Sec3_dK_le_dW := by
   intro _ _ _ _ P _ P' _ _ _ hW hZ hZ_law
   exact kolmogorovDist_map_le_stdNormal_rpow_wassersteinDist_map P P' hW hZ hZ_law
 
-/-- Theorem 3.1 (`\label{thm31}`, eq. `(3.2)` `\label{35}`, `SteinIntro.tex:719-724`) holds. -/
+/-- Claim A8a (`SteinIntro.tex:711-716`): Stein solution regularity. -/
+theorem Sec3_opening_steinSol_regularity_holds : Sec3_opening_steinSol_regularity :=
+  sec3_opening_steinSol_regularity_proof
+
+/-- Theorem 3.1 (`\label{thm31}`, eq. `(3.1)` `\label{35}`, `SteinIntro.tex:719-724`) holds. -/
 theorem Thm3_1_holds : Thm3_1 := by
   intro _ _ _ _ P _ P' _ _ _ hW hZ hZ_law
   exact wassersteinDist_map_stdNormal_le_iSup_normalSteinOp P P' hW hZ hZ_law
@@ -57,6 +77,15 @@ theorem Thm3_2_holds : Thm3_2 := by
   exact (wassersteinDist_map_stdNormal_le_iSup_normalSteinOp P P'
     (indepSum_aemeasurable_W hX_meas) hZ hZ_law).trans
       (indepSum_iSup_normalWassersteinClass_le P hn hX_meas h_indep hX4 hX0 hX2)
+
+/-- Claim A9 (`SteinIntro.tex:743-744`): i.i.d. rate O(n^{-1/2}) and optimality. -/
+theorem Sec3_1_iid_wasserstein_rate_holds : Sec3_1_iid_wasserstein_rate :=
+  sec3_1_iid_wasserstein_rate_proof
+
+/-- Claim SA-8 (`SteinIntro.tex:746-747`): third-moment independent sum bound. -/
+theorem Sec3_1_indepSum_thirdMoment_holds : Sec3_1_indepSum_thirdMoment := by
+  intro _ _ _ _ P _ P' _ _ hn _ _ hX_meas h_indep hX3 hX0 hX2 hZ hZ_law
+  exact sec3_1_indepSum_thirdMoment_proof P P' hn hX_meas h_indep hX3 hX0 hX2 hZ hZ_law
 
 /-- Lemma 3.3 (`\label{lem33}`, `SteinIntro.tex:753-759`; `ISSUE-TYPO-3.3`, `ISSUE-3.3`) holds. -/
 theorem Lem3_3_holds : Lem3_3 := by
@@ -76,10 +105,36 @@ theorem Thm3_5_corrected_holds : Thm3_5_corrected := by
     (depGraph_aemeasurable_W hX_meas) hZ hZ_law).trans
       (depGraph_iSup_normalWassersteinClass_le P hX_meas hX4 hX0 hG hVar)
 
+/-- Claim A10 (`SteinIntro.tex:827-828`): independent variables form a dependency graph. -/
+theorem Sec3_2_indep_isDependencyGraph_holds : Sec3_2_indep_isDependencyGraph :=
+  sec3_2_indep_isDependencyGraph_proof
+
+/-- Claim A11 (`SteinIntro.tex:908-911`): intermediate dependency neighborhood bound. -/
+theorem Sec3_2_depNeighborhoods_intermediate_bound_holds :
+    Sec3_2_depNeighborhoods_intermediate_bound :=
+  sec3_2_depNeighborhoods_intermediate_bound_proof
+
+/-- Claim A12 (`SteinIntro.tex:919-928`): triangle setup, moments, and dependency graph. -/
+theorem Sec3_2_1_triangles_setup_and_moments_holds :
+    Sec3_2_1_triangles_setup_and_moments :=
+  sec3_2_1_triangles_setup_and_moments_proof
+
 /-- Section 3.2.1 application, restricted (`SteinIntro.tex:918-949`; `ISSUE-TYPO-3.2.1`,
 `ISSUE-3.2.1`) holds. -/
 theorem Sec3_2_1_triangles_restricted_holds : Sec3_2_1_triangles_restricted :=
   Sec3_2_1_triangles_restricted_proof
+
+/-- Section 3.2.1 literal $d_{\mathrm{K}}$ inequality, restricted to $0 < p < 1$
+(`SteinIntro.tex:935-939`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`) holds. -/
+theorem Sec3_2_1_triangles_kolmogorov_restricted_holds :
+    Sec3_2_1_triangles_kolmogorov_restricted :=
+  erdosRenyi_triangles_kolmogorovDist_le
+
+/-- Section 3.2.1 triangle-count variance divergence and CLT regime, restricted
+(`SteinIntro.tex:941-944`; `ISSUE-TYPO-3.2.1`, `ISSUE-3.2.1`) holds. -/
+theorem Sec3_2_1_triangles_clt_regime_restricted_holds :
+    Sec3_2_1_triangles_clt_regime_restricted :=
+  Sec3_2_1_triangles_clt_regime_restricted_proof
 
 /-- Section 3.2.1 Ruciński triangle-count CLT criterion (`SteinIntro.tex:943-944`, `[ruc88]`)
 holds. -/
@@ -119,6 +174,24 @@ theorem Rem3_3_holds : Rem3_3 := by
 theorem Rem3_4_holds : Rem3_4 := by
   intro _ _ P _ _ _ _ hm₁₂ hm₂₀ hY
   exact evariance_condExp_mono P hm₁₂ hm₂₀ hY
+
+/-- Remark 3.5 (`SteinIntro.tex:1009-1024`; `ISSUE-TYPO-3.5`) holds. -/
+theorem Rem3_5_holds : Rem3_5 :=
+  rem3_5_proof
+
+/-- Remark 3.5 uniqueness, restricted (`SteinIntro.tex:1009-1024`; `BL8`) holds. -/
+theorem Rem3_5_uniqueness_restricted_holds : Rem3_5_uniqueness_restricted :=
+  rem3_5_uniqueness_restricted_proof
+
+/-- Display `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1046`) holds. -/
+theorem Sec3_3_eq3_18_holds : Sec3_3_eq3_18 := by
+  intro _ _ P _ _ _ _ _ _ _ _ hSP hf1 hf2 hf_bdd hf'_bdd hf''_bdd
+  exact sec3_3_eq3_18_proof P hSP hf1 hf2 hf_bdd hf'_bdd hf''_bdd
+
+/-- Wasserstein corollary of `(3.18)` (`\label{511}`, `SteinIntro.tex:1043-1048`) holds. -/
+theorem Sec3_3_eq3_18_wasserstein_holds : Sec3_3_eq3_18_wasserstein := by
+  intro _ _ _ _ P _ P' _ _ _ _ _ hSP hZ hZ_law
+  exact sec3_3_eq3_18_wasserstein_proof P P' hSP hZ hZ_law
 
 /-- Example 3.6, Stein-pair verification (`SteinIntro.tex:1053-1069`) holds. -/
 theorem Ex3_6_steinPair_holds : Ex3_6_steinPair := by
@@ -193,6 +266,11 @@ theorem Thm3_8_holds : Thm3_8 := by
   exact antiVoter_steinPair_and_wasserstein_bound G P P' hReg hBip hCyc hX hX' hStat hStep
     hZ hZ_law
 
+/-- Section 3.3.1 non-reversibility of the anti-voter Markov chain (`SteinIntro.tex:1130-1131`)
+holds. -/
+theorem Sec3_3_1_antiVoter_not_reversible_holds : Sec3_3_1_antiVoter_not_reversible :=
+  sec3_3_1_antiVoter_not_reversible_proof
+
 /-- Lemma 3.9 (`\label{lem51}`, `SteinIntro.tex:1133-1136`) holds. -/
 theorem Lem3_9_holds : Lem3_9 := by
   intro _ _ P _ _ _ hId hStep
@@ -248,7 +326,7 @@ theorem Ex3_8_holds : Ex3_8 := by
 /-- Example 3.9, size-bias realization and increment identity (`\label{ex72}`,
 `SteinIntro.tex:1354-1367, 1380-1383`) holds. -/
 theorem Ex3_9_sizeBias_holds : Ex3_9_sizeBias :=
-  Ex3_9_sizeBias_proof
+  Ex3_9_sizeBias_le_one_proof
 
 /-- Example 3.9, verified moment formulas (`\label{ex72}`, `SteinIntro.tex:1370-1379, 1406-1409`,
 eq. `\label{77}`; `ISSUE-3.9`) holds. -/
@@ -275,6 +353,13 @@ theorem Prop3_19_corrected_holds : Prop3_19_corrected := by
   intro _ _ _ _ P _ _ hW2 hMean hVar
   exact zeroBias_law_characterization P hW2 hMean hVar
 
+/-- Section 3.5 distributional uniqueness from $C_c^1$ derivatives (`SteinIntro.tex:1512-1513`)
+holds. -/
+theorem Sec3_5_identDistrib_of_integral_deriv_compactSupport_holds :
+    Sec3_5_identDistrib_of_integral_deriv_compactSupport := by
+  intro _ _ _ _ P _ P' _ _ _ hX hY hHyp
+  exact sec3_5_identDistrib_of_integral_deriv_compactSupport_proof P P' hX hY hHyp
+
 /-- Proposition 3.20 (`SteinIntro.tex:1519-1521`, existence reading) holds. -/
 theorem Prop3_20_holds : Prop3_20 := by
   intro _ _ _ _ _ _ _ _ a hZB
@@ -285,6 +370,13 @@ holds. -/
 theorem Prop3_20_restricted_holds : Prop3_20_restricted := by
   intro _ _ _ _ _ _ P _ P' _ P'' _ _ _ _ _ hVar ha hZB
   exact zeroBias_const_mul_restricted P P' P'' hVar ha hZB
+
+/-- Section 3.5.1 zero-bias construction from a Stein pair (`SteinIntro.tex:1527-1528`,
+`%XXXX Exercise 3`) holds. -/
+theorem Sec3_5_1_zeroBias_of_steinPair_holds : Sec3_5_1_zeroBias_of_steinPair := by
+  intro _ _ P _ _ _ _ hSP hW2 hVar
+  rcases hSP with ⟨hExch, ha, _, hW_meas, _, hCond⟩
+  exact goldstein_reinert_zeroBias_of_comap P hExch ha hW_meas hW2 hCond hVar
 
 /-- Proposition 3.21 (`\label{prop81}`, `SteinIntro.tex:1530-1551`; `ISSUE-TYPO-3.21`) holds. -/
 theorem Prop3_21_holds : Prop3_21 := by
@@ -362,6 +454,18 @@ theorem Sec3_6_zeroBias_bdd_exists_holds : Sec3_6_zeroBias_bdd_exists := by
   exact exists_bdd_zeroBias_of_pos_var_exists P hW hmean hbdd fun hpos ↦
     ⟨_, (@zeroBias_law_characterization _ Unit _ _ P _ _ hW hmean hpos).2.2⟩
 
+/-- Section 3.6.1 bounded independent-sum Kolmogorov bound (`SteinIntro.tex:1741-1742`,
+`%%XXXX Exercise 3`; `ISSUE-TYPO-3.27`) holds. -/
+theorem Sec3_6_1_indepSum_kolmogorov_holds : Sec3_6_1_indepSum_kolmogorov := by
+  intro _ _ _ _ P _ P' _ _ _ _ _ hX_meas hX_indep hX_mean hX_bdd hVar hZ hZ_law
+  exact sec3_6_1_indepSum_kolmogorov_proof P P' hX_meas hX_indep hX_mean hX_bdd hVar hZ hZ_law
+
+/-- Section 3.6.1 Kolmogorov bound in Hoeffding's combinatorial CLT (`SteinIntro.tex:1742-1743`,
+`%%XXXX Exercise 3`) holds. -/
+theorem Sec3_6_1_combinatorial_kolmogorov_holds : Sec3_6_1_combinatorial_kolmogorov := by
+  intro _ _ _ _ P _ P' _ _ _ _ _ _ hC hπ hπ_unif hvar_S hZ hZ_law
+  exact sec3_6_1_combinatorial_kolmogorov P P' hC hπ hπ_unif hvar_S hZ hZ_law
+
 /-- Theorem 3.28 (`\label{thm92}`, `SteinIntro.tex:1750-1755`; `ISSUE-3.25` proof note) holds. -/
 theorem Thm3_28_holds : Thm3_28 := by
   intro _ _ _ _ _ _ P' _ _ _ _ _ _ hSP hvar hδ hZ hZ_law
@@ -371,5 +475,15 @@ theorem Thm3_28_holds : Thm3_28 := by
 theorem Lem3_29_holds : Lem3_29 := by
   intro _ _ _ _ _ _ _ _ x hSP hvar hδ
   exact hSP.integral_sq_sub_mul_indicator_Ioc_le x hvar hδ
+
+/-- Section 3.6.2 bounded independent-sum Kolmogorov bound via exchangeable pairs
+(`SteinIntro.tex:1810`) holds. -/
+theorem Sec3_6_2_indepSum_kolmogorov_holds : Sec3_6_2_indepSum_kolmogorov := by
+  intro _ _ _ _ P _ P' _ _ _ _ _ hX_meas h_indep hX0 hX_bdd hVar_pos hZ hZ_law
+  exact sec3_6_2_indepSum_kolmogorov P P' hX_meas h_indep hX0 hX_bdd hVar_pos hZ hZ_law
+
+/-- Section 3.6.2 anti-voter Kolmogorov bound (`SteinIntro.tex:1810-1812`) holds. -/
+theorem Sec3_6_2_antiVoter_kolmogorov_holds : Sec3_6_2_antiVoter_kolmogorov :=
+  sec3_6_2_antiVoter_kolmogorov
 
 end SteinMethod

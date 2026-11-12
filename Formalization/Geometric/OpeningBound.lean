@@ -3,11 +3,12 @@ Copyright (c) 2026 Aaradhya Pandey. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Aaradhya Pandey
 -/
+import Formalization.Exponential.GeometricExample
 import Formalization.Geometric.Basic
 import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
 
 /-!
-# Section 6 Opening Bounds: Wasserstein Reduction, Counterexample, and Support Mismatch
+# Section 6 Opening Bounds: Wasserstein Inequality, Counterexample, and Support Mismatch
 
 Formalizes the opening motivation of Section 6 (`SteinIntro.tex:3193-3200`) of Nathan Ross,
 *"Fundamentals of Stein's method"* (`arXiv:1109.1880v1`):
@@ -23,6 +24,8 @@ Formalizes the opening motivation of Section 6 (`SteinIntro.tex:3193-3200`) of N
     (and finiteness of both Wasserstein distances) from Example 5.4's bound
     $d_{\mathrm{W}}(pX, Z) \le p$ via homogeneity
     $d_{\mathrm{W}}(pX, pW) = p\,d_{\mathrm{W}}(X, W)$ and the Wasserstein-1 triangle inequality.
+  - `opening_wasserstein_corrected`: discharges the Example 5.4 hypothesis unconditionally via
+    `wassersteinDist_shiftedGeomLaw_le` (`Formalization.Exponential.GeometricExample`).
   - `not_opening_wasserstein_printed`: machine-checked refutation of the printed unscaled inequality
     $|d_{\mathrm{W}}(pW, Z) - d_{\mathrm{W}}(X, W)| \le p$ using $p = 1/4$ and $W \equiv 4$.
 -/
@@ -487,6 +490,46 @@ theorem opening_wasserstein_of_ex5_4
   rw [hZ_law]
   exact ⟨hd₁_lt, hd₂_lt, abs_sub_le_iff.mpr ⟨by linarith, by linarith⟩⟩
 
+/-- `posGeomLaw p` (`Formalization.Defs.Geometric`) and `shiftedGeomLaw p`
+(`Formalization.Defs.Exponential`) are definitionally equal laws on $\{1, 2, \dots\}$. -/
+theorem posGeomLaw_eq_shiftedGeomLaw (p : ℝ) : posGeomLaw p = shiftedGeomLaw p :=
+  rfl
+
+/-- Standalone law-level **Example 5.4** bound (`\label{ex171}`, `SteinIntro.tex:2894-2900`)
+stated for `posGeomLaw p` and `ProbabilityTheory.expMeasure 1`: for $0 < p \le 1$,
+$d_{\mathrm{W}}(\mathcal{L}(p X), \mathrm{Exp}(1)) \le p$ where $X \sim \mathrm{Ge}(p)$ on
+$\{1, 2, \dots\}$. -/
+theorem wassersteinDist_posGeomLaw_le {p : ℝ} (hp0 : 0 < p) (hp1 : p ≤ 1) :
+    wassersteinDist ((posGeomLaw p).map (fun k : ℕ ↦ p * (k : ℝ)))
+      (ProbabilityTheory.expMeasure 1) ≤ ENNReal.ofReal p :=
+  wassersteinDist_shiftedGeomLaw_le hp0 hp1
+
+/-- **Section 6 opening Wasserstein triangle-inequality bound, corrected**
+(`SteinIntro.tex:3193-3198`; `ISSUE-6.0`): for $0 < p \le 1$, a positive integer-valued random
+variable $W$ with $\mathbb{E}[W] = 1/p$, $X \sim \mathrm{Ge}(p)$ on $\{1, 2, \dots\}$, and
+$Z \sim \mathrm{Exp}(1)$, both Wasserstein distances are finite and
+$|d_{\mathrm{W}}(p W, Z) - p \, d_{\mathrm{W}}(X, W)| \le p$. The printed display omits the
+scaling factor $p$ on $d_{\mathrm{W}}(X, W)$ (`not_opening_wasserstein_printed`, `ISSUE-6.0`). -/
+theorem opening_wasserstein_corrected
+    {Ω Ω' Ω'' : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω'] [MeasurableSpace Ω'']
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (P' : Measure Ω') [IsProbabilityMeasure P']
+    (P'' : Measure Ω'') [IsProbabilityMeasure P'']
+    {p : ℝ} {W : Ω → ℕ} {X : Ω' → ℕ} {Z : Ω'' → ℝ}
+    (hp0 : 0 < p) (hp1 : p ≤ 1)
+    (hW : AEMeasurable W P) (hW_pos : ∀ᵐ ω ∂P, 0 < W ω)
+    (hW_int : Integrable (fun ω ↦ (W ω : ℝ)) P)
+    (hW_mean : ∫ ω, (W ω : ℝ) ∂P = 1 / p)
+    (hX : AEMeasurable X P') (hX_law : P'.map X = posGeomLaw p)
+    (hZ : AEMeasurable Z P'') (hZ_law : P''.map Z = ProbabilityTheory.expMeasure 1) :
+    wassersteinDist (P.map (fun ω ↦ p * (W ω : ℝ))) (P''.map Z) < ⊤ ∧
+      wassersteinDist (P'.map (fun ω' ↦ (X ω' : ℝ))) (P.map (fun ω ↦ (W ω : ℝ))) < ⊤ ∧
+      |(wassersteinDist (P.map (fun ω ↦ p * (W ω : ℝ))) (P''.map Z)).toReal -
+          p * (wassersteinDist (P'.map (fun ω' ↦ (X ω' : ℝ)))
+            (P.map (fun ω ↦ (W ω : ℝ)))).toReal| ≤ p :=
+  opening_wasserstein_of_ex5_4 P P' P'' hp0 hp1 hW hW_pos hW_int hW_mean hX hX_law hZ hZ_law
+    (wassersteinDist_posGeomLaw_le hp0 hp1)
+
 /-- **Refutation of the printed Section 6 opening Wasserstein display** (`SteinIntro.tex:3193-3198`;
 `ISSUE-6.0`): the printed inequality $|d_{\mathrm{W}}(pW, Z) - d_{\mathrm{W}}(X, W)| \le p$ fails at
 $p = 1/4$ and $W \equiv 4$ (where $d_{\mathrm{W}}(pW, Z) \le 2$ while
@@ -633,5 +676,9 @@ theorem not_opening_wasserstein_printed :
         (wassersteinDist (Measure.dirac (1 : ℝ)) P'').toReal ≤ 1 / 4 :=
     (abs_sub_le_iff.mp hbound).2
   linarith
+
+/-- Alias for `not_opening_wasserstein_printed` matching `ISSUE-6.0`
+(`SteinIntro.tex:3193-3198`). -/
+alias not_Sec6_opening_wasserstein_printed := not_opening_wasserstein_printed
 
 end SteinMethod

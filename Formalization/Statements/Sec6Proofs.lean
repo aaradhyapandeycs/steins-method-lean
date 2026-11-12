@@ -7,6 +7,7 @@ import Formalization.Geometric.Basic
 import Formalization.Geometric.Equilibrium
 import Formalization.Geometric.OpeningBound
 import Formalization.Geometric.UniformAttachment
+import Formalization.Sweep.SweepC6
 import Formalization.Statements.Sec6
 
 /-!
@@ -21,34 +22,27 @@ open scoped ENNReal
 
 namespace SteinMethod
 
-/-- Refutation of the printed unscaled Section 6 opening Wasserstein display
-(`SteinIntro.tex:3193-3198`; `ISSUE-6.0`) using $p = 1/4$ and $W \equiv 4$. -/
-theorem not_Sec6_opening_wasserstein_printed :
-    ¬ (∀ {Ω Ω' Ω'' : Type} [MeasurableSpace Ω] [MeasurableSpace Ω'] [MeasurableSpace Ω'']
-      (P : Measure Ω) [IsProbabilityMeasure P]
-      (P' : Measure Ω') [IsProbabilityMeasure P']
-      (P'' : Measure Ω'') [IsProbabilityMeasure P'']
-      {p : ℝ} {W : Ω → ℕ} {X : Ω' → ℕ} {Z : Ω'' → ℝ},
-      0 < p →
-      p ≤ 1 →
-      AEMeasurable W P →
-      (∀ᵐ ω ∂P, 0 < W ω) →
-      Integrable (fun ω ↦ (W ω : ℝ)) P →
-      ∫ ω, (W ω : ℝ) ∂P = 1 / p →
-      AEMeasurable X P' →
-      P'.map X = posGeomLaw p →
-      AEMeasurable Z P'' →
-      P''.map Z = ProbabilityTheory.expMeasure 1 →
-      |(wassersteinDist (P.map (fun ω ↦ p * (W ω : ℝ))) (P''.map Z)).toReal -
-          (wassersteinDist (P'.map (fun ω' ↦ (X ω' : ℝ)))
-            (P.map (fun ω ↦ (W ω : ℝ)))).toReal| ≤ p) :=
-  not_opening_wasserstein_printed
+/-- Section 6 opening Wasserstein triangle-inequality bound, corrected
+(`SteinIntro.tex:3193-3198`; `ISSUE-6.0`) holds. -/
+theorem Sec6_opening_wasserstein_corrected_holds : Sec6_opening_wasserstein_corrected := by
+  intro _ _ _ _ _ _ P _ P' _ P'' _ _ _ _ _ hp0 hp1 hW hW_pos hW_int hW_mean hX hX_law hZ hZ_law
+  exact opening_wasserstein_corrected P P' P'' hp0 hp1 hW hW_pos hW_int hW_mean hX hX_law hZ hZ_law
 
 /-- Section 6 opening support-mismatch formula and limit (`SteinIntro.tex:3199-3200`) holds. -/
 theorem Sec6_supportMismatch_holds : Sec6_supportMismatch := by
   refine ⟨?_, fun hk ↦ tendsto_supportMismatch hk⟩
   intro _ _ _ _ P _ P' _ _ _ _ _ hp0 hp1 hk hX hX_law hW_law
   exact tvDist_mul_posGeomLaw P P' hp0 hp1 hk hX hX_law hW_law
+
+/-- Section 6 opening & 6.3 failure of exponential approximation (`SteinIntro.tex:3211-3212`)
+holds. -/
+theorem Sec6_3_not_exponential_holds : Sec6_3_not_exponential := by
+  intro _ _ P _ n hn _ _ hG hG_law hI hIndep hI_law W
+  have hn_pos : 0 < n := by omega
+  have hpt := sec6_3_not_exponential_proof.{_, 0}.1 P hn_pos hG hG_law hI hIndep hI_law
+  have hid : ((ProbabilityTheory.expMeasure 1).map (id : ℝ → ℝ)) = stdExpLaw := Measure.map_id
+  rw [hid]
+  exact ⟨hpt.2.1, hpt.2.2.1⟩
 
 /-- Lemma 6.1(1) (`\label{lem173}`, `SteinIntro.tex:3229-3236`) holds. -/
 theorem Lem6_1_1_holds : Lem6_1_1 := by
@@ -90,6 +84,18 @@ theorem Rem6_2_restricted_holds : Rem6_2_restricted := by
 theorem Thm6_5_holds : Thm6_5 := by
   intro _ _ _ _ P _ P' _ _ _ _ _ hW2 hEq _ hN_law
   exact tvDist_le_of_isDiscreteEquilibrium P P' hW2 hEq hN_law
+
+/-- Section 6.3 asymptotic geometric convergence without rate (`SteinIntro.tex:3342-3343`,
+`[brst01]`) holds. -/
+theorem Sec6_3_uniformAttachment_convergence_holds :
+    Sec6_3_uniformAttachment_convergence := by
+  intro Ω _ P _ G I hconds _
+  exact sec6_3_uniformAttachment_convergence_proof Ω P G I
+    (fun n ↦ (hconds n).1)
+    (fun n ↦ (hconds n).2.1)
+    (fun n ↦ (hconds n).2.2.1)
+    (fun n ↦ (hconds n).2.2.2.1)
+    (fun n ↦ (hconds n).2.2.2.2)
 
 /-- Theorem 6.6 (`\label{thm1716}`, `SteinIntro.tex:3345-3350`; `ISSUE-TYPO-6.6`, `ISSUE-6.6`)
 holds. -/
