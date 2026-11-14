@@ -51,6 +51,7 @@ ENTRY_LABELS = dict(
     partial=("partial", "st-partial"),
     incomplete=("open", "st-open"),
     supporting=("supporting entry, proved in Lean", "st-supporting"),
+    pending=("proved in Lean, review pending", "st-pending"),
 )
 
 MARKERS = {
@@ -1115,6 +1116,14 @@ class LeanIndex:
     def verification_html(self, e: Entry) -> str:
         """Proof completeness and statement fidelity, stated separately."""
         rev = self.git.rev[:7]
+        if e.status == "open" and e.proof:
+            proof = (f'complete at commit <code>{esc(rev)}</code>: <code>{esc(e.name)}_holds</code> and every '
+                     'declaration it depends on compile without <code>sorry</code>, and the transitive axiom audit '
+                     'admits only <code>propext</code>, <code>Classical.choice</code> and <code>Quot.sound</code> '
+                     '(CI run linked in the footer)')
+            fid = "not yet reviewed against the source, so not yet counted as proved"
+            return (f'<dl class="verif"><dt>Proof</dt><dd>{proof}</dd>'
+                    f'<dt>Statement</dt><dd>{fid}</dd></dl>')
         if e.status in self.FIDELITY:
             proof = (f'complete at commit <code>{esc(rev)}</code>: <code>{esc(e.name)}_holds</code> and every '
                      'declaration it depends on compile without <code>sorry</code>, and the transitive axiom audit '
@@ -1136,8 +1145,9 @@ class LeanIndex:
     def card(self, e: Entry) -> str:
         rec = e.record or {}
         st = e.status
-        sub = e.subreason if st == "open" else ""
-        header_chips = chip(st, markers=e.markers, sub=sub)
+        pending = st == "open" and bool(e.proof)
+        sub = e.subreason if st == "open" and not pending else ""
+        header_chips = chip("pending" if pending else st, markers=e.markers, sub=sub)
 
         links = [
             f'<a href="{attr(self.git.blob(e.file, e.line_start, e.line_end))}">Lean statement '
@@ -1159,6 +1169,12 @@ class LeanIndex:
             body.append(
                 f'<p class="what tex2jax_process"><strong>{lead}</strong> (COVERAGE ledger). '
                 f'{self.md(rec["note"])}</p>'
+            )
+        elif pending:
+            body.append(
+                '<p class="what"><em>Proved in Lean, review pending. The statement and its proof compile at '
+                'this commit and pass the axiom audit, but the critic has not yet checked that the statement '
+                'matches the source, so it is not yet counted as proved.</em></p>'
             )
         elif st == "open":
             body.append(

@@ -206,6 +206,8 @@ pre.lean .c, pre.code .c { color: var(--comment); font-style: italic; }
 .st-source-issue { color: var(--refuted); border-style: solid; }
 .st-open, .st-incomplete { color: var(--inc); border-style: dotted; font-weight: 500; }
 .st-supporting { color: var(--fg); border-color: var(--line); font-weight: 500; }
+.st-pending { color: var(--fg); border-style: dashed; font-weight: 500; }
+.st-pending::before { content: "✓ "; color: var(--proved); }
 .st-supporting::before { content: "✓ "; color: var(--proved); }
 .marker { display: inline-block; font: 600 11.5px/1.6 var(--sans); padding: 0 6px; border-radius: 4px; margin: 1px 4px 1px 0;
   background: var(--code-bg); color: var(--fg); }
