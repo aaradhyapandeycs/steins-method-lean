@@ -371,6 +371,19 @@ class Site(InfoPages):
             h = f'<div class="in-proof">{h}</div>'
         return h
 
+    @staticmethod
+    def _continues(b, group) -> bool:
+        """True if block `b` belongs to the sentence ending the current paired group: a display
+        equation, or a paragraph that starts in lowercase right after a display equation."""
+        h = (getattr(b, "html", "") or "").lstrip()
+        if h.startswith('<div class="md'):
+            return True
+        last = group[-1].lstrip()
+        if last.startswith('<div class="md') and h.startswith("<p>"):
+            text = re.sub(r"<[^>]+>", "", h[3:]).lstrip()
+            return bool(text) and text[0].islower()
+        return False
+
     def page_body(self, page) -> str:
         rows, buf = [], []
 
@@ -382,18 +395,30 @@ class Site(InfoPages):
                 )
                 buf.clear()
 
-        for b in page.blocks:
-            col = self.lean_column(page, b)
-            if col:
-                flush()
-                rows.append(
-                    f'<div class="row paired"><div class="book-col">{self.block_html(b)}</div>'
-                    f'<aside class="lean-col" aria-label="Lean">{col}</aside></div>'
-                )
-            else:
+        blocks = list(page.blocks)
+        cols = [self.lean_column(page, b) for b in blocks]
+        i = 0
+        while i < len(blocks):
+            b, col = blocks[i], cols[i]
+            if not col:
                 buf.append(self.block_html(b))
+                i += 1
+                continue
+            flush()
+            # Keep a sentence with the display equations that complete it (and a lowercase
+            # continuation such as "where ..."), so no Lean card ever separates them.
+            group = [self.block_html(b)]
+            j = i + 1
+            while j < len(blocks) and not cols[j] and self._continues(blocks[j], group):
+                group.append(self.block_html(blocks[j]))
+                j += 1
+            rows.append(
+                f'<div class="row paired"><div class="book-col">{"".join(group)}</div>'
+                f'<aside class="lean-col" aria-label="Lean">{col}</aside></div>'
+            )
+            i = j
         flush()
-        return "".join(rows)
+        return '<div class="flow">' + "".join(rows) + '</div>'
 
     def toc(self, current: str | None) -> str:
         sections, cur_sec = [], None

@@ -246,3 +246,84 @@
   window.addEventListener("hashchange", reveal);
   reveal();
 })();
+
+/* Decoupled Lean column: place each card beside its paragraph, stacking downward when the
+   cards above are taller than the text, so the paper text keeps its normal spacing. */
+(function () {
+  var flows = document.querySelectorAll(".flow");
+  if (!flows.length) return;
+  var wide = window.matchMedia("(min-width: 1181px)");
+  var GAP = 12, NOTE = 40, pending = false;
+
+  function place() {
+    pending = false;
+    flows.forEach(function (f) {
+      var cols = f.querySelectorAll(".row.paired > .lean-col");
+      if (!wide.matches) {
+        f.classList.remove("side");
+        f.style.minHeight = "";
+        cols.forEach(function (c) { c.style.top = ""; c.classList.remove("displaced"); });
+        return;
+      }
+      f.classList.add("side");
+      var bottom = 0;
+      cols.forEach(function (c) {
+        var anchor = c.parentElement.offsetTop;
+        var top = Math.max(anchor, bottom);
+        c.style.top = top + "px";
+        c.classList.toggle("displaced", top - anchor > NOTE);
+        bottom = top + c.offsetHeight + GAP;
+      });
+      var last = f.lastElementChild;
+      var textBottom = last ? last.offsetTop + last.offsetHeight : 0;
+      f.style.minHeight = bottom > textBottom ? bottom + "px" : "";
+    });
+  }
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    if (document.hidden) setTimeout(place, 0); else requestAnimationFrame(place);
+  }
+  document.addEventListener("visibilitychange", schedule);
+
+  flows.forEach(function (f) {
+    f.querySelectorAll(".row.paired").forEach(function (row) {
+      var col = row.querySelector(".lean-col"), text = row.querySelector(".book-col");
+      if (!col || !text) return;
+      var link = document.createElement("a");
+      link.className = "pair-link";
+      link.href = "#";
+      link.textContent = "↑ Paper text for these entries";
+      link.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        text.scrollIntoView({ block: "center" });
+        row.classList.add("hl");
+        setTimeout(function () { row.classList.remove("hl"); }, 1600);
+      });
+      col.insertBefore(link, col.firstChild);
+      var on = function () { row.classList.add("hl"); }, off = function () { row.classList.remove("hl"); };
+      [col, text].forEach(function (el) {
+        el.addEventListener("mouseenter", on); el.addEventListener("mouseleave", off);
+        el.addEventListener("focusin", on); el.addEventListener("focusout", off);
+      });
+    });
+  });
+
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(schedule);
+    flows.forEach(function (f) {
+      f.querySelectorAll(".book-col, .lean-col").forEach(function (el) { ro.observe(el); });
+    });
+  }
+  document.addEventListener("toggle", schedule, true);
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+  if (wide.addEventListener) wide.addEventListener("change", schedule);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+  if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(schedule);
+  place();
+  if (location.hash) {
+    var t = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (t) requestAnimationFrame(function () { t.scrollIntoView(); });
+  }
+})();

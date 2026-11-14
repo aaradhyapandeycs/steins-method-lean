@@ -417,3 +417,27 @@ ul.selected li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px
   border-bottom: 1px solid var(--line); }
 ul.selected .sel-name { font-weight: 600; min-width: 9em; }
 ul.selected .sel-blurb { flex-basis: 100%; color: var(--muted); font-size: 15px; }
+
+/* Paper text and Lean cards in decoupled columns (wide screens).
+   app.js adds .side to .flow and places each card beside its paragraph; when cards are taller
+   than the text they stack down the Lean column instead of opening gaps in the paper text.
+   Without JavaScript, or below 1181px, the paired-row layout above is used unchanged. */
+.flow { position: relative; }
+.lean-card details.card-more { margin: 6px 0 0; }
+.lean-card details.card-more > summary { font-weight: 500; }
+.lean-card details.card-more[open] > summary { margin-bottom: 6px; }
+.pair-link { display: none; font: 12.5px/1.4 var(--sans); color: var(--muted); text-decoration: none; margin: 0 0 4px; }
+.pair-link:hover { color: var(--accent); }
+@media (min-width: 1181px) {
+  .flow.side .row { display: block; border: 0; margin: 0; padding: 0; }
+  .flow.side .book-col { box-sizing: border-box; width: calc((100% - 28px) * 0.56); max-width: none;
+    border-right: 2px solid transparent; padding-right: 12px; }
+  .flow.side .row.paired > .book-col { border-right-color: var(--line);
+    transition: border-color .15s, background-color .15s; }
+  .flow.side .lean-col { position: absolute; right: 0; width: calc((100% - 28px) * 0.44); padding: 0; }
+  .flow.side .lean-col:empty { display: none; }
+  .flow.side .lean-col .lean-card:first-of-type { margin-top: 0; }
+  .flow.side .lean-col.displaced .pair-link { display: inline-block; }
+  .flow.side .row.paired.hl > .book-col { border-right-color: var(--accent); background: var(--code-bg); }
+  .flow.side .row.paired.hl > .lean-col .lean-card { border-color: var(--accent); }
+}

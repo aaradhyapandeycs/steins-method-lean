@@ -1091,6 +1091,7 @@ class LeanIndex:
                     ),
                     p_esc,
                 )
+                p_esc = re.sub(r"\*\*([^*]+?)\*\*", r"<strong>\1</strong>", p_esc)
                 out.append(p_esc)
         return "".join(out)
 
@@ -1164,7 +1165,8 @@ class LeanIndex:
             )
 
         body = []
-        if rec.get("note"):
+        note_txt = (rec.get("note") or "").strip().rstrip(".").lower()
+        if rec.get("note") and note_txt not in ("proved", "defined"):
             lead = "Source issue" if st == "source-issue" else "What is proved"
             body.append(
                 f'<p class="what tex2jax_process"><strong>{lead}</strong> (COVERAGE ledger). '
@@ -1185,10 +1187,11 @@ class LeanIndex:
         parts = [
             f'<article class="lean-card" id="lean-{attr(e.name)}">',
             f'<header>{header_chips}<code class="decl" title="{attr(e.full)}">{esc(e.name)}</code></header>',
+            f'<div class="meta">{" · ".join(links)}</div>',
+            '<details class="card-more"><summary>What is proved, verification, dependencies and Lean code</summary>',
             "".join(body),
             self.verification_html(e),
             getattr(self, "connections", {}).get(e.name, ""),
-            f'<div class="meta">{" · ".join(links)}</div>',
             '<details><summary>Lean statement</summary>',
             code_block(e.source, e.line_start),
             '</details>',
@@ -1213,6 +1216,7 @@ class LeanIndex:
                 f'<details><summary>Library theorem <code>{esc(ex["name"])}</code></summary>'
                 f'{code_block(ex["source"], ex["line_start"])}</details>'
             )
+        parts.append('</details>')
         parts.append('</article>')
         return "".join(parts)
 
